@@ -1,4 +1,4 @@
-import Psycopg2
+import sqlite3
 
 conn = sqlite3.connect('database_project.db')
 c = conn.cursor()
