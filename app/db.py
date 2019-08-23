@@ -34,6 +34,10 @@ c.execute (
         title VARCHAR(255) NOT NULL,
         price DECIMAL NOT NULL,
 	type BOOL NOT NULL,
+
+	date DATE NOT NULL,
+	type BOOL NOT NULL,
+	details VARCHAR(255) NOT NULL,
 	id_paying_user INTEGER,
 	    FOREIGN KEY (id_paying_user)
 	    REFERENCES Users (id)
@@ -42,8 +46,9 @@ c.execute (
 )
 c.execute(
     '''
-    CREATE TABLE IF NOT EXISTS MEALS (
+    CREATE TABLE IF NOT EXISTS Meals (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+	    date DATE NOT NULL,
         number FLOAT NOT NULL,
         id_eating_user INTEGER,
 	    FOREIGN KEY (id_eating_user)
