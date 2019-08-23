@@ -1,7 +1,5 @@
-#module sqlite3
 import sqlite3
 
-#Ouverture connexion
 conn = sqlite3.connect('database_project.db')
 c = conn.cursor()
 
@@ -34,7 +32,9 @@ c.execute (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title VARCHAR(255) NOT NULL,
         price DECIMAL NOT NULL,
+	date DATE NOT NULL,
 	type BOOL NOT NULL,
+	details VARCHAR(255) NOT NULL,
 	id_paying_user INTEGER,
 	    FOREIGN KEY (id_paying_user)
 	    REFERENCES Users (id)
@@ -43,8 +43,9 @@ c.execute (
 )
 c.execute(
     '''
-    CREATE TABLE IF NOT EXISTS MEALS (
+    CREATE TABLE IF NOT EXISTS Meals (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+	date DATE NOT NULL,
         number FLOAT NOT NULL,
         id_eating_user INTEGER,
 	    FOREIGN KEY (id_eating_user)
@@ -53,7 +54,5 @@ c.execute(
     '''
 )
 
-#Sauvegarde des changements
 conn.commit()
-#Fermeture connexion
 c= conn.close()
