@@ -18,15 +18,15 @@
 </head>
 <body class="index">
     <header>
-            <div class="logo">
-                <a href="{{ url_for('index') }}">
-                    <svg id="icon-pie-chart" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
-                            fill="none" stroke="#2a2a31" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-                            <path class="chart-data" stroke="#FEC3AC" d="M22 12A10 10 0 0 0 12 2v10z"></path>
-                    </svg>
-                </a>
-            </div>
+        <div class="logo">
+            <a href="{{ url_for('index')}}">
+                <svg id="icon-pie-chart" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
+                        fill="none" stroke="#2a2a31" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                    <path class="chart-data" stroke="#FEC3AC" d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                </svg>
+            </a>
+        </div>
     </header>
     <div class="container-fluid">
         <div class="row index-item">
@@ -41,7 +41,7 @@
             
             <div class="col-12 col-md-5 side side-right">
                 <div class="row">
-                    <img src="../static/img/bill.svg" alt="">
+                    <img src="../static/img/meal.svg" alt="">
                 </div>
                 <div class="row d-flex justify-content-center side-left-item">
                     <a class="bt btn-3" data-toggle="modal" data-target="#mealModal" data-whatever="@mdo">Enregistrer un repas</a>
@@ -65,9 +65,9 @@
                             <div class="card card-body">
                                 <div class="form-group">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="recipient-name" placeholder="Date de consommation">
+                                        <input type="text" class="form-control" id="recipient-name" placeholder="Date de consommation" name="date">
                                     </div>
-                                    <select class="form-control">
+                                    <select class="form-control" name="number"> <!-- a verifier -->
                                         <option>1/2</option>
                                         <option>1</option>
                                         <option>2</option>
@@ -97,16 +97,16 @@
                         <div class="modal-body">
                             <form>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="recipient-name" placeholder="Intitulé de la facture">
+                                    <input type="text" class="form-control" id="recipient-name" placeholder="Intitulé de la facture" name="title">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="recipient-name" placeholder="Date d'achat">
+                                    <input type="text" class="form-control" id="recipient-name" placeholder="Date d'achat" name="date">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="recipient-name" placeholder="Montant">
+                                    <input type="text" class="form-control" id="recipient-name" placeholder="Montant" name="price">
                                 </div>
                                 <div class="form-group">
-                                    <textarea class="form-control" id="message-text" placeholder="Liste des achats"></textarea>
+                                    <textarea class="form-control" id="message-text" placeholder="Liste des achats" name="details"></textarea>
                                 </div>
                                 <p>Mettre au pro-rata</p>
                                 <div class="form-check form-check-inline">

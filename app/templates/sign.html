@@ -21,7 +21,7 @@
         </div>
 
         <div class="row sign-form d-flex justify-content-center">
-            <form>
+            <form action="" method = "post">
                 <div class="login-icon d-flex justify-content-center mb-1">
                     <svg id="icon-keyboard" fill="#f3f3f3" height="512pt" viewBox="0 -121 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
                         <path d="m0 0v270h512v-270zm482 240h-452v-210h452zm0 0"/>
@@ -45,17 +45,21 @@
                 </div>
                 <p>Créer un compte</p>
 
+                {% if existing_email == True %}
+                <p class="text-center">There is already an account linked to this email</p>
+                {% endif %}
+
                 <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Nom" name='first_name'>
+                        <input type="text" class="form-control" placeholder="Prénom" name='first_name'>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Prénom" name='first_name'>
+                    <input type="text" class="form-control" placeholder="Nom" name='last_name'>
                 </div>
                 <div class="form-group">
-                        <input type="email" name="email" class="form-control" placeholder="Adresse mail">
+                        <input type="email" class="form-control" placeholder="Adresse mail" name="email">
                     </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe" name="password">
                 </div>
                 <div>
                     <button type="submit" class="bt btn-2">Valider</button>

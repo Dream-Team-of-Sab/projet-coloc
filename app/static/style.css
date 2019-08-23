@@ -66,7 +66,7 @@ a{
 /* FORMS */
 .form-control, .form-group ::placeholder{
     background-color: transparent !important; 
-    color: #ced4da !important;
+    color: #2828282b !important;
 }
 
 .form-control:focus{
@@ -420,6 +420,7 @@ PAGE INDEX
 .side-right{
     background-color: #FEC3AC; 
 }
+
 .side-left{
     background-color: #fff; 
 }
