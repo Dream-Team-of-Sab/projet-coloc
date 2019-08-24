@@ -15,16 +15,16 @@ def crypted_string(string):
     crypted_str=hashlib.sha1(b_string) 
     return crypted_str.hexdigest() 
 
+#vue de la page login
 
-@app.route('/' , methods=['GET', 'POST'])
+@app.route('/')
 def accueil():
     if 'logged' in fl.session.keys():
         return fl.redirect('/' + crypted_string(str(fl.session['logged']))+'/')
     else:
-        return render_template('login.html')
+        return render_template('index.html') 
 
-
-#vue de la page login
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/login.html/', methods=['GET', 'POST'])
 def login():
     """
@@ -79,10 +79,10 @@ def sign():
             email = fl.request.form['email']
             password = fl.request.form['password']
             c.execute('''INSERT INTO Users (first_name, last_name, email, password)
-                            VALUES (?, ?, ?, ?)''', (first_name, last_name, email, crypted_string(password))) 
-
+                            VALUES (?, ?, ?, ?)''', (first_name, last_name, email, password)
+                     )
             conn.commit()
-            user_id = c.execute('SELECT id_user FROM Users WHERE email = ?', (email,)).fetchone()[0]
+            user_id = c.execute('SELECT Users FROM Users WHERE email = ?', (email,)).fetchone()[0]
             fl.session['logged'] = user_id
             c = conn.close() 
             return fl.redirect('/'+ crypted_string(str(user_id)) +'/')
@@ -97,9 +97,8 @@ def index():
     """
     if fl.request.method == 'GET':
         return fl.render_template('index.html') 
+    
 
- 
-
-   
+    
 if __name__ == "__main__":                     
     app.run(host = 'localhost', debug = True)  
