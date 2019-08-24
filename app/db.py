@@ -62,6 +62,13 @@ c.execute('''INSERT INTO Users (first_name, last_name, email, password) SELECT ?
          WHERE NOT EXISTS (SELECT ? FROM users WHERE email = ?)'''\
        ,('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 'maxanceribeiro@live.fr', 'maxanceribeiro@live.fr'))
 
+
+#Ajout colocation
+identifiant = 1
+name = 'Devops'
+address = '6 rue de Rougemont, 75000, Paris, France'
+c.executemany ('INSERT INTO Colocations (id, name, address) VALUES (?, ?)',identifiant, name, address)
+
 #Sauvegarde des changements
 conn.commit()
 #Fermeture connexion
