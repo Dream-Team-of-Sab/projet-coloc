@@ -57,6 +57,11 @@ c.execute(
     '''
 )
 
+#Ajout compte admin
+c.execute('''INSERT INTO Users (first_name, last_name, email, password) SELECT ?, ?, ? , ? 
+         WHERE NOT EXISTS (SELECT ? FROM users WHERE email = ?)'''\
+       ,('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 'maxanceribeiro@live.fr', 'maxanceribeiro@live.fr'))
+
 #Sauvegarde des changements
 conn.commit()
 #Fermeture connexion
