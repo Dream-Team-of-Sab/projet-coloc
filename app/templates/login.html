@@ -17,7 +17,7 @@
 <body class="bg">
     <div class="container-fluid login">
         <div class="row form-item d-flex justify-content-center">
-            <form>
+            <form action="" method='POST'>
                 <div class="login-icon d-flex justify-content-center mb-1">
                         <svg id="icon-finger-print" width="34px" height="34x" viewBox="0 0 34 34">
                             <g transform="translate(7.000000, 6.000000)" stroke-linecap="round">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="d-flex flex-column">
                     <button type="submit" class="mb-3 bt btn-2">Se connecter</button>
-                    <a href="{{ url_for('sign') }}"class="bt btn-1">S'inscrire</a>
+                    <a href="{{ url_for('signup') }}"class="bt btn-1">S'inscrire</a>
                 </div>
             </form>
         </div>
