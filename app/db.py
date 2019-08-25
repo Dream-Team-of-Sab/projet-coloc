@@ -31,7 +31,7 @@ c.execute (
     '''
     CREATE TABLE IF NOT EXISTS Invoices (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title VARCHAR(255) NOT NULL,
+        title VARCHAR(255) UNIQUE NOT NULL,
         price DECIMAL NOT NULL,
 	type BOOL NOT NULL,
 	date DATE NOT NULL,
