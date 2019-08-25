@@ -6,12 +6,20 @@ REGLES  COMMUNES A TOUTES LES PAGES
 	padding: 0; /*marges intérieures*/
 }
 
-p, a, .btn, h1, h2, li, .modal-title{
+p, a, .btn, h1, h2, h3 li, .modal-title{
     font-family: 'Montserrat', sans-serif;
+}
+
+h3{
+    color: #282828
 }
 
 a{
     text-decoration: none !important; 
+}
+
+ul{
+    list-style-type: none; 
 }
 
 /* BUTTONS */
@@ -524,10 +532,12 @@ PAGE INDEX
   }
 
   /* DASHBOARD */
-.dashboard {
-    background-color: #fff;
-    
-}
+.dashboard{
+    display: flex; 
+    justify-content: center;
+    border: 1px solid red; 
+    padding-top: 0px !important;
+  }
 
 
 
@@ -537,8 +547,8 @@ MEDIAS QUERIES
 -------------------- */
 @media (min-width: 720px){
     .index-item{
-        display: flex; 
-        justify-content: center;
         padding: 180px 40px 0px 40px; 
     }
+
+    
 }
