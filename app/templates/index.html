@@ -67,7 +67,7 @@
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="recipient-name" placeholder="Date de consommation" name="date">
                                     </div>
-                                    <select class="form-control" name="number"> <!-- a verifier -->
+                                    <select class="form-control" name="number">
                                         <option>1/2</option>
                                         <option>1</option>
                                         <option>2</option>
@@ -76,7 +76,7 @@
                             </div> 
                         </div>
                         <div class="modal-footer d-flex justify-content-center">
-                            <button type="button" class="bt btn-2">Valider</button>
+                            <button type="submit" class="bt btn-2">Valider</button>
                         </div>
                     </div>
                 </div>
@@ -98,6 +98,9 @@
                             <form>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="recipient-name" placeholder="Intitulé de la facture" name="title">
+                                    {% if existing_invoice == True %}
+                                        <p class="text-center">Une facture ayant ce titre existe déjà</p>
+                                    {% endif %}   
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="recipient-name" placeholder="Date d'achat" name="date">
@@ -131,12 +134,36 @@
                             </form>
                         </div>
                         <div class="modal-footer d-flex justify-content-center">
-                            <button type="button" class="bt btn-2">Valider</button>
+                            <button type="submit" class="bt btn-2">Valider</button>
                         </div>
                     </div>
                 </div>
             </div> 
         </div>
+        
+        <!-- DASHBOARD -->
+        <h3 class="text-center mt-5">Récapitulatif</h3>
+        <div class="row index-item dashboard mt-4 d-flex justify-content-center">
+                <div class="col-12 col-md-5 side side-left">
+                    <div class="row d-flex flex-column">
+                        <h6 class="text-center p-3">Factures enregistrées</h6>
+                        <ul>
+                            <li class="text-center p-3">Electricité - Montant total : 312 euros</li>
+                            <li class="text-center p-3">Courses Montant total : 75 euros </li>
+                        </ul>  
+                    </div>
+                </div>
+                <div class="col-12 col-md-5 side side-right">
+                    <div class="row d-flex flex-column ">
+                        <h6 class="text-center p-3">Qui doit combien à qui ?</h6>
+                        <ul>
+                            <li class="text-center p-3">Lila doit 12 euros à Clémence pour l'éléctricite</li>
+                            <li class="text-center p-3">Clémence doit 45 euros à David pour les courses</li>
+                        </ul>  
+                    </div>
+                </div>       
+        </div>
+
     </div>        
 </body>
 </html>

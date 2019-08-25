@@ -7,7 +7,6 @@
     <title>Connexion</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
 
-
     <!-- C'est le CDN de bootstrap pour que le site soit responsive  -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -33,7 +32,7 @@
                 <p class="text-center my-4">Vous avez déja un compte ? Identifiez-vous</p>
 
                 {% if error == True %}
-                <p>Aucun compte n'est associé à ces identifiants</p>
+                <p>Les informations entrées ne sont valides</p>
                 {% endif%}
 
                 <div class="form-group">
