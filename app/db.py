@@ -34,9 +34,7 @@ c.execute (
         title VARCHAR(255) NOT NULL,
         price DECIMAL NOT NULL,
 	type BOOL NOT NULL,
-
 	date DATE NOT NULL,
-	type BOOL NOT NULL,
 	details VARCHAR(255) NOT NULL,
 	id_paying_user INTEGER,
 	    FOREIGN KEY (id_paying_user)
@@ -56,6 +54,17 @@ c.execute(
     );
     '''
 )
+
+#Ajout compte admin
+admin = [('Admin', 'Admin', 'maxanceribeiro@live.fr', '072330STM', 1)]
+
+c.executemany('''INSERT INTO Users (first_name, last_name, email, password, id_colocation)  VALUES (?, ?, ?, ?, ?)''', admin)
+ 
+#WHERE NOT EXISTS (SELECT ? FROM users WHERE email = ?)''', first_name, last_name, email, password, email, email) 
+
+#Ajout colocation
+coloc= [('Coloc', '6 rue de Rougemont, 75000, Paris, France')]
+c.executemany('''INSERT INTO Colocations (name, address) VALUES (?, ?)''', coloc)
 
 #Sauvegarde des changements
 conn.commit()
