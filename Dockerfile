@@ -13,4 +13,4 @@ WORKDIR /app
 #Pour configurer l'environnement
 run virtualenv venv
 
-CMD bash -c "python3 app/database_gen.py;source venv/Scripts/activate;flask run --host=0.0.0.0"
+CMD bash -c "python3 app/database_gen.py;source venv/Scripts/activate;export FLASK_APP=coloc_project.py;flask run --host=0.0.0.0"
