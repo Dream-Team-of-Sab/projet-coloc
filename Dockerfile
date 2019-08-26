@@ -5,10 +5,10 @@ RUN apt-get update && apt-get install -y python3 sqlite3 python3-pip
 RUN pip3 install flask virtualenv python-dotenv
 
 # pour mettre tout le code source dans le dossier app qui se situe dans le container
-COPY ./coloc_project ./coloc_project
+COPY ./coloc_project /app
     
 #pour le bash soit directement dans le fichier app
-WORKDIR /coloc_project
+WORKDIR /app
 
 #Pour configurer l'environnement
 run virtualenv venv
