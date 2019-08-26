@@ -1,0 +1,37 @@
+version: "3.4"
+
+services:
+  db:
+    image: postgres
+    restart: "no"
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    networks:
+      - backend
+  
+  app:
+    build: .
+    restart: "no"
+   # volumes:
+   #   - factures_data:/app/factures
+    ports:
+      - "5000:5000"
+   #scale: 2
+    networks:
+      - backend
+
+  #proxy:
+    #image:
+    #networks:
+     #- backend
+
+volumes:
+  postgresql_data:
+
+#on déclare un volume pour stocker les facturettes (voir où Flask enregistre les datas)
+#volumes:
+# factures_data:
+
+#on déclare un réseau pour lier les différents conteneurs entre eux
+networks:
+  backend:

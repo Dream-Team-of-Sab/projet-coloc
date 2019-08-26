@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Inscription</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+
+    <!-- C'est le CDN de bootstrap pour que le site soit responsive  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid sign">
+        <div class="ml-2 pt-4">
+            <a link href="{{ url_for('login') }}">Retour</a>
+        </div>
+
+        <div class="row sign-form d-flex justify-content-center">
+            <form action="" method = "post">
+                <div class="login-icon d-flex justify-content-center mb-1">
+                    <svg id="icon-keyboard" fill="#f3f3f3" height="512pt" viewBox="0 -121 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
+                        <path d="m0 0v270h512v-270zm482 240h-452v-210h452zm0 0"/>
+                        <path  d="m361 180h30v30h-30zm0 0"/>
+                        <path d="m241 120h30v30h-30zm0 0"/>
+                        <path class="type1"  d="m301 120h30v30h-30zm0 0"/>
+                        <path d="m181 120h30v30h-30zm0 0"/>
+                        <path d="m121 180h30v30h-30zm0 0"/>
+                        <path d="m121 120h30v30h-30zm0 0"/>
+                        <path class="type2" d="m61 120h30v30h-30zm0 0"/>
+                        <path d="m361 120h30v30h-30zm0 0"/>
+                        <path d="m421 120h30v30h-30zm0 0"/>
+                        <path  d="m241 60h30v30h-30zm0 0"/>
+                        <path d="m301 60h30v30h-30zm0 0"/>
+                        <path d="m181 60h30v30h-30zm0 0"/>
+                        <path class="type3" d="m121 60h30v30h-30zm0 0"/>
+                        <path d="m61 60h30v30h-30zm0 0"/>
+                        <path class="type2"  d="m361 60h30v30h-30zm0 0"/>
+                        <path d="m421 60h30v30h-30zm0 0"/>
+                        <path class="type3" d="m181 180h150v30h-150zm0 0"/></svg>
+                </div>
+                <p>Créer un compte</p>
+
+                {% if existing_email == True %}
+                <p class="text-center">There is already an account linked to this email</p>
+                {% endif %}
+
+                <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Prénom" name='first_name'>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Nom" name='last_name'>
+                </div>
+                <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Adresse mail" name="email">
+                    </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe" name="password">
+                </div>
+                <div>
+                    <button type="submit" class="bt btn-2">Valider</button>
+                </div>
+            </form>
+        </div>  
+    </div>
+
+    <footer class="fixed-bottom">
+        <p>©2019</p>
+    </footer>
+</body>
+</html>
