@@ -1,11 +1,14 @@
-import sqlite3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import psycopg2
 from functions import crypted_string
 
 #Ouverture connexion
-conn = sqlite3.connect('app_database.db')
-c = conn.cursor()
+conn = psycopg2.connect("host=max-pc dbname=app_database.db user=max password=postgres")
+cur = conn.cursor()
 
-c.execute( 
+cur.execute( 
     '''
     CREATE TABLE IF NOT EXISTS Users (
     	id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,7 +22,7 @@ c.execute(
     );
     '''
 )
-c.execute(
+cur.execute(
     '''
     CREATE TABLE IF NOT EXISTS Colocations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,7 +31,7 @@ c.execute(
     );
     '''
 )
-c.execute(
+cur.execute(
     '''
     CREATE TABLE IF NOT EXISTS Invoices (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,7 +46,7 @@ c.execute(
     );
     '''
 )
-c.execute(
+cur.execute(
     '''
     CREATE TABLE IF NOT EXISTS Meals (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -59,24 +62,21 @@ c.execute(
 #Ajout compte admin
 admin = ('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 1,'maxanceribeiro@live.fr','maxanceribeiro@live.fr')
 
-c.execute('''INSERT INTO Users (first_name, last_name, email, password, id_colocation)
-             SELECT ?, ?, ?, ?, ?
-             WHERE NOT EXISTS (SELECT ? FROM users WHERE email = ?)''', admin)
+cur.execute('''INSERT INTO Users (first_name, last_name, email, password, id_colocation)
+             SELECT (%s, %s, %s, %s, %s)
+             WHERE NOT EXISTS (SELECT %s FROM users WHERE email = %s)''', admin)
 ## Mocks 
 #Ajout colocation
 coloc= ('Coloc', '6 rue de Rougemont, 75000, Paris, France')
-
-c.execute('''INSERT INTO Colocations (name, address) VALUES (?, ?)''', coloc)
+cur.execute('''INSERT INTO Colocations (name, address) VALUES (%s, %s)''', coloc)
 
 #Ajout fausse facture
-invoice =('498412', 29.99, True, '01/01/01', 'details', '1')
-
-c.execute('''INSERT INTO Invoices (title, price, type, date, details, id_paying_user)
-             VALUES (?, ?, ?, ?, ?, ?)''', invoice)
-
-##
+invoice =('Loyer', 29.99, True, '01/01/01', 'details', '1')
+cur.execute('''INSERT INTO Invoices (title, price, type, date, details, id_paying_user)
+             VALUES (%s, %s, %s, %s, %s, %s)''', invoice)
 
 #Sauvegarde des changements
 conn.commit()
 #Fermeture connexion
-c= conn.close()
+cur.close()
+conn.close()

@@ -1,5 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from app import app
-import sqlite3
+import psycopg2
 import hashlib
 from flask import redirect, render_template, session, url_for, request
 
@@ -26,25 +29,28 @@ def login():
         if request.method == 'GET':
             return render_template('login.html')
         elif request.method == 'POST':
-            conn = sqlite3.connect('app/app_database.db')
-            c = conn.cursor()
-            user_mail_list = [a[0] for a in c.execute('SELECT email FROM Users').fetchall()]
+            conn = psycopg2.connect("dbname=app/app_database.db user=postgres password=postgres")
+            cur = conn.cursor()
+            user_mail_list = [a[0] for a in cur.execute('SELECT email FROM Users').fetchall()]
             if request.form['email'] in user_mail_list:
-                pwd = c.execute('SELECT password FROM Users WHERE email = ?',\
+                pwd = cur.execute('SELECT password FROM Users WHERE email = %s',\
                                 (request.form['email'],))\
                                 .fetchone()[0]
                 if crypted_string(request.form['password']) == pwd:
-                    user_id = c.execute('SELECT id FROM Users WHERE email = ?',\
+                    user_id = cur.execute('SELECT id FROM Users WHERE email = %s',\
                                         (request.form['email'],))\
                                         .fetchone()[0]
+		    cur.close()
                     conn.close()
                     session['logged'] = user_id
                     return redirect(url_for('index'))
                 else:
+		    cur.close()
                     conn.close()
                     return redirect(url_for('index'))           # Il manque l'affichage  du message d'erreur
                                                                 # coté html
             else:
+		cur.close()
                 conn.close()
                 return redirect(url_for('index'))
         else:
@@ -74,13 +80,14 @@ def signup():
             last_name = request.form['last_name']
             email = request.form['email']
             password = request.form['password']
-            c.execute('''INSERT INTO Users (first_name, last_name, email, password)
-                         VALUES (?, ?, ?, ?)''',\
+            cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
+                         VALUES (%s, %s, %s, %s)''',\
                          (first_name, last_name, email, crypted_string(password))) 
-
+	    
             conn.commit()
-            user_id = c.execute('SELECT id FROM Users WHERE email = ?', (email,)).fetchone()[0]
+            user_id = cur.execute('SELECT id FROM Users WHERE email = %s', (email,)).fetchone()[0]
             session['logged'] = user_id
+	    cur.close()
             c = conn.close() 
             return redirect(url_for('index'))
     else:
@@ -100,12 +107,13 @@ def index():
             return render_template('index.html') 
     
         elif request.method == 'POST':
-            conn = sqlite3.connect('app/app_database.db') 
-            c = conn.cursor()
+            conn = psycopg2.connect("dbname=app/app_database.db user=postgres password=postgres") 
+            cur = conn.cursor()
 
 #Pour l'ajout de facture
-#           invoice_list = c.execute('SELECT title FROM Invoices').fetchone() 
-#           if request.form['title'] in invoice_list : 
+#           invoice_list = cur.execute('SELECT title FROM Invoices').fetchone() 
+#           if request.form['title'] in invoice_list :
+#		cur.close() 
 #               conn.close() 
 #               return render_template('index.html') #, existing_title = True) !! Stopped here!
 #           else:
@@ -113,9 +121,9 @@ def index():
             date = request.form['date']
             price = request.form['price']
             details = request.form['details']
-            c.execute('''INSERT INTO Invoices (title, date, price, details)
-                            VALUES (?, ?, ?, ?)''', (title, date, price, details)
-                     ) 
+            cur.execute('''INSERT INTO Invoices (title, date, price, details)
+                            VALUES (%s, %s, %s, %s)''', (title, date, price, details)
+               	       )
             conn.commit()
             return redirect(url_for('index'))
         else:
