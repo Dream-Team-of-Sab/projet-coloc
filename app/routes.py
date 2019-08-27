@@ -40,17 +40,17 @@ def login():
                     user_id = cur.execute('SELECT id FROM Users WHERE email = %s',\
                                         (request.form['email'],))\
                                         .fetchone()[0]
-		    cur.close()
+                    cur.close()
                     conn.close()
                     session['logged'] = user_id
                     return redirect(url_for('index'))
                 else:
-		    cur.close()
+                    cur.close()
                     conn.close()
                     return redirect(url_for('index'))           # Il manque l'affichage  du message d'erreur
                                                                 # coté html
             else:
-		cur.close()
+                cur.close()
                 conn.close()
                 return redirect(url_for('index'))
         else:
@@ -83,11 +83,11 @@ def signup():
             cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
                          VALUES (%s, %s, %s, %s)''',\
                          (first_name, last_name, email, crypted_string(password))) 
-	    
+        
             conn.commit()
             user_id = cur.execute('SELECT id FROM Users WHERE email = %s', (email,)).fetchone()[0]
             session['logged'] = user_id
-	    cur.close()
+            cur.close()
             c = conn.close() 
             return redirect(url_for('index'))
     else:
@@ -110,21 +110,25 @@ def index():
             conn = psycopg2.connect("dbname=app/app_database.db user=postgres password=postgres") 
             cur = conn.cursor()
 
-#Pour l'ajout de facture
-#           invoice_list = cur.execute('SELECT title FROM Invoices').fetchone() 
-#           if request.form['title'] in invoice_list :
-#		cur.close() 
-#               conn.close() 
-#               return render_template('index.html') #, existing_title = True) !! Stopped here!
-#           else:
+
             title = request.form['title'] 
             date = request.form['date']
             price = request.form['price']
             details = request.form['details']
             cur.execute('''INSERT INTO Invoices (title, date, price, details)
                             VALUES (%s, %s, %s, %s)''', (title, date, price, details)
-               	       )
+                       )
+
+            
+            invoice = request.files['file']
+            file_name = invoice.filename
+            if invoice and allowed_file(invoice.filename): 
+                file_name = secure_filename(invoice.filename)
+                invoice.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+            
             conn.commit()
+            conn.close()
+      
             return redirect(url_for('index'))
         else:
             return "Unknown method"
