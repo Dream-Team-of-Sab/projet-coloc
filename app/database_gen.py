@@ -65,10 +65,11 @@ cur.execute('''INSERT INTO Colocations (name, address) VALUES (%s, %s)''', coloc
 
 #Ajout compte admin
 admin = ('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 1)
+# ('maxanceribeiro@live.fr', 'maxanceribeiro@live.fr')
 
 cur.execute('''INSERT INTO Users (first_name, last_name, email, password, id_colocation)
-             VALUES (%s, %s, %s, %s, %s)''', admin)
-            # WHERE NOT EXISTS (SELECT %s FROM users WHERE email = %s)''', admin)
+             VALUES (%s, %s, %s, %s, %s)''', admin) 
+#WHERE NOT IN (SELECT %s FROM Users WHERE email = %s), admin)
 
 #Ajout fausse facture
 invoice =('Loyer', 29.99, True, '01/01/01', 'details', '1')
