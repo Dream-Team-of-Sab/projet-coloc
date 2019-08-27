@@ -2,15 +2,15 @@ import pytest
 import sys
 
 sys.path.append('.')
-from app import app 
+from app import app as colocApp
 
 @pytest.fixture
 def app():
-    run_app = app.run(host='0.0.0.0', port=5000)
-    return run_app
+    app = colocApp
+    return app
 
 @pytest.fixture
 def client():
-    run_app = app.run(host='0.0.0.0', port=5000)
+    app = colocApp
     client = app.test_client()
     yield client
