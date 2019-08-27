@@ -7,6 +7,8 @@ name = "pypi"
 flask = "*"
 pytest = "*"
 flask-pytest = "*"
+postgres = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
