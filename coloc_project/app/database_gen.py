@@ -5,13 +5,22 @@ import psycopg2
 from functions import crypted_string
 
 #Ouverture connexion
-conn = psycopg2.connect("host=max-pc dbname=app_database.db user=max password=postgres")
+conn = psycopg2.connect("host=localhost dbname=app user=app password=app")
 cur = conn.cursor()
 
+cur.execute(
+    '''
+    CREATE TABLE IF NOT EXISTS Colocations (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        address VARCHAR(255) NOT NULL
+    );
+    '''
+)
 cur.execute( 
     '''
     CREATE TABLE IF NOT EXISTS Users (
-    	id INTEGER PRIMARY KEY AUTOINCREMENT,
+    	id SERIAL PRIMARY KEY,
         first_name VARCHAR(255) NOT NULL,
         last_name VARCHAR(255) NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
@@ -24,17 +33,8 @@ cur.execute(
 )
 cur.execute(
     '''
-    CREATE TABLE IF NOT EXISTS Colocations (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name VARCHAR(255) NOT NULL,
-        address VARCHAR(255) NOT NULL
-    );
-    '''
-)
-cur.execute(
-    '''
     CREATE TABLE IF NOT EXISTS Invoices (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         price DECIMAL NOT NULL,
 	type BOOL NOT NULL,
@@ -49,7 +49,7 @@ cur.execute(
 cur.execute(
     '''
     CREATE TABLE IF NOT EXISTS Meals (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
 	date DATE NOT NULL,
         number FLOAT NOT NULL,
         id_eating_user INTEGER,
