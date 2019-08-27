@@ -1,16 +1,16 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "70e004ffa8a821ef3317289c628de100d83cbff64375bd1269d8eaef31387060"
+            "sha256": "507d8ce9123211754481795516217d1438b5ba0768094d7aa20923d8e8135a75"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.7"
+            "python_version": "3.5"
         },
         "sources": [
             {
                 "name": "pypi",
-                "url": "https://pypi.python.org/simple",
+                "url": "https://pypi.org/simple",
                 "verify_ssl": true
             }
         ]
@@ -44,13 +44,6 @@
             ],
             "index": "pypi",
             "version": "==1.1.1"
-        },
-        "flask-pytest": {
-            "hashes": [
-                "sha256:1a55570e76909b98a988e8d64af9fab14b3b8d55ae1e14431b8644fafb94e9da"
-            ],
-            "index": "pypi",
-            "version": "==0.0.5"
         },
         "importlib-metadata": {
             "hashes": [
@@ -121,6 +114,14 @@
             ],
             "version": "==19.1"
         },
+        "pathlib2": {
+            "hashes": [
+                "sha256:2156525d6576d21c4dcaddfa427fae887ef89a7a9de5cbfe0728b3aafa78427e",
+                "sha256:446014523bb9be5c28128c4d2a10ad6bb60769e78bd85658fe44a450674e0ef8"
+            ],
+            "markers": "python_version < '3.6'",
+            "version": "==2.3.4"
+        },
         "pluggy": {
             "hashes": [
                 "sha256:0825a152ac059776623854c1543d65a4ad408eb3d33ee114dff91e57ec6ae6fc",
@@ -149,6 +150,22 @@
             ],
             "index": "pypi",
             "version": "==5.1.1"
+        },
+        "pytest-flask": {
+            "hashes": [
+                "sha256:283730b469604ecb94caac28df99a40b7c785b828dd8d3323596718b51dfaeb2",
+                "sha256:d874781b622210d8c5d8061cdb091cb059fcb12203125110bd8e6f9256ccbf49"
+            ],
+            "index": "pypi",
+            "version": "==0.15.0"
+        },
+        "python-dotenv": {
+            "hashes": [
+                "sha256:debd928b49dbc2bf68040566f55cdb3252458036464806f4094487244e2a4093",
+                "sha256:f157d71d5fec9d4bd5f51c82746b6344dffa680ee85217c123f4a0c8117c4544"
+            ],
+            "index": "pypi",
+            "version": "==0.10.3"
         },
         "six": {
             "hashes": [
