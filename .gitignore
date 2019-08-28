@@ -3,3 +3,4 @@
 .flaskenv
 *.db
 __pycache__
+tmp/
