@@ -29,7 +29,7 @@ def login():
         if request.method == 'GET':
             return render_template('login.html')
         elif request.method == 'POST':
-            conn = psycopg2.connect("dbname=app/app_database.db user=postgres password=postgres")
+            conn = psycopg2.connect("host=localhost dbname=app user=postgres password=postgres")
             cur = conn.cursor()
             user_mail_list = [a[0] for a in cur.execute('SELECT email FROM Users').fetchall()]
             if request.form['email'] in user_mail_list:
@@ -67,7 +67,7 @@ def signup():
         return render_template('sign.html')
 
     elif request.method == 'POST':
-        conn = sqlite3.connect('app/app_database.db')
+        conn = psycopg2.connect("host=localhost dbname=app user=app password=app")
         c = conn.cursor()
         email_list = c.execute('SELECT email FROM Users').fetchone()
         if request.form['email'] in email_list :
@@ -107,14 +107,14 @@ def index():
             return render_template('index.html')
 
         elif request.method == 'POST':
-            conn = psycopg2.connect("dbname=app/app_database.db user=postgres password=postgres")
+            conn = psycopg2.connect("host=localhost dbname=app user=app password=app")
             cur = conn.cursor()
 #Pour l'ajout de facture
 #           invoice_list = cur.execute('SELECT title FROM Invoices').fetchone() 
 #           if request.form['title'] in invoice_list :
 #               cur.close() 
 #               conn.close() 
-#               return render_template('index.html') #, existing_title = True) !! Stopped here!
+#               return render_template('index.html') #, existing_title = True)
 #           else:
             title = request.form['title']
             date = request.form['date']
