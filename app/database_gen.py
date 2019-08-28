@@ -58,7 +58,6 @@ cur.execute(
     );
     '''
 )
-
 #Ajout colocation
 coloc= ('Coloc', '6 rue de Rougemont, 75000, Paris, France')
 cur.execute('''INSERT INTO Colocations (name, address) VALUES (%s, %s)''', coloc)
