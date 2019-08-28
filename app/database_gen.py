@@ -69,7 +69,7 @@ admin = ('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM')
 
 cur.execute('''INSERT INTO Users (first_name, last_name, email, password, id_colocation)
              VALUES (%s, %s, %s, %s, %s)''', admin) 
-#WHERE NOT IN (SELECT %s FROM Users WHERE email = %s), admin)
+	    # WHERE NOT EXISTS (SELECT %s FROM Users WHERE email = %s)''', admin)
 
 #Ajout fausse facture
 invoice =('Loyer', 29.99, True, '01/01/01', 'details', '1')
