@@ -13,4 +13,3 @@ python-dotenv = "*"
 pylint = "*"
 
 [requires]
-python_version = "3.5"
