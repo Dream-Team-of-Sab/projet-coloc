@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+
+    <!-- CDN de bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+<body class="index">
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('index')}}">
+                <svg id="icon-pie-chart" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
+                        fill="none" stroke="#2a2a31" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                    <path class="chart-data" stroke="#FEC3AC" d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                </svg>
+            </a>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row index-item">
+            <div class="col-12 col-md-5 side side-left">
+                <div class="row">
+                    <img src="../static/img/bill.svg" alt="">
+                </div>
+                <div class="row d-flex justify-content-center side-left-item ">
+                    <button type="button" class="bt btn-2" data-toggle="modal" data-target="#billModal" data-whatever="@mdo">Ajouter une facture</button>
+                </div>  
+            </div>
+            
+            <div class="col-12 col-md-5 side side-right">
+                <div class="row">
+                    <img src="../static/img/meal.svg" alt="">
+                </div>
+                <div class="row d-flex justify-content-center side-left-item">
+                    <a class="bt btn-3" data-toggle="modal" data-target="#mealModal" data-whatever="@mdo">Enregistrer un repas</a>
+                </div>   
+            </div>
+            
+
+            <!-- MODAL ENREGRISTER UN REPAS -->
+            <div class="modal fade" id="mealModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="billModalLabel">Combien de plat avez-vous consommé ?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <svg aria-hidden="true" id="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path class="close-rotate" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card card-body">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="recipient-name" placeholder="Date de consommation" name="date">
+                                    </div>
+                                    <select class="form-control" name="number">
+                                        <option>1/2</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="modal-footer d-flex justify-content-center">
+                            <button type="submit" class="bt btn-2">Valider</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL/ FORMULAIRE AJOUT DE FACTURE -->
+            <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="billModalLabel">Ajouter une nouvelle facture</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <svg aria-hidden="true" id="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path class="close-rotate" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action='' method='POST'>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="recipient-name" placeholder="Intitulé de la facture" name="title">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="recipient-name" placeholder="Date d'achat" name="date">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="recipient-name" placeholder="Montant" name="price">
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" id="message-text" placeholder="Liste des achats" name="details"></textarea>
+                                </div>
+                                <p>Mettre au pro-rata</p>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                    <label class="form-check-label" for="inlineCheckbox1">Oui</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                    <label class="form-check-label" for="inlineCheckbox2">Non</label>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <svg id="icon-download" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                    stroke="#2a2a31" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <g class="download-arrow">
+                                        <polyline points="7 10 12 15 17 10" stroke="#ea3970"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3" stroke="#ea3970"></line>
+                                    </svg>
+                                    <label for="exampleFormControlFile1">Télécharger la facture</label>
+				    <input type="file" name="file">
+				   <button type="submit" class="bt btn-2 mt-4">Valider</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        
+        <!-- DASHBOARD -->
+        <h3 class="text-center mt-5">Récapitulatif</h3>
+        <div class="row index-item dashboard mt-4 d-flex justify-content-center">
+                <div class="col-12 col-md-5 side side-left">
+                    <div class="row d-flex flex-column">
+                        <h6 class="text-center p-3">Factures enregistrées</h6>
+                        <ul>
+                            <li class="text-center p-3">Electricité - Montant total : 312 euros</li>
+                            <li class="text-center p-3">Courses Montant total : 75 euros </li>
+                        </ul>  
+                    </div>
+                </div>
+                <div class="col-12 col-md-5 side side-right">
+                    <div class="row d-flex flex-column ">
+                        <h6 class="text-center p-3">Qui doit combien à qui ?</h6>
+                        <ul>
+                            <li class="text-center p-3">Lila doit 12 euros à Clémence pour l'éléctricite</li>
+                            <li class="text-center p-3">Clémence doit 45 euros à David pour les courses</li>
+                        </ul>  
+                    </div>
+                </div>       
+        </div>
+
+    </div>        
+</body>
+</html>
