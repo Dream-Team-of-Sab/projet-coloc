@@ -12,8 +12,8 @@ def crypted_string(string):
     Fonction permettant de crypter une chaine de caractère avec le protocole sha1.
     La fonction retourne un nombre hexadécimal.
     """
-    b_string=string.encode() 
-    crypted_str=hashlib.sha1(b_string) 
+    b_string=string.encode()
+    crypted_str=hashlib.sha1(b_string)
     return crypted_str.hexdigest()
 
 # Login view
@@ -40,17 +40,17 @@ def login():
                     user_id = cur.execute('SELECT id FROM Users WHERE email = %s',\
                                         (request.form['email'],))\
                                         .fetchone()[0]
-		    cur.close()
+                    cur.close()
                     conn.close()
                     session['logged'] = user_id
                     return redirect(url_for('index'))
                 else:
-		    cur.close()
+                    cur.close()
                     conn.close()
                     return redirect(url_for('index'))           # Il manque l'affichage  du message d'erreur
                                                                 # coté html
             else:
-		cur.close()
+                cur.close()
                 conn.close()
                 return redirect(url_for('index'))
         else:
@@ -58,44 +58,44 @@ def login():
 
 
 # Sign up view
-@app.route('/signup/', methods=['GET', 'POST'])        
+@app.route('/signup/', methods=['GET', 'POST'])
 def signup():
     """
     Vue de la page de inscription
     """
     if request.method == 'GET':
-        return render_template('sign.html') 
+        return render_template('sign.html')
 
     elif request.method == 'POST':
-        conn = sqlite3.connect('app/app_database.db') 
+        conn = sqlite3.connect('app/app_database.db')
         c = conn.cursor()
-        email_list = c.execute('SELECT email FROM Users').fetchone() 
-        if request.form['email'] in email_list : 
-            conn.close() 
+        email_list = c.execute('SELECT email FROM Users').fetchone()
+        if request.form['email'] in email_list :
+            conn.close()
             return render_template('sign.html') #, existing_email = True) # Il manque l'affichage du message
                                                                           # coté html
-        
+
         else:
-            first_name = request.form['first_name'] 
+            first_name = request.form['first_name']
             last_name = request.form['last_name']
             email = request.form['email']
             password = request.form['password']
             cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
                          VALUES (%s, %s, %s, %s)''',\
-                         (first_name, last_name, email, crypted_string(password))) 
-	    
+                         (first_name, last_name, email, crypted_string(password)))
+
             conn.commit()
             user_id = cur.execute('SELECT id FROM Users WHERE email = %s', (email,)).fetchone()[0]
             session['logged'] = user_id
-	    cur.close()
-            c = conn.close() 
+            cur.close()
+            c = conn.close()
             return redirect(url_for('index'))
     else:
         return "Unknown method"
 
 
 # Index view
-@app.route('/index/', methods=['GET', 'POST'])        
+@app.route('/index/', methods=['GET', 'POST'])
 def index():
     """
     Vue de la page d'accueil
@@ -104,27 +104,27 @@ def index():
         return redirect(url_for('login'))
     else:
         if request.method == 'GET':
-            return render_template('index.html') 
-    
-        elif request.method == 'POST':
-            conn = psycopg2.connect("dbname=app/app_database.db user=postgres password=postgres") 
-            cur = conn.cursor()
+            return render_template('index.html')
 
+        elif request.method == 'POST':
+            conn = psycopg2.connect("dbname=app/app_database.db user=postgres password=postgres")
+            cur = conn.cursor()
 #Pour l'ajout de facture
 #           invoice_list = cur.execute('SELECT title FROM Invoices').fetchone() 
 #           if request.form['title'] in invoice_list :
-#		cur.close() 
+#               cur.close() 
 #               conn.close() 
 #               return render_template('index.html') #, existing_title = True) !! Stopped here!
 #           else:
-            title = request.form['title'] 
+            title = request.form['title']
             date = request.form['date']
             price = request.form['price']
             details = request.form['details']
             cur.execute('''INSERT INTO Invoices (title, date, price, details)
                             VALUES (%s, %s, %s, %s)''', (title, date, price, details)
-               	       )
+                       )
             conn.commit()
             return redirect(url_for('index'))
         else:
             return "Unknown method"
+

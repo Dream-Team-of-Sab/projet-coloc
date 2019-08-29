@@ -9,8 +9,5 @@ verify_ssl = true
 pytest = "*"
 pytest-flask = "*"
 flask = "*"
-python-dotenv = "*"
 
 [requires]
-python_version = "3.5"
-

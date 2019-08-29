@@ -98,9 +98,6 @@
                             <form action='' method='POST'>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="recipient-name" placeholder="Intitulé de la facture" name="title">
-                                    {% if existing_invoice == True %}
-                                        <p class="text-center">Une facture ayant ce titre existe déjà</p>
-                                    {% endif %}   
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="recipient-name" placeholder="Date d'achat" name="date">
@@ -129,12 +126,10 @@
                                         <line x1="12" y1="15" x2="12" y2="3" stroke="#ea3970"></line>
                                     </svg>
                                     <label for="exampleFormControlFile1">Télécharger la facture</label>
-                                    <input type="file" id="exampleFormControlFile1">
+				    <input type="file" name="file">
+				   <button type="submit" class="bt btn-2 mt-4">Valider</button>
                                 </div>
                             </form>
-                        </div>
-                        <div class="modal-footer d-flex justify-content-center">
-                            <button type="submit" class="bt btn-2">Valider</button>
                         </div>
                     </div>
                 </div>
