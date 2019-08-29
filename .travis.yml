@@ -5,6 +5,9 @@ script:
   - make build
   - make test
 
- #  - make deliver
- #  on:
- #    branch: feature/tests
+deploy:
+  provider: script
+  script: make deliver
+  on:
+    branch: dev
+
