@@ -4,6 +4,7 @@ services:
 script:
   - make build
   - make test
-  - make deliver
-  on:
-    branch: feature/tests
+
+ #  - make deliver
+ #  on:
+ #    branch: feature/tests
