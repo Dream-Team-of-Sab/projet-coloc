@@ -4,8 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
+python-dotenv = "*"
+psycopg2 = "*"
 
 [dev-packages]
+pytest = "*"
+pylint = "*"
 
 [requires]
-python_version = "3.5"
