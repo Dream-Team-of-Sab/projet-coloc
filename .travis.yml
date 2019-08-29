@@ -1,10 +1,9 @@
 services:
   - docker
 
-install:
-  - pipenv install
-
 script:
   - make build
   - make test
   - make deliver
+  on:
+    branch: feature/tests
