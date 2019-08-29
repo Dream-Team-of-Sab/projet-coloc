@@ -9,7 +9,7 @@ verify_ssl = true
 pytest = "*"
 pytest-flask = "*"
 flask = "*"
-python-dotenv = "*"
 click = "*"
+pylint = "*"
 
 [requires]
