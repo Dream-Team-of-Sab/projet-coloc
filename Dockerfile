@@ -2,7 +2,7 @@ FROM python:3.7-buster
 # FROM debian:10
 
 RUN apt-get update \
-    && apt-get install -y sqlite3
+    && apt-get install -y sqlite3 libpq-dev
 
 RUN pip3 install pipenv
 
