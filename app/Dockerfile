@@ -13,4 +13,4 @@ WORKDIR /app
 
 EXPOSE 5000
 
-CMD python3 routes.py
+CMD flask run --host=0.0.0.0

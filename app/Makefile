@@ -7,7 +7,7 @@ all:
 build:
 	docker build -t $(USERNAME)/$(IMAGE):$(TAG) .
 run: 
-	docker run -it -p5000:5000  $(USERNAME)/$(IMAGE):$(TAG)
+	docker run -it -p 5000:5000  $(USERNAME)/$(IMAGE):$(TAG)
 
 test: 
 
