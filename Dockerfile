@@ -1,17 +1,21 @@
 FROM debian:10
 
-RUN apt-get update && apt-get install -y python3 python3-psycopg2 python3-pip 
+RUN apt-get update \
+    && apt-get install -y python3 sqlite3 python3-pip
 
-RUN pip3 install flask virtualenv python-dotenv psycopg2
+RUN pip3 install pipenv
+
+COPY Pipfile /app/Pipfile
+COPY Pipfile.lock /app/Pipfile.lock
+
+WORKDIR /app/
+
+RUN pipenv install
 
 # pour mettre tout le code source dans le dossier app qui se situe dans le container
-COPY ./coloc_project /app
-    
+COPY .  /app
+
 #pour le bash soit directement dans le fichier app
-WORKDIR /app
+EXPOSE 5000
 
-#Pour configurer l'environnement
-run virtualenv venv
-
-CMD bash -c "python3 app/database_gen.py;source venv/Scripts/activate;export FLASK_APP=coloc_project.py;flask run --host=0.0.0.0"
-
+CMD pipenv run python3 coloc_project.py  

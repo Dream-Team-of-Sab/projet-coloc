@@ -2,15 +2,15 @@ import pytest
 import sys
 
 sys.path.append('.')
-from server import create_app
+from app import app as appyFlat
 
 @pytest.fixture
 def app():
-    app = create_app()
+    app = appyFlat
     return app
 
 @pytest.fixture
 def client():
-    app = create_app()
+    app = appyFlat
     client = app.test_client()
     yield client

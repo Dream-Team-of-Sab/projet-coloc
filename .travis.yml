@@ -1,0 +1,9 @@
+services:
+  - docker
+
+script:
+  - make build
+  - make test
+  - make deliver
+  on:
+    branch: feature/tests

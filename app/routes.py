@@ -12,8 +12,8 @@ def crypted_string(string):
     Fonction permettant de crypter une chaine de caractère avec le protocole sha1.
     La fonction retourne un nombre hexadécimal.
     """
-    b_string=string.encode()
-    crypted_str=hashlib.sha1(b_string)
+    b_string = string.encode()
+    crypted_str = hashlib.sha1(b_string)
     return crypted_str.hexdigest()
 
 # Login view
@@ -25,36 +25,31 @@ def login():
     """
     if 'logged' in session.keys():
         return redirect(url_for('index'))
-    else:
-        if request.method == 'GET':
-            return render_template('login.html')
-        elif request.method == 'POST':
-            conn = psycopg2.connect("dbname=app/app_database.db user=postgres password=postgres")
-            cur = conn.cursor()
-            user_mail_list = [a[0] for a in cur.execute('SELECT email FROM Users').fetchall()]
-            if request.form['email'] in user_mail_list:
-                pwd = cur.execute('SELECT password FROM Users WHERE email = %s',\
-                                (request.form['email'],))\
-                                .fetchone()[0]
-                if crypted_string(request.form['password']) == pwd:
-                    user_id = cur.execute('SELECT id FROM Users WHERE email = %s',\
-                                        (request.form['email'],))\
-                                        .fetchone()[0]
-                    cur.close()
-                    conn.close()
-                    session['logged'] = user_id
-                    return redirect(url_for('index'))
-                else:
-                    cur.close()
-                    conn.close()
-                    return redirect(url_for('index'))           # Il manque l'affichage  du message d'erreur
-                                                                # coté html
-            else:
-                cur.close()
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        conn = sqlite3.connect('app/app_database.db')
+        cur = conn.cursor()
+        user_mail_list = [a[0] for a in cur.execute('SELECT email FROM Users').fetchall()]
+        if request.form['email'] in user_mail_list:
+            pwd = cur.execute('SELECT password FROM Users WHERE email = ?',\
+                            (request.form['email'],))\
+                            .fetchone()[0]
+            if crypted_string(request.form['password']) == pwd:
+                user_id = cur.execute('SELECT id FROM Users WHERE email = ?',\
+                                    (request.form['email'],))\
+                                    .fetchone()[0]
                 conn.close()
+                session['logged'] = user_id
                 return redirect(url_for('index'))
-        else:
-            return 'Unknown http method'
+
+            conn.close()
+            return redirect(url_for('index'))           # Il manque l'affichage  du message d'erreur
+                                                            # coté html
+        conn.close()
+        return redirect(url_for('index'))
+
+    return 'Unknown http method'
 
 
 # Sign up view
