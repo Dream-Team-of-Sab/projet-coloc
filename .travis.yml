@@ -1,14 +1,15 @@
-language: python
-python:
-  - "3.5"
-  
 install:
   - pipenv install
-  - install docker
 
-script:
-  - make test
-  - make build
-  - make deliver
+dist: trusty
+jobs:
+  include:
+    - stage: build docker image
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - make build
+      - make deliver
 
-
+    - stage: tests
+      script:
+      - make test
