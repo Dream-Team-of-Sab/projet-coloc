@@ -14,7 +14,7 @@ test:
 	docker run -it $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG) pipenv run pytest
 
 deliver: 
-	docker login 
+	echo "$(DOCKERHUB_PASSWORD)" | docker login -u "$(DOCKERHUB_USERNAME)" --password-stdin
 	docker tag $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG) $(DOCKERHUB_USERNAME)/$(IMAGE):latest	
 	docker push $(DOCKERHUB_USERNAME)/$(IMAGE):latest
 	
