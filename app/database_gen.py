@@ -1,14 +1,15 @@
 #!/usr/bin/env python
+'''Create database'''
 # -*- coding: utf-8 -*-
 
 import psycopg2
 from functions import crypted_string
 
 #Ouverture connexion
-conn = psycopg2.connect("host=localhost dbname=app user=app password=app")
-cur = conn.cursor()
+CONN = psycopg2.connect("host=localhost dbname=app user=app password=app")
+CUR = CONN.cursor()
 
-cur.execute(
+CUR.execute(
     '''
     CREATE TABLE IF NOT EXISTS Colocations (
         id SERIAL PRIMARY KEY,
@@ -17,7 +18,7 @@ cur.execute(
     );
     '''
 )
-cur.execute( 
+CUR.execute( 
     '''
     CREATE TABLE IF NOT EXISTS Users (
     	id SERIAL PRIMARY KEY,
@@ -27,11 +28,11 @@ cur.execute(
         password VARCHAR(255) NOT NULL,
 	id_colocation INTEGER,
 	    FOREIGN KEY (id_colocation)
-       	    REFERENCES Colocations (id) 
+       	REFERENCES Colocations (id) 
     );
     '''
 )
-cur.execute(
+CUR.execute(
     '''
     CREATE TABLE IF NOT EXISTS Invoices (
         id SERIAL PRIMARY KEY,
@@ -46,7 +47,7 @@ cur.execute(
     );
     '''
 )
-cur.execute(
+CUR.execute(
     '''
     CREATE TABLE IF NOT EXISTS Meals (
         id SERIAL PRIMARY KEY,
@@ -59,24 +60,24 @@ cur.execute(
     '''
 )
 #Ajout colocation
-coloc= ('Coloc', '6 rue de Rougemont, 75000, Paris, France')
-cur.execute('''INSERT INTO Colocations (name, address) VALUES (%s, %s)''', coloc)
+COLOC = ('Coloc', '6 rue de Rougemont, 75000, Paris, France')
+CUR.execute('''INSERT INTO Colocations (name, address) VALUES (%s, %s)''', COLOC)
 
 #Ajout compte admin
-admin = ('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 1)
+ADMIN = ('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 1)
 # ('maxanceribeiro@live.fr', 'maxanceribeiro@live.fr')
 
-cur.execute('''INSERT INTO Users (first_name, last_name, email, password, id_colocation)
-             VALUES (%s, %s, %s, %s, %s)''', admin) 
-	    # WHERE NOT EXISTS (SELECT %s FROM Users WHERE email = %s)''', admin)
+CUR.execute('''INSERT INTO Users (first_name, last_name, email, password, id_colocation)
+VALUES (%s, %s, %s, %s, %s)''', ADMIN) 
+# WHERE NOT EXISTS (SELECT %s FROM Users WHERE email = %s)''', admin)
 
 #Ajout fausse facture
-invoice =('Loyer', 29.99, True, '01/01/01', 'details', '1')
-cur.execute('''INSERT INTO Invoices (title, price, type, date, details, id_paying_user)
-             VALUES (%s, %s, %s, %s, %s, %s)''', invoice)
+INVOICE = ('Loyer', 29.99, True, '01/01/01', 'details', '1')
+CUR.execute('''INSERT INTO Invoices (title, price, type, date, details, id_paying_user)
+VALUES (%s, %s, %s, %s, %s, %s)''', INVOICE)
 
 #Sauvegarde des changements
-conn.commit()
+CONN.commit()
 #Fermeture connexion
-cur.close()
-conn.close()
+CUR.close()
+CONN.close()
