@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
-from app import app
 import psycopg2
 import hashlib
 from flask import redirect, render_template, session, url_for, request
+from app import app
+from werkzeug.utils import secure_filename
+ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 
 #
 def crypted_string(string):
@@ -15,6 +16,10 @@ def crypted_string(string):
     b_string=string.encode()
     crypted_str=hashlib.sha1(b_string)
     return crypted_str.hexdigest()
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 
 # Login view
 @app.route('/', methods=['GET', 'POST'])
@@ -47,12 +52,11 @@ def login():
                 else:
                     cur.close()
                     conn.close()
-                    return redirect(url_for('index'))           # Il manque l'affichage  du message d'erreur
-                                                                # coté html
+                    return render_template('login', error = True)
             else:
                 cur.close()
                 conn.close()
-                return redirect(url_for('index'))
+                return render_template('login', error = True)
         else:
             return 'Unknown http method'
 
@@ -88,7 +92,7 @@ def signup():
             user_id = cur.execute('SELECT id FROM Users WHERE email = %s', (email,)).fetchone()[0]
             session['logged'] = user_id
             cur.close()
-            c = conn.close()
+            conn.close()
             return redirect(url_for('index'))
     else:
         return "Unknown method"
@@ -109,13 +113,6 @@ def index():
         elif request.method == 'POST':
             conn = psycopg2.connect("host=localhost dbname=app user=app password=app")
             cur = conn.cursor()
-#Pour l'ajout de facture
-#           invoice_list = cur.execute('SELECT title FROM Invoices').fetchone() 
-#           if request.form['title'] in invoice_list :
-#               cur.close() 
-#               conn.close() 
-#               return render_template('index.html') #, existing_title = True)
-#           else:
             title = request.form['title']
             date = request.form['date']
             price = request.form['price']
@@ -123,7 +120,14 @@ def index():
             cur.execute('''INSERT INTO Invoices (title, date, price, details)
                             VALUES (%s, %s, %s, %s)''', (title, date, price, details)
                        )
+            invoice = request.files['file']
+            file_name = invoice.filename
+            if invoice and allowed_file(invoice.filename):
+                file_name = secure_filename(invoice.filename)
+                invoice.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
             conn.commit()
+            cur.close()
+            conn.close()
             return redirect(url_for('index'))
         else:
             return "Unknown method"
