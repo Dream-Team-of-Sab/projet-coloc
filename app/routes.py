@@ -111,8 +111,7 @@ def index():
             number = request.form['number']
             id_eating_user = id_user
             cur.execute('''INSERT INTO Meals (date, number, id_eating_user) 
-                        VALUES (?, ?, ?)''', (date, number, id_eating_user)
-
+                        VALUES (?, ?, ?)''', (date, number, id_eating_user))
             conn.commit()
             cur.close()
             conn.close()
