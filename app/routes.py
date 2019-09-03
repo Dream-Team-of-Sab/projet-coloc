@@ -100,12 +100,12 @@ def index():
 
             if request.form.get('yes'): 
                 cur.execute('''INSERT INTO Invoices (title, date, pro-rata,  price, details)
-                            VALUES (?, ?, ?, ?)''', (title, date, True, price, details)
+                            VALUES (?, ?, ?, ? ,?)''', (title, date, True, price, details)
                        )
 
             elif request.form.get('no'):
                 cur.execute('''INSERT INTO Invoices (title, date, pro-rata,  price, details)
-                            VALUES (?, ?, ?, ?)''', (title, date, False, price, details)
+                            VALUES (?, ?, ?, ?, ?)''', (title, date, False, price, details)
                        )
 
             invoice = request.files['file']
