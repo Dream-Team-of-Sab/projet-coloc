@@ -1,27 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from app import app
 import sqlite3
 import hashlib
 from flask import redirect, render_template, session, url_for, request
+from app import app
+from app import functions
 
-#
-def crypted_string(string):
-    """
-    Fonction permettant de crypter une chaine de caractère avec le protocole sha1.
-    La fonction retourne un nombre hexadécimal.
-    """
-    b_string = string.encode()
-    crypted_str = hashlib.sha1(b_string)
-    return crypted_str.hexdigest()
 
-# Login view
+
+# login view
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     """
-    Vue de la page de connexion
+    vue de la page de connexion
     """
     if 'logged' in session.keys():
         return redirect(url_for('index'))
@@ -35,7 +28,7 @@ def login():
             pwd = cur.execute('SELECT password FROM Users WHERE email = ?',\
                             (request.form['email'],))\
                             .fetchone()[0]
-            if crypted_string(request.form['password']) == pwd:
+            if functions.crypted_string(request.form['password']) == pwd:
                 user_id = cur.execute('SELECT id FROM Users WHERE email = ?',\
                                     (request.form['email'],))\
                                     .fetchone()[0]
@@ -49,22 +42,22 @@ def login():
         conn.close()
         return redirect(url_for('index'))
 
-    return 'Unknown http method'
+    return 'unknown http method'
 
 
-# Sign up view
+# sign up view
 @app.route('/signup/', methods=['GET', 'POST'])
 def signup():
     """
-    Vue de la page de inscription
+    vue de la page de inscription
     """
     if request.method == 'GET':
         return render_template('sign.html')
 
     elif request.method == 'POST':
-        conn = sqlite3.connect('app/app_database.db')
-        c = conn.cursor()
-        email_list = c.execute('SELECT email FROM Users').fetchone()
+        conn = sqlite3.connect('app/api_flat.db')
+        cur = conn.cursor()
+        email_list = cur.execute('SELECT email FROM Users').fetchone()
         if request.form['email'] in email_list :
             conn.close()
             return render_template('sign.html') #, existing_email = True) # Il manque l'affichage du message
@@ -77,23 +70,23 @@ def signup():
             password = request.form['password']
             cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
                          VALUES (?, ?, ?, ?)''',\
-                         (first_name, last_name, email, crypted_string(password)))
+                         (first_name, last_name, email, functions.crypted_string(password)))
 
             conn.commit()
             user_id = cur.execute('SELECT id FROM Users WHERE email = ?', (email,)).fetchone()[0]
             session['logged'] = user_id
             cur.close()
-            c = conn.close()
+            conn.close()
             return redirect(url_for('index'))
     else:
         return "Unknown method"
 
 
-# Index view
+# index view
 @app.route('/index/', methods=['GET', 'POST'])
 def index():
     """
-    Vue de la page d'accueil
+    vue de la page d'accueil
     """
     if 'logged' not in session.keys():
         return redirect(url_for('login'))
@@ -102,9 +95,9 @@ def index():
             return render_template('index.html')
 
         elif request.method == 'POST':
-            conn = sqlite3.connect('app/app_database.db')
+            conn = sqlite3.connect('app/api_flat.db')
             cur = conn.cursor()
-#Pour l'ajout de facture
+#pour l'ajout de facture
 #           invoice_list = cur.execute('SELECT title FROM Invoices').fetchone() 
 #           if request.form['title'] in invoice_list :
 #               cur.close() 

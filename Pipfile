@@ -11,6 +11,6 @@ flask = "*"
 pylint = "*"
 pytest = "*"
 pytest-flask = "*"
-psycopg2 = "*"
+sqlite3 = "*"
 
 [requires]
