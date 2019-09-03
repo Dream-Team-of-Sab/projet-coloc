@@ -27,6 +27,14 @@
                 </svg>
             </a>
         </div>
+
+	<div>
+	     <form>
+		     <button type="submit" class="mt-4 mr-4">Se déconnecter</button>
+	     </form>	 
+	 
+	</div>
+
     </header>
     <div class="container-fluid">
         <div class="row index-item">
@@ -92,7 +100,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action='' method='POST'>
+                            <form action='' method='post' enctype="multipart/form-data">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="recipient-name" placeholder="Intitulé de la facture" name="title">
                                 </div>
@@ -107,11 +115,11 @@
                                 </div>
                                 <p>Mettre au pro-rata</p>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="yes">
                                     <label class="form-check-label" for="inlineCheckbox1">Oui</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="no">
                                     <label class="form-check-label" for="inlineCheckbox2">Non</label>
                                 </div>
                                 <div class="form-group mt-3">

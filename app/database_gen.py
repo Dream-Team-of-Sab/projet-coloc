@@ -38,7 +38,7 @@ CUR.execute(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title VARCHAR(255) NOT NULL,
         price DECIMAL NOT NULL,
-        type BOOL NOT NULL,
+        pro-rata BOOL NOT NULL,
         date DATE NOT NULL,
         details VARCHAR(255) NOT NULL,
         id_paying_user INTEGER,
@@ -70,7 +70,7 @@ SELECT ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT ? FROM Users WHERE email = ?)''', 
 
 #Ajout fausse facture
 INVOICE = ('Loyer', 29.99, True, '01/01/01', 'details', '1')
-CUR.execute('''INSERT INTO Invoices (title, price, type, date, details, id_paying_user)
+CUR.execute('''INSERT INTO Invoices (title, price, pro-rata, date, details, id_paying_user)
 SELECT ?, ?, ?, ?, ?, ?''', INVOICE)
 
 #Sauvegarde des changements

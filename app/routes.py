@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 from app import app
 from app import functions
 
+UPLOAD_FOLDER = '/vagrant/app/projet-coloc/app/templates/uploads'
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 
 # login view
@@ -96,14 +97,22 @@ def index():
             date = request.form['date']
             price = request.form['price']
             details = request.form['details']
-            cur.execute('''INSERT INTO Invoices (title, date, price, details)
-                            VALUES (?, ?, ?, ?)''', (title, date, price, details)
+
+            if request.form.get('yes'): 
+                cur.execute('''INSERT INTO Invoices (title, date, pro-rata,  price, details)
+                            VALUES (?, ?, ?, ?)''', (title, date, True, price, details)
                        )
+
+            elif request.form.get('no'):
+                cur.execute('''INSERT INTO Invoices (title, date, pro-rata,  price, details)
+                            VALUES (?, ?, ?, ?)''', (title, date, False, price, details)
+                       )
+
             invoice = request.files['file']
             file_name = invoice.filename
             if invoice and functions.allowed_file(invoice.filename): 
                 file_name = secure_filename(invoice.filename)
-                invoice.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+                invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
             
             email = request.form['email']
             password = request.form['password']
