@@ -3,6 +3,7 @@
 
 import sqlite3
 import hashlib
+import os
 from flask import redirect, render_template, session, url_for, request
 from werkzeug.utils import secure_filename
 from app import app
@@ -106,7 +107,8 @@ def index():
             
             email = request.form['email']
             password = request.form['password']
-            id_user = cur.execute('''SELECT id from Users WHERE email = ? AND password = ?''', (email, password)).fetchone
+            id_user = cur.execute('''SELECT id from Users
+                                    WHERE email = ? AND password = ?''', (email, password)).fetchone
             date = request.form['date']
             number = request.form['number']
             id_eating_user = id_user
