@@ -13,22 +13,22 @@ CUR.execute(
     '''
     CREATE TABLE IF NOT EXISTS Colocations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name VARCHAR(255) NOT NULL,
+        name VARCHAR(255) UNIQUE NOT NULL,
         address VARCHAR(255) NOT NULL
     );
     '''
 )
 CUR.execute(
-    ''' 
+    '''
     CREATE TABLE IF NOT EXISTS Users (
-    	id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         first_name VARCHAR(255) NOT NULL,
         last_name VARCHAR(255) NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
-	id_colocation INTEGER,
-	    FOREIGN KEY (id_colocation)
-       	REFERENCES Colocations (id) 
+        id_colocation INTEGER,
+        FOREIGN KEY (id_colocation)
+        REFERENCES Colocations (id)
     );
     '''
 )
@@ -38,24 +38,24 @@ CUR.execute(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title VARCHAR(255) NOT NULL,
         price DECIMAL NOT NULL,
-	type BOOL NOT NULL,
-	date DATE NOT NULL,
-	details VARCHAR(255) NOT NULL,
-	id_paying_user INTEGER,
-	    FOREIGN KEY (id_paying_user)
-	    REFERENCES Users (id)
+        type BOOL NOT NULL,
+        date DATE NOT NULL,
+        details VARCHAR(255) NOT NULL,
+        id_paying_user INTEGER,
+        FOREIGN KEY (id_paying_user)
+        REFERENCES Users (id)
     );
     '''
 )
 CUR.execute(
     '''
-    CREATE TABLE IF NOT EXISTS Meals (
+     CREATE TABLE IF NOT EXISTS Meals (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-	date DATE NOT NULL,
+        date DATE NOT NULL,
         number FLOAT NOT NULL,
         id_eating_user INTEGER,
-	    FOREIGN KEY (id_eating_user)
-	    REFERENCES Users (id)
+        FOREIGN KEY (id_eating_user)
+        REFERENCES Users (id)
     );
     '''
 )
@@ -70,7 +70,7 @@ SELECT ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT ? FROM Users WHERE email = ?)''', 
 
 #Ajout fausse facture
 INVOICE = ('Loyer', 29.99, True, '01/01/01', 'details', '1')
-CUR.execute('''INSERT INTO Invoices (title, price, type, date, details, id_paying_user) 
+CUR.execute('''INSERT INTO Invoices (title, price, type, date, details, id_paying_user)
 SELECT ?, ?, ?, ?, ?, ?''', INVOICE)
 
 #Sauvegarde des changements

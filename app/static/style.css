@@ -74,14 +74,14 @@ ul{
 /* FORMS */
 .form-control, .form-group ::placeholder{
     background-color: transparent !important; 
-    color: #2828282b !important;
+    color: #282828 !important;
 }
 
 .form-control:focus{
     border-color: transparent !important; 
 }
 
-form{
+.login form, .sign form{
     padding: 80px 50px;
     -webkit-box-shadow: 43px 3px 38px #00000016; 
     box-shadow: 43px 3px 38px #00000016; 
