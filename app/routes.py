@@ -50,6 +50,8 @@ def signup():
     vue de la page de inscription
     """
     if request.method == 'GET':
+        return render_template ('sign.html')
+    
     elif request.method == 'POST':
         conn = sqlite3.connect('app/api_flat.db')
         cur = conn.cursor()
@@ -101,7 +103,19 @@ def index():
             if invoice and functions.allowed_file(invoice.filename): 
                 file_name = secure_filename(invoice.filename)
                 invoice.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+            
+            email = request.form['email']
+            password = request.form['password']
+            id_user = cur.execute('''SELECT id from Users WHERE email = ? AND password = ?''', (email, password)).fetchone
+            date = request.form['date']
+            number = request.form['number']
+            id_eating_user = id_user
+            cur.execute('''INSERT INTO Meals (date, number, id_eating_user) 
+                        VALUES (?, ?, ?)''', (date, number, id_eating_user)
+
             conn.commit()
+            cur.close()
+            conn.close()
             return redirect(url_for('index'))
         else:
             return "Unknown method"
