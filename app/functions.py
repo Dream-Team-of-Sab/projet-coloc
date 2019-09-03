@@ -13,3 +13,11 @@ def crypted_string(string):
     b_string=string.encode() 
     crypted_str=hashlib.sha1(b_string) 
     return crypted_str.hexdigest()
+
+# Index view
+def allowed_file(filename):
+    """
+    Récupère puis vérifie que l'extension est bien
+    dans la liste des extensions autorisées
+    """
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
