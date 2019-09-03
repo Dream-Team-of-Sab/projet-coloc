@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from app import app
-import psycopg2
+import sqlite3
 import hashlib
 from flask import redirect, render_template, session, url_for, request
 
@@ -28,7 +28,7 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
-        conn = sqlite3.connect('app/app_database.db')
+        conn = sqlite3.connect('app/api_flat.db')
         cur = conn.cursor()
         user_mail_list = [a[0] for a in cur.execute('SELECT email FROM Users').fetchall()]
         if request.form['email'] in user_mail_list:
@@ -76,11 +76,11 @@ def signup():
             email = request.form['email']
             password = request.form['password']
             cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
-                         VALUES (%s, %s, %s, %s)''',\
+                         VALUES (?, ?, ?, ?)''',\
                          (first_name, last_name, email, crypted_string(password)))
 
             conn.commit()
-            user_id = cur.execute('SELECT id FROM Users WHERE email = %s', (email,)).fetchone()[0]
+            user_id = cur.execute('SELECT id FROM Users WHERE email = ?', (email,)).fetchone()[0]
             session['logged'] = user_id
             cur.close()
             c = conn.close()
@@ -102,7 +102,7 @@ def index():
             return render_template('index.html')
 
         elif request.method == 'POST':
-            conn = psycopg2.connect("dbname=app/app_database.db user=postgres password=postgres")
+            conn = sqlite3.connect('app/app_database.db')
             cur = conn.cursor()
 #Pour l'ajout de facture
 #           invoice_list = cur.execute('SELECT title FROM Invoices').fetchone() 
@@ -116,7 +116,7 @@ def index():
             price = request.form['price']
             details = request.form['details']
             cur.execute('''INSERT INTO Invoices (title, date, price, details)
-                            VALUES (%s, %s, %s, %s)''', (title, date, price, details)
+                            VALUES (?, ?, ?, ?)''', (title, date, price, details)
                        )
             conn.commit()
             return redirect(url_for('index'))
