@@ -98,22 +98,29 @@ def index():
         elif request.method == 'POST':
             conn = sqlite3.connect('app/api_flat.db')
             cur = conn.cursor()
-#Pour l'ajout de facture
-#           invoice_list = cur.execute('SELECT title FROM Invoices').fetchone() 
-#           if request.form['title'] in invoice_list :
-#               cur.close() 
-#               conn.close() 
-#               return render_template('index.html') #, existing_title = True) !! Stopped here!
-#           else:
+
+            #Add invoice
             title = request.form['title']
             date = request.form['date']
             price = request.form['price']
             details = request.form['details']
 
             if request.form.get('yes'): 
-                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
-                            VALUES (?, ?, ?, ? ,?)''', (title, date, True, price, details)
-                       )
+                    cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
+                                VALUES (?, ?, ?, ? ,?)''', (title, date, True, price, details)
+                        )
+
+                elif request.form.get('no'):
+                    cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
+                                VALUES (?, ?, ?, ?, ?)''', (title, date, False, price, details)
+                        )
+            #Download invoice
+                invoice = request.files['file']
+                file_name = invoice.filename
+                if invoice and functions.allowed_file(invoice.filename): 
+                    file_name = secure_filename(invoice.filename)
+                    invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
+
             conn.commit()
             cur.close()
             conn.close()
