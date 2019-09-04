@@ -54,9 +54,9 @@ def signup():
     if request.method == 'GET':
         return render_template ('sign.html')
     elif request.method == 'POST':
-        conn = sqlite3.connect('app/app_database.db')
-        c = conn.cursor()
-        email_list = c.execute('SELECT email FROM Users').fetchone()
+        conn = sqlite3.connect('app/api_flat.db')
+        cur = conn.cursor()
+        email_list = cur.execute('SELECT email FROM Users').fetchone()
         if request.form['email'] in email_list :
             conn.close()
             return render_template('sign.html') #, existing_email = True)
@@ -71,7 +71,6 @@ def signup():
             conn.commit()
             user_id = cur.execute('SELECT id FROM Users WHERE email = ?', (email,)).fetchone()[0]
             session['logged'] = user_id
-            cur.close()
             conn.close()
             return redirect(url_for('index'))
     else:
@@ -125,7 +124,6 @@ def index():
             cur.execute('''INSERT INTO Colocations (name, address)
                         VALUES (?, ?)''', (new_name, new_address))
             conn.commit()
-            cur.close()
             conn.close()
             return redirect(url_for('index'))
         else:
