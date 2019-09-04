@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 from app import app
 from app import functions
 
-UPLOAD_FOLDER = '/vagrant/app/projet-coloc/app/templates/uploads'
+UPLOAD_FOLDER = 'app/templates/uploads'
 
 # login view
 @app.route('/', methods=['GET', 'POST'])
@@ -96,33 +96,35 @@ def index():
             date = request.form['date']
             price = request.form['price']
             details = request.form['details']
-            if request.form.get('yes'):
-                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
-                                VALUES (?, ?, ?, ? ,?)''', (title, date, True, price, details))
-            elif request.form.get('no'):
-                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
-                                VALUES (?, ?, ?, ?, ?)''', (title, date, False, price, details))
+#           if request.form.get('yes'):
+#               cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
+#                               VALUES (?, ?, ?, ? ,?)''', (title, date, True, price, details))
+#           elif request.form.get('no'):
+#               cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
+#                               VALUES (?, ?, ?, ?, ?)''', (title, date, False, price, details))
+            cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
+                            VALUES (?, ?, ?, ? ,?)''', (title, date, True, price, details))
             #Download invoice
-            invoice = request.files['file']
-            file_name = invoice.filename
-            if invoice and functions.allowed_file(invoice.filename):
-                file_name = secure_filename(invoice.filename)
-                invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
+#           invoice = request.files['fic']
+#           file_name = invoice.filename
+#           if invoice and functions.allowed_file(invoice.filename):
+#               file_name = secure_filename(invoice.filename)
+#               invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
             #Add meal
-            email = request.form['email']
-            password = request.form['password']
-            id_user = cur.execute('''SELECT id from Users
-                                    WHERE email = ? AND password = ?''', (email, password)).fetchone()
-            date = request.form['date']
-            number = request.form['number']
-            id_eating_user = id_user
-            cur.execute('''INSERT INTO Meals (date, number, id_eating_user)
-                        VALUES (?, ?, ?)''', (date, number, id_eating_user))
-            #Add new colocation
-            new_name = request.form['new_name']
-            new_address = request.form['new_address']
-            cur.execute('''INSERT INTO Colocations (name, address)
-                        VALUES (?, ?)''', (new_name, new_address))
+#           email = request.form['email']                   # J'ai beau chercher, je ne vois pas d'où viennent 'email' et 'password'
+#           password = request.form['password']
+#           id_user = cur.execute('''SELECT id from Users
+#                                   WHERE email = ? AND password = ?''', (email, password)).fetchone()
+#           date = request.form['date']
+#           number = request.form['number']
+#           id_eating_user = id_user
+#           cur.execute('''INSERT INTO Meals (date, number, id_eating_user)
+#                       VALUES (?, ?, ?)''', (date, number, id_eating_user))
+#           #Add new colocation
+#           new_name = request.form['new_name']
+#           new_address = request.form['new_address']
+#           cur.execute('''INSERT INTO Colocations (name, address)
+#                       VALUES (?, ?)''', (new_name, new_address))
             conn.commit()
             conn.close()
             return redirect(url_for('index'))
