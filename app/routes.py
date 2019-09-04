@@ -121,6 +121,23 @@ def index():
                     file_name = secure_filename(invoice.filename)
                     invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
 
+            #Add meal
+            email = request.form['email']
+            password = request.form['password']
+            id_user = cur.execute('''SELECT id from Users
+                                    WHERE email = ? AND password = ?''', (email, password)).fetchone
+            date = request.form['date']
+            number = request.form['number']
+            id_eating_user = id_user
+            cur.execute('''INSERT INTO Meals (date, number, id_eating_user) 
+                        VALUES (?, ?, ?)''', (date, number, id_eating_user))
+
+            #Add new colocation
+            new_name = request.form['new_name']
+            new_address = request.form['new_address']
+            cur.execute('''INSERT INTO Colocations (name, address)
+                        VALUES (?, ?)''', (new_name, new_address))
+
             conn.commit()
             cur.close()
             conn.close()
