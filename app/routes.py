@@ -42,8 +42,7 @@ def login():
                 session['logged'] = user_id
                 return redirect(url_for('index'))
             conn.close()
-            return redirect(url_for('index'))           # Il manque l'affichage  du message d'erreur
-                                                            # coté html
+            return redirect(url_for('index'))           
         conn.close()
         return redirect(url_for('index'))
 
@@ -63,8 +62,7 @@ def signup():
         email_list = c.execute('SELECT email FROM Users').fetchone()
         if request.form['email'] in email_list :
             conn.close()
-            return render_template('sign.html') #, existing_email = True) # Il manque l'affichage du message
-                                                                          # coté html
+            return render_template('sign.html') #, existing_email = True)
 
         else:
             first_name = request.form['first_name']
