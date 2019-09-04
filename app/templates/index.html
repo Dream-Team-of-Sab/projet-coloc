@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body class="index">
-    <header>
+    <header class= "d-flex justify-content-between">
         <div class="logo">
             <a href="{{ url_for('index')}}">
                 <svg id="icon-pie-chart" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
@@ -29,7 +29,7 @@
         </div>
 
 	<div>
-	     <form>
+	     <form action='' method='POST' class="sign-out">
 		     <button type="submit" class="mt-4 mr-4">Se déconnecter</button>
 	     </form>	 
 	 
@@ -75,7 +75,7 @@
                                 <div class="form-group">
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="recipient-name" placeholder="Date de consommation" name="date">
-					<input type="text" class="form-control" id="meal-number" placeholder="Nombre de repas consommés" name="number">
+					                    <input type="text" class="form-control" id="meal-number" placeholder="Nombre de repas consommés" name="number">
                                     </div>
                                 </div>
                             </div> 

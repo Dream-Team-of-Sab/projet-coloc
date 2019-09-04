@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3
-import hashlib
 import os
 from flask import redirect, render_template, session, url_for, request
 from werkzeug.utils import secure_filename
@@ -10,7 +9,6 @@ from app import app
 from app import functions
 
 UPLOAD_FOLDER = '/vagrant/app/projet-coloc/app/templates/uploads'
-ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 
 # login view
 @app.route('/', methods=['GET', 'POST'])
@@ -39,9 +37,9 @@ def login():
                 session['logged'] = user_id
                 return redirect(url_for('index'))
             conn.close()
-            return render_template('login', error = True)
+            return render_template('login.html', error = True)
         conn.close()
-        return render_template('login', error = True)
+        return render_template('login.html', error = True)
     return 'unknown http method'
 
 
@@ -99,12 +97,12 @@ def index():
             details = request.form['details']
 
             if request.form.get('yes'): 
-                cur.execute('''INSERT INTO Invoices (title, date, pro-rata,  price, details)
+                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
                             VALUES (?, ?, ?, ? ,?)''', (title, date, True, price, details)
                        )
 
             elif request.form.get('no'):
-                cur.execute('''INSERT INTO Invoices (title, date, pro-rata,  price, details)
+                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
                             VALUES (?, ?, ?, ?, ?)''', (title, date, False, price, details)
                        )
 

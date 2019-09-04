@@ -71,10 +71,20 @@ ul{
     transition: color .3s; 
 }
 
+.sign-out button{
+    border: none; 
+    background: transparent;
+    color: #2828282b; 
+}
+
+.sign-out button:hover{
+    font-size: 1.1em;
+}
+
 /* FORMS */
 .form-control, .form-group ::placeholder{
     background-color: transparent !important; 
-    color: #282828 !important;
+    color: #282828c4 !important;
 }
 
 .form-control:focus{
@@ -539,15 +549,12 @@ PAGE INDEX
     padding-top: 0px !important;
   }
 
-
-
-
 /* --------------------
 MEDIAS QUERIES
 -------------------- */
 @media (min-width: 720px){
     .index-item{
-        padding: 180px 40px 0px 40px; 
+        padding: 70px 40px 0px 40px; 
     }
 
     
