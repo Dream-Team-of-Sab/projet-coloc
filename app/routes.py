@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+'''Code api_flat in python'''
 # -*- coding: utf-8 -*-
 
 import sqlite3
@@ -18,10 +19,14 @@ def login():
     """
     vue de la page de connexion
     """
+    #Existing open session
     if 'logged' in session.keys():
         return redirect(url_for('index'))
+    
     if request.method == 'GET':
         return render_template('login.html')
+    
+    #Login
     if request.method == 'POST':
         conn = sqlite3.connect('app/api_flat.db')
         cur = conn.cursor()
@@ -56,10 +61,14 @@ def signup():
     elif request.method == 'POST':
         conn = sqlite3.connect('app/api_flat.db')
         cur = conn.cursor()
+        
+        #User in database
         email_list = cur.execute('SELECT email FROM Users').fetchone()
         if request.form['email'] in email_list :
             conn.close()
             return render_template('sign.html', existing_email = True)
+
+        #Sign in (new user)    
         else:
             first_name = request.form['first_name']
             last_name = request.form['last_name']
@@ -92,6 +101,8 @@ def index():
         elif request.method == 'POST':
             conn = sqlite3.connect('app/api_flat.db')
             cur = conn.cursor()
+            
+            #Add Invoice
             title = request.form['title']
             date = request.form['date']
             price = request.form['price']
@@ -99,12 +110,15 @@ def index():
             cur.execute('''INSERT INTO Invoices (title, date, price, details)
                             VALUES (?, ?, ?, ?)''', (title, date, price, details)
                        )
+
+            #Download invoice
             invoice = request.files['file']
             file_name = invoice.filename
             if invoice and functions.allowed_file(invoice.filename): 
                 file_name = secure_filename(invoice.filename)
                 invoice.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
             
+            #Add meal
             email = request.form['email']
             password = request.form['password']
             id_user = cur.execute('''SELECT id from Users
@@ -114,6 +128,13 @@ def index():
             id_eating_user = id_user
             cur.execute('''INSERT INTO Meals (date, number, id_eating_user) 
                         VALUES (?, ?, ?)''', (date, number, id_eating_user))
+            
+            #Add new colocation
+            new_name = request.form['new_name']
+            new_address = request.form['new_address']
+            cur.execute('''INSERT INTO Colocations (name, address)
+                        VALUES (?, ?)''', (new_name, new_address))
+            
             conn.commit()
             cur.close()
             conn.close()
