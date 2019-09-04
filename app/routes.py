@@ -25,7 +25,7 @@ def login():
         return render_template('login.html')
     #Login
     if request.method == 'POST':
-        conn = sqlite3.connect('app/api_flat.db')
+        conn = sqlite3.connect('db/api_flat.db')
         cur = conn.cursor()
         user_mail_list = [a[0] for a in cur.execute('SELECT email FROM Users').fetchall()]
         if request.form['email'] in user_mail_list:
@@ -54,7 +54,7 @@ def signup():
     if request.method == 'GET':
         return render_template ('sign.html')
     elif request.method == 'POST':
-        conn = sqlite3.connect('app/api_flat.db')
+        conn = sqlite3.connect('db/api_flat.db')
         cur = conn.cursor()
         email_list = cur.execute('SELECT email FROM Users').fetchone()
         if request.form['email'] in email_list :
@@ -89,7 +89,7 @@ def index():
         if request.method == 'GET':
             return render_template('index.html')
         elif request.method == 'POST':
-            conn = sqlite3.connect('app/api_flat.db')
+            conn = sqlite3.connect('db/api_flat.db')
             cur = conn.cursor()
             #Add invoice
             title = request.form['title']

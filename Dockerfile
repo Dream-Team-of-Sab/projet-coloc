@@ -1,8 +1,7 @@
 FROM python:3.7-buster
-# FROM debian:10
 
 RUN apt-get update \
-    && apt-get install -y sqlite3 libpq-dev
+    && apt-get install -y sqlite3
 
 RUN pip3 install pipenv
 
@@ -12,7 +11,4 @@ WORKDIR /app/
 COPY .  /app
 RUN pipenv install
 
-#pour le bash soit directement dans le fichier app
-EXPOSE 5000
-
-CMD pipenv run python3 coloc_project.py  
+CMD /bin/sh -c "pipenv run python3 db/database_gen.py; pipenv run python3 api_flat.py"
