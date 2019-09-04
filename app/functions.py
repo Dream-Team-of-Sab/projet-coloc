@@ -4,6 +4,8 @@
 import hashlib
 import os
 
+ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
+
 #cryptage des données
 def crypted_string(string):
     """

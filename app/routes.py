@@ -3,14 +3,13 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3
-import hashlib
 import os
 from flask import redirect, render_template, session, url_for, request
 from werkzeug.utils import secure_filename
 from app import app
 from app import functions
 
-ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
+UPLOAD_FOLDER = '/vagrant/app/projet-coloc/app/templates/uploads'
 
 # login view
 @app.route('/', methods=['GET', 'POST'])
@@ -43,10 +42,10 @@ def login():
                 session['logged'] = user_id
                 return redirect(url_for('index'))
             conn.close()
-            return render_template('login', error = True)
+            return redirect(url_for('index'))           # Il manque l'affichage  du message d'erreur
+                                                            # coté html
         conn.close()
-        return render_template('login', error = True)
-    return 'unknown http method'
+        return redirect(url_for('index'))
 
 
 # sign up view
@@ -59,16 +58,14 @@ def signup():
         return render_template ('sign.html')
     
     elif request.method == 'POST':
-        conn = sqlite3.connect('app/api_flat.db')
-        cur = conn.cursor()
-        
-        #User in database
-        email_list = cur.execute('SELECT email FROM Users').fetchone()
+        conn = sqlite3.connect('app/app_database.db')
+        c = conn.cursor()
+        email_list = c.execute('SELECT email FROM Users').fetchone()
         if request.form['email'] in email_list :
             conn.close()
-            return render_template('sign.html', existing_email = True)
+            return render_template('sign.html') #, existing_email = True) # Il manque l'affichage du message
+                                                                          # coté html
 
-        #Sign in (new user)    
         else:
             first_name = request.form['first_name']
             last_name = request.form['last_name']
@@ -101,40 +98,22 @@ def index():
         elif request.method == 'POST':
             conn = sqlite3.connect('app/api_flat.db')
             cur = conn.cursor()
-            
-            #Add Invoice
+#Pour l'ajout de facture
+#           invoice_list = cur.execute('SELECT title FROM Invoices').fetchone() 
+#           if request.form['title'] in invoice_list :
+#               cur.close() 
+#               conn.close() 
+#               return render_template('index.html') #, existing_title = True) !! Stopped here!
+#           else:
             title = request.form['title']
             date = request.form['date']
             price = request.form['price']
             details = request.form['details']
-            cur.execute('''INSERT INTO Invoices (title, date, price, details)
-                            VALUES (?, ?, ?, ?)''', (title, date, price, details)
-                       )
 
-            #Download invoice
-            invoice = request.files['file']
-            file_name = invoice.filename
-            if invoice and functions.allowed_file(invoice.filename): 
-                file_name = secure_filename(invoice.filename)
-                invoice.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
-            
-            #Add meal
-            email = request.form['email']
-            password = request.form['password']
-            id_user = cur.execute('''SELECT id from Users
-                                    WHERE email = ? AND password = ?''', (email, password)).fetchone
-            date = request.form['date']
-            number = request.form['number']
-            id_eating_user = id_user
-            cur.execute('''INSERT INTO Meals (date, number, id_eating_user) 
-                        VALUES (?, ?, ?)''', (date, number, id_eating_user))
-            
-            #Add new colocation
-            new_name = request.form['new_name']
-            new_address = request.form['new_address']
-            cur.execute('''INSERT INTO Colocations (name, address)
-                        VALUES (?, ?)''', (new_name, new_address))
-            
+            if request.form.get('yes'): 
+                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
+                            VALUES (?, ?, ?, ? ,?)''', (title, date, True, price, details)
+                       )
             conn.commit()
             cur.close()
             conn.close()
