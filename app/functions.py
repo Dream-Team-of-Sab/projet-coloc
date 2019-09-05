@@ -22,4 +22,7 @@ def allowed_file(filename):
     Récupère puis vérifie que l'extension est bien
     dans la liste des extensions autorisées
     """
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    if '.' in filename and filename.split('.')[-1] in ALLOWED_EXTENSIONS: 
+        return True 
+    else: 
+        return False  

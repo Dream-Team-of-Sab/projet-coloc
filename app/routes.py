@@ -91,25 +91,27 @@ def index():
         elif request.method == 'POST':
             conn = sqlite3.connect('db/api_flat.db')
             cur = conn.cursor()
+            
             #Add invoice
             title = request.form['title']
             date = request.form['date']
             price = request.form['price']
             details = request.form['details']
-#           if request.form.get('yes'):
-#               cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
-#                               VALUES (?, ?, ?, ? ,?)''', (title, date, True, price, details))
-#           elif request.form.get('no'):
-#               cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
-#                               VALUES (?, ?, ?, ?, ?)''', (title, date, False, price, details))
-            cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
-                            VALUES (?, ?, ?, ? ,?)''', (title, date, True, price, details))
+            if request.form.get('yes'):
+                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
+                                VALUES (?, ?, ?, ? ,?)''', (title, date, 'yes', price, details))
+            elif request.form.get('no'):
+                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
+                                VALUES (?, ?, ?, ?, ?)''', (title, date, 'no', price, details))
+            
+            
             #Download invoice
-#           invoice = request.files['fic']
-#           file_name = invoice.filename
-#           if invoice and functions.allowed_file(invoice.filename):
-#               file_name = secure_filename(invoice.filename)
-#               invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
+            invoice = request.files['file']
+            file_name = invoice.filename
+            if functions.allowed_file(invoice.filename): 
+                file_name = secure_filename(invoice.filename)
+                invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
+            
             #Add meal
 #           email = request.form['email']                   # J'ai beau chercher, je ne vois pas d'où viennent 'email' et 'password'
 #           password = request.form['password']

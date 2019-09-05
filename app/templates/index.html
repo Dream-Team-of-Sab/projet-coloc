@@ -54,7 +54,7 @@
             </div>
             
 
-            <!-- MODAL ENREGRISTER UN REPAS -->
+            <!-- MODAL ENREGRISTER UN REPAS
             <div class="modal fade" id="mealModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -71,7 +71,7 @@
                             <form action='' method='POST'>
                                 <div class="form-group">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="recipient-name" placeholder="Date de consommation" name="date">
+					    <input type="text" class="form-control" id="recipient-name" placeholder="Date de consommation" name="date">
                                     </div>
                                 </div>
                             </div> 
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+	    </div> -->
 
             <!-- MODAL/ FORMULAIRE AJOUT DE FACTURE -->
             <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -109,6 +109,28 @@
                                 <div class="form-group">
                                     <textarea class="form-control" id="message-text" placeholder="Liste des achats" name="details"></textarea>
                                 </div>
+				<p>Mettre au pro-rata</p>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="yes">
+                                    <label class="form-check-label" for="inlineCheckbox1">Oui</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="no">
+                                    <label class="form-check-label" for="inlineCheckbox2">Non</label>
+				</div>
+				<div class="form-group mt-3">
+                                    <svg id="icon-download" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                    stroke="#2a2a31" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <g class="download-arrow">
+                                        <polyline points="7 10 12 15 17 10" stroke="#ea3970"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3" stroke="#ea3970"></line>
+                                    </svg>
+                                    <label for="exampleFormControlFile1">Télécharger la facture</label>
+				    <input type="file" name="file">
+				    <button type="submit" class="bt btn-2 mt-4">Valider</button>
+                                </div>
+
 				   <button type="submit" class="bt btn-2 mt-4">Valider</button>
                                 </div>
                             </form>

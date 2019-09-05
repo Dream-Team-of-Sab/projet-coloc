@@ -38,7 +38,7 @@ CUR.execute(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title VARCHAR(255) NOT NULL,
         price DECIMAL NOT NULL,
-        prorata BOOL NOT NULL,
+        prorata VARCHAR (5) NOT NULL,
         date DATE NOT NULL,
         details VARCHAR(255) NOT NULL,
         id_paying_user INTEGER,
@@ -60,8 +60,9 @@ CUR.execute(
     '''
 )
 #Ajout colocation
-COLOC = ('Coloc', '6 rue de Rougemont, 75000, Paris, France')
-CUR.execute('''INSERT INTO Colocations (name, address) VALUES (?, ?)''', COLOC)
+COLOC = ('Coloc', '6 rue de Rougemont, 75000, Paris, France', 'Coloc')
+CUR.execute('''INSERT INTO Colocations (name, address) SELECT ?, ?
+        WHERE NOT EXISTS (SELECT * FROM Colocations WHERE NAME = ? )''', COLOC)
 
 #Ajout compte admin
 ADMIN = ('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 1, 'maxanceribeiro@live.fr', 'maxanceribeiro@live.fr')
@@ -69,7 +70,7 @@ CUR.execute('''INSERT INTO Users (first_name, last_name, email, password, id_col
 SELECT ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT ? FROM Users WHERE email = ?)''', ADMIN)
 
 #Ajout fausse facture
-INVOICE = ('Loyer', 29.99, True, '01/01/01', 'details', '1')
+INVOICE = ('Loyer', 29.99, 'yes', '01/01/01', 'details', '1')
 CUR.execute('''INSERT INTO Invoices (title, price, prorata, date, details, id_paying_user)
 SELECT ?, ?, ?, ?, ?, ?''', INVOICE)
 

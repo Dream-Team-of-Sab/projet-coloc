@@ -5,3 +5,9 @@
 app/__pycache__
 tmp/
 venv/
+*.pdf
+*.jpg
+*.jpeg
+*.png
+
+
