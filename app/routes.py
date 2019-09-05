@@ -86,44 +86,54 @@ def index():
         return redirect(url_for('login'))
     else:
         if request.method == 'GET':
-            return render_template('index.html')
+            return render_template('index.html', modal=None)
         elif request.method == 'POST':
             conn = sqlite3.connect('db/api_flat.db')
             cur = conn.cursor()
-            #Add invoice
-            title = request.form['title']
-            date = request.form['date']
-            price = request.form['price']
-            details = request.form['details']
-            if request.form.get('yes'):
-                prorata = "yes"
-            elif request.form.get('no'):
-                prorata = "no"
-            cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details, id_paying_user)
-                        VALUES (?, ?, ?, ?, ?, ?)''', (title, date, prorata, price, details, session['logged']))
-            invoice_id = cur.execute('''SELECT id_paying_user FROM Invoices
-                                     WHERE (title = ? AND date = ? AND price = ? AND details = ?)''', (title, date, price, details)).fetchone()[0]
-            #Download invoice
-            invoice = request.files['file']
-            file_name = invoice.filename
-            if functions.allowed_file(invoice.filename):
-                file_name = str(invoice_id) + '.' + invoice.filename.split('.')[-1]
-                invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
-            #Add meal
-            #il faut récupérer l'id de la personne qui s'est connectée
-#           date = request.form['m-date']
-#           number = request.form['quantity']
-#           id_eating_user = id_user
-#           cur.execute('''INSERT INTO Meals (date, number, id_eating_user)
-#                      VALUES (?, ?, ?)''', (date, number, id_eating_user))
-#           #Add new colocation
-#           new_name = request.form['new_name']
-#           new_address = request.form['new_address']
-#           cur.execute('''INSERT INTO Colocations (name, address)
-#                       VALUES (?, ?)''', (new_name, new_address))
-            conn.commit()
-            conn.close()
-            return redirect(url_for('index'))
+            if request.form['index_btn'] == 'invoice':
+                #Add invoice
+                title = request.form['title']
+                date = request.form['date']
+                price = request.form['price']
+                if request.form.get('yes'):
+                    prorata = "yes"
+                elif request.form.get('no'):
+                    prorata = "no"
+                details = request.form['details']
+                id_user = session['logged']
+                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details, id_paying_user)
+                            VALUES (?, ?, ?, ?, ?, ?)''', (title, date, prorata, price, details, id_user))
+                invoice_id = cur.execute('''SELECT id FROM Invoices
+                                         WHERE (title = ? 
+                                         AND date = ? 
+                                         AND price = ? 
+                                         AND details = ?
+                                         AND id_paying_user = ?)''', (title, date, price, details, id_user)).fetchone()[0]
+                #Download invoice
+                invoice = request.files['file']
+                file_name = invoice.filename
+                if functions.allowed_file(invoice.filename):
+                    file_name = str(invoice_id) + '.' + invoice.filename.split('.')[-1]
+                    invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
+                conn.commit()
+                conn.close()
+                return redirect(url_for('index'))
+            elif request.form['index_btn'] == 'meal':
+                #Add meal
+                #il faut récupérer l'id de la personne qui s'est connectée
+                date = request.form['mdate']
+                number = request.form['quantity']
+                id_user = session['logged']
+                cur.execute('''INSERT INTO Meals (date, number, id_eating_user)
+                           VALUES (?, ?, ?)''', (date, number, id_user))
+                #Add new colocation
+#               new_name = request.form['new_name']
+#               new_address = request.form['new_address']
+#               cur.execute('''INSERT INTO Colocations (name, address)
+#                           VALUES (?, ?)''', (new_name, new_address))
+                conn.commit()
+                conn.close()
+                return redirect(url_for('index'))
         else:
             return "Unknown method"
 

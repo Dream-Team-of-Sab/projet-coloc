@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 </head>
 <body class="index">
+
     <header class= "d-flex justify-content-between">
         <div class="logo">
             <a href="{{ url_for('index')}}">
@@ -27,12 +28,11 @@
                 </svg>
             </a>
         </div>
-
-	<div>
-	    <a href="{{ url_for('logout') }}" class="mt-4 mr-4">Se déconnecter</a>
-	</div>
-
+	    <div>
+	        <a href="{{ url_for('logout') }}" class="mt-4 mr-4">Se déconnecter</a>
+	    </div>
     </header>
+
     <div class="container-fluid">
         <div class="row index-item">
             <div class="col-12 col-md-5 side side-left">
@@ -56,108 +56,115 @@
 
 	    <!-- MODAL ENREGRISTER UN REPAS -->
          <div class="modal fade" id="mealModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="billModalLabel">Combien de plat avez-vous consommé ?</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <svg aria-hidden="true" id="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path class="close-rotate" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                        </div>
-                    </div>
-                </div>
-	 </div>
+             <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <h5 class="modal-title" id="billModalLabel">Combien de plat avez-vous consommé ?</h5>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                             <svg aria-hidden="true" id="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                 <path class="close-rotate" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                             </svg>
+                         </button>
+                     </div>
+                     <div class="modal-body">
+                         <form action='' method='post'>
+                             <div class="card card-body">
+                                 <div class="form-group">
+                                     <div class="form-group">
+                                         <input type="text" class="form-control" placeholder="Date de consommation" name="mdate">
+                                     </div>
+                                     <div class="form-group">
+                                         <input type="text" class="form-control" id="recipient-name" placeholder="Quantité" name="quantity">
+                                     </div>
+                                 </div>
+                             </div> 
+                             <div class="modal-footer d-flex justify-content-center">
+                                 <button type="submit" class="bt btn-2" name="index_btn" value="meal">Valider</button>
+                             </div>
+                         </form>
+                     </div>
+                 </div>
+             </div>
+	    </div>
 
 	    <!-- MODAL/ FORMULAIRE AJOUT DE FACTURE -->
-           <!-- <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="billModalLabel">Ajouter une nouvelle facture</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <svg aria-hidden="true" id="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path class="close-rotate" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action='' method='post' enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="recipient-name" placeholder="Intitulé de la facture" name="title">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="recipient-name" placeholder="Date d'achat" name="date">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control"  placeholder="Montant" name="price">
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" id="message-text" placeholder="Liste des achats" name="details"></textarea>
-                                </div>
-				<p>Mettre au pro-rata</p>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="yes">
-                                    <label class="form-check-label" for="inlineCheckbox1">Oui</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="no">
-                                    <label class="form-check-label" for="inlineCheckbox2">Non</label>
-				</div>
-				<div class="form-group mt-3">
-                                    <svg id="icon-download" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+        <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="billModalLabel">Ajouter une nouvelle facture</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <svg aria-hidden="true" id="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path class="close-rotate" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action='' method='post' enctype="multipart/form-data">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="recipient-name" placeholder="Intitulé de la facture" name="title">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="recipient-name" placeholder="Date d'achat" name="date">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"  placeholder="Montant" name="price">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" id="message-text" placeholder="Liste des achats" name="details"></textarea>
+                            </div>
+	    	                 <p>Mettre au pro-rata</p>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="yes">
+                                <label class="form-check-label" for="inlineCheckbox1">Oui</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="no">
+                                <label class="form-check-label" for="inlineCheckbox2">Non</label>
+	    	                 </div>
+	    	                 <div class="form-group mt-3">
+                                <svg id="icon-download" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                                     stroke="#2a2a31" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                     <g class="download-arrow">
-                                        <polyline points="7 10 12 15 17 10" stroke="#ea3970"></polyline>
-                                        <line x1="12" y1="15" x2="12" y2="3" stroke="#ea3970"></line>
-                                    </svg>
-                                    <label for="exampleFormControlFile1">Télécharger la facture</label>
-				    <input type="file" name="file">
-				 </div>
-				 <div class="modal-footer d-flex justify-content-center">
-				    <button type="submit" class="bt btn-2 mt-4">Valider</button>
-<<<<<<< HEAD
-                                </div>
-				   <button type="submit" class="bt btn-2 mt-4">Valider</button>
-                                </div>
-=======
-				 </div>
-                               </div>
->>>>>>> ab24483927314222570a2913ec62047c4a1baa79
-                            </form>
-                        </div>
+                                    <polyline points="7 10 12 15 17 10" stroke="#ea3970"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3" stroke="#ea3970"></line>
+                                </svg>
+                                <label for="exampleFormControlFile1">Télécharger la facture</label>
+	    	                     <input type="file" name="file">
+	    	                 </div>
+	    	                 <div class="modal-footer d-flex justify-content-center">
+	    	                     <button type="submit" class="bt btn-2 mt-4" name="index_btn" value="invoice">Valider</button>
+	    	                 </div>
+                        </form>
                     </div>
                 </div>
-	</div> -->
+            </div>
+	    </div>
+    </div>
+       
+    <!-- DASHBOARD -->
+    <h3 class="text-center mt-5">Récapitulatif</h3>
+    <div class="row index-item dashboard mt-4 d-flex justify-content-center">
+        <div class="col-12 col-md-5 side side-left">
+            <div class="row d-flex flex-column">
+                <h6 class="text-center p-3">Factures enregistrées</h6>
+                <ul>
+                    <li class="text-center p-3">Electricité - Montant total : 312 euros</li>
+                    <li class="text-center p-3">Courses Montant total : 75 euros </li>
+                </ul>  
+            </div>
         </div>
-        
-        <!-- DASHBOARD -->
-        <h3 class="text-center mt-5">Récapitulatif</h3>
-        <div class="row index-item dashboard mt-4 d-flex justify-content-center">
-                <div class="col-12 col-md-5 side side-left">
-                    <div class="row d-flex flex-column">
-                        <h6 class="text-center p-3">Factures enregistrées</h6>
-                        <ul>
-                            <li class="text-center p-3">Electricité - Montant total : 312 euros</li>
-                            <li class="text-center p-3">Courses Montant total : 75 euros </li>
-                        </ul>  
-                    </div>
-                </div>
-                <div class="col-12 col-md-5 side side-right">
-                    <div class="row d-flex flex-column ">
-                        <h6 class="text-center p-3">Qui doit combien à qui ?</h6>
-                        <ul>
-                            <li class="text-center p-3">Lila doit 12 euros à Clémence pour l'éléctricite</li>
-                            <li class="text-center p-3">Clémence doit 45 euros à David pour les courses</li>
-                        </ul>  
-                    </div>
-                </div>       
-        </div>
+        <div class="col-12 col-md-5 side side-right">
+            <div class="row d-flex flex-column ">
+                <h6 class="text-center p-3">Qui doit combien à qui ?</h6>
+                <ul>
+                    <li class="text-center p-3">Lila doit 12 euros à Clémence pour l'éléctricite</li>
+                    <li class="text-center p-3">Clémence doit 45 euros à David pour les courses</li>
+                </ul>  
+            </div>
+        </div>       
+    </div>
 
-    </div>        
 </body>
 </html>

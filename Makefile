@@ -1,14 +1,17 @@
-DOCKERHUB_USERNAME ?= $(shell whoami)
-IMAGE := appy_flat
+DOCKERHUB_USERNAME := thomasbar
+IMAGE := api_flat
 TAG := $(shell TZ=UTC date +"%Y%m%d")
 
 all: 
 
 build:
-	docker build -t $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG) .
+	sudo docker build -t $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG) .
 
 run: 
-	@echo "Please use docker-compose to run this project"
+	sudo docker run -it -p 5000:5000 $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG)
+
+rund:
+	sudo docker run -d -p 5000:5000 $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG)
 
 test: 
 	docker run -it $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG) pipenv run pytest
