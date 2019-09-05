@@ -4,6 +4,7 @@
 *.pyc
 app/__pycache__
 tmp/
+*.lock
 venv/
 *.pdf
 *.jpg

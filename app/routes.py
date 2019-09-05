@@ -5,7 +5,6 @@
 import sqlite3
 import os
 from flask import redirect, render_template, session, url_for, request
-from werkzeug.utils import secure_filename
 from app import app
 from app import functions
 
@@ -40,10 +39,10 @@ def login():
                 session['logged'] = user_id
                 return redirect(url_for('index'))
             conn.close()
-            return redirect(url_for('index'))
+            return render_template('login.html', error = True)
         conn.close()
-        return redirect(url_for('index'))
-
+        return render_template('login.html', error = True)
+    return 'Wrong http method. How did oyou get here ?!'
 
 # sign up view
 @app.route('/signup/', methods=['GET', 'POST'])
@@ -91,7 +90,6 @@ def index():
         elif request.method == 'POST':
             conn = sqlite3.connect('db/api_flat.db')
             cur = conn.cursor()
-            
             #Add invoice
             title = request.form['title']
             date = request.form['date']
@@ -101,24 +99,23 @@ def index():
                 prorata = "yes"
             elif request.form.get('no'):
                 prorata = "no"
-
-            cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
-                        VALUES (?, ?, ?, ?, ?)''', (title, date, prorata, price, details))
-            
-            
+            cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details, id_paying_user)
+                        VALUES (?, ?, ?, ?, ?, ?)''', (title, date, prorata, price, details, session['logged']))
+            invoice_id = cur.execute('''SELECT id_paying_user FROM Invoices
+                                     WHERE (title = ? AND date = ? AND price = ? AND details = ?)''', (title, date, price, details)).fetchone()[0]
             #Download invoice
             invoice = request.files['file']
             file_name = invoice.filename
-            if functions.allowed_file(invoice.filename): 
-                file_name = secure_filename(invoice.filename)
+            if functions.allowed_file(invoice.filename):
+                file_name = str(invoice_id) + '.' + invoice.filename.split('.')[-1]
                 invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
             #Add meal
             #il faut récupérer l'id de la personne qui s'est connectée
-            date = request.form['m-date']
-            number = request.form['quantity']
-            id_eating_user = id_user
-            cur.execute('''INSERT INTO Meals (date, number, id_eating_user)
-                       VALUES (?, ?, ?)''', (date, number, id_eating_user))
+#           date = request.form['m-date']
+#           number = request.form['quantity']
+#           id_eating_user = id_user
+#           cur.execute('''INSERT INTO Meals (date, number, id_eating_user)
+#                      VALUES (?, ?, ?)''', (date, number, id_eating_user))
 #           #Add new colocation
 #           new_name = request.form['new_name']
 #           new_address = request.form['new_address']

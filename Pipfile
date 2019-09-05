@@ -11,6 +11,5 @@ flask = "*"
 pylint = "*"
 pytest = "*"
 pytest-flask = "*"
-psycopg2 = "*"
 
 [requires]
