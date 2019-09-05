@@ -52,7 +52,7 @@ CUR.execute(
      CREATE TABLE IF NOT EXISTS Meals (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date DATE NOT NULL,
-        number FLOAT NOT NULL,
+        number INT NOT NULL,
         id_eating_user INTEGER,
         FOREIGN KEY (id_eating_user)
         REFERENCES Users (id)

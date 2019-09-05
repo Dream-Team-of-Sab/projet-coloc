@@ -98,11 +98,12 @@ def index():
             price = request.form['price']
             details = request.form['details']
             if request.form.get('yes'):
-                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
-                                VALUES (?, ?, ?, ? ,?)''', (title, date, 'yes', price, details))
+                prorata = "yes"
             elif request.form.get('no'):
-                cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
-                                VALUES (?, ?, ?, ?, ?)''', (title, date, 'no', price, details))
+                prorata = "no"
+
+            cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
+                        VALUES (?, ?, ?, ?, ?)''', (title, date, prorata, price, details))
             
             
             #Download invoice
@@ -111,17 +112,13 @@ def index():
             if functions.allowed_file(invoice.filename): 
                 file_name = secure_filename(invoice.filename)
                 invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
-            
             #Add meal
-#           email = request.form['email']                   # J'ai beau chercher, je ne vois pas d'où viennent 'email' et 'password'
-#           password = request.form['password']
-#           id_user = cur.execute('''SELECT id from Users
-#                                   WHERE email = ? AND password = ?''', (email, password)).fetchone()
-#           date = request.form['date']
-#           number = request.form['number']
-#           id_eating_user = id_user
-#           cur.execute('''INSERT INTO Meals (date, number, id_eating_user)
-#                       VALUES (?, ?, ?)''', (date, number, id_eating_user))
+            #il faut récupérer l'id de la personne qui s'est connectée
+            date = request.form['m-date']
+            number = request.form['quantity']
+            id_eating_user = id_user
+            cur.execute('''INSERT INTO Meals (date, number, id_eating_user)
+                       VALUES (?, ?, ?)''', (date, number, id_eating_user))
 #           #Add new colocation
 #           new_name = request.form['new_name']
 #           new_address = request.form['new_address']
