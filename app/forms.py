@@ -46,6 +46,6 @@ def add_flat(form, id_user):
     new_address = form['new_address']
     cur.execute('''INSERT INTO Colocations (name, address)
                VALUES (?, ?)''', (new_name, new_address))
-    id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (new_name,))
+    id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (new_name,)).fetchone()[0]
     cur.execute('''UPDATE Users SET id_colocation=? WHERE id=?''', (id_coloc, id_user))
     db.commit()
