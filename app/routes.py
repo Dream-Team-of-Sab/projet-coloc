@@ -114,9 +114,9 @@ def index():
                 invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
             #Add meal
             #il faut récupérer l'id de la personne qui s'est connectée
-            mdate = request.form['m-date']
-            quantity = request.form['quantity']
-            cur.execute('''INSERT INTO Meals (date, number)
+           # mdate = request.form['m-date']
+           # quantity = request.form['quantity']
+           # cur.execute('''INSERT INTO Meals (date, number)
                       # VALUES (?, ?)''', (mdate, quantity))
 #           #Add new colocation
 #           new_name = request.form['new_name']
