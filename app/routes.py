@@ -27,8 +27,8 @@ def login():
             if functions.crypted_string(request.form['password']) == req.sel_pwd(request.form):
                 session['logged'] = req.user_id(request.form['email'])
                 return redirect(url_for('index'))
-            return render_template('login.html', error = True)
-        return render_template('login.html', error = True)
+            return render_template('login.html', error=True)
+        return render_template('login.html', error=True)
     return 'Wrong http method. How did you get here ?!'
 
 # sign up view
@@ -40,8 +40,8 @@ def signup():
     if request.method == 'GET':
         return render_template ('sign.html')
     elif request.method == 'POST':
-        if request.form['email'] in req.user_email() :
-            return render_template('sign.html') #, existing_email = True)
+        if request.form['email'] in req.user_email():
+            return render_template('sign.html') 
         else:
             forms.signup(request.form)
             session['logged'] = req.user_id(request.form['email'])
@@ -60,11 +60,10 @@ def index():
         return redirect(url_for('login'))
     else:
         if request.method == 'GET':
-            return render_template('index.html', modal=None)
+            return render_template('index.html')
         elif request.method == 'POST':
             id_user = session['logged']
             if request.form['index_btn'] == 'invoice':
-                #Add invoice
                 forms.add_invoice(request.form, id_user)
                 functions.upload_file(request.files['file'], req.invoice_id(request.form, id_user))
                 return redirect(url_for('index'))
@@ -73,6 +72,19 @@ def index():
                 return redirect(url_for('index'))
         else:
             return "Unknown method"
+
+#Add coloc
+@app.route('/new-flat/', methods=['GET', 'POST'])
+def flat():
+    """
+    vue de la page ajout d'une colocation
+    """
+    if request.method == 'GET':
+        return render_template('new-flat.html')
+
+    if request.method == 'POST':
+        forms.add_flat(request.form)
+        return redirect(url_for('index'))
 
 @app.route('/logout/', methods=['GET'])
 def logout():

@@ -40,8 +40,10 @@ def add_meal(form, id_user):
                VALUES (?, ?, ?)''', (date, number, id_user))
     db.commit()
 
-#Add new colocation
-#   new_name = request.form['new_name']
-#   new_address = request.form['new_address']
-#   cur.execute('''INSERT INTO Colocations (name, address)
-#               VALUES (?, ?)''', (new_name, new_address))
+def add_flat(form):
+    cur = db.cursor()
+    new_name = form['new_name']
+    new_address = form['new_address']
+    cur.execute('''INSERT INTO Colocations (name, address)
+               VALUES (?, ?)''', (new_name, new_address))
+    db.commit()
