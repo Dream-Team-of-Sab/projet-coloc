@@ -81,9 +81,9 @@ def flat():
     """
     if request.method == 'GET':
         return render_template('new-flat.html')
-
     if request.method == 'POST':
-        forms.add_flat(request.form)
+        id_user = session['logged']
+        forms.add_flat(request.form, id_user)
         return redirect(url_for('index'))
 
 @app.route('/logout/', methods=['GET'])
