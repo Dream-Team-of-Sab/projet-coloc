@@ -41,6 +41,7 @@ CUR.execute(
         prorata VARCHAR (5) NOT NULL,
         date DATE NOT NULL,
         details VARCHAR(255) NOT NULL,
+        inv VARCHAR(255) , 
         id_paying_user INTEGER NOT NULL,
         FOREIGN KEY (id_paying_user)
         REFERENCES Users (id)
@@ -70,9 +71,9 @@ CUR.execute('''INSERT INTO Users (first_name, last_name, email, password, id_col
 SELECT ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT ? FROM Users WHERE email = ?)''', ADMIN)
 
 #Ajout fausse facture
-INVOICE = ('Loyer', 29.99, 'yes', '01/01/01', 'details', '1')
-CUR.execute('''INSERT INTO Invoices (title, price, prorata, date, details, id_paying_user)
-SELECT ?, ?, ?, ?, ?, ?''', INVOICE)
+INVOICE = ('Loyer', 29.99, 'yes', '01/01/01', 'details','inv', '1')
+CUR.execute('''INSERT INTO Invoices (title, price, prorata, date, details, inv, id_paying_user)
+SELECT ?, ?, ?, ?, ?, ?, ?''', INVOICE)
 
 #Sauvegarde des changements
 CONN.commit()

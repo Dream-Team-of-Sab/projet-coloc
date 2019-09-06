@@ -5,7 +5,12 @@
 import os
 from app import functions
 from db import db
+from datetime import datetime
 
+def file_date():
+   now = datetime.now()
+   dt_string = now.strftime("%d_%m_%y_%H_%M_%S")
+   return dt_string
 
 def signup(form):
     cur = db.cursor()
@@ -23,13 +28,14 @@ def add_invoice(form, id_user):
     title = form['title']
     date = form['date']
     price = form['price']
+    inv = file_date()+form['title']
     if form.get('yes'):
         prorata = "yes"
     elif form.get('no'):
         prorata = "no"
     details = form['details']
-    cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details, id_paying_user)
-                VALUES (?, ?, ?, ?, ?, ?)''', (title, date, prorata, price, details, id_user))
+    cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details, inv,id_paying_user)
+                VALUES (?, ?, ?, ?, ?, ?, ?)''', (title, date, prorata, price, details, inv, id_user))
     db.commit()
 
 def add_meal(form, id_user):

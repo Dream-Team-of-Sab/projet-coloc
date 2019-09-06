@@ -66,7 +66,7 @@ def index():
             if request.form['index_btn'] == 'invoice':
                 #Add invoice
                 forms.add_invoice(request.form, id_user)
-                functions.upload_file(request.files['file'], req.invoice_id(request.form, id_user))
+                functions.upload_file(request.files['file'])
                 return redirect(url_for('index'))
             elif request.form['index_btn'] == 'meal':
                 forms.add_meal(request.form, id_user)
