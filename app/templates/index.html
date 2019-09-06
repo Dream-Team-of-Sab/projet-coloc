@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Profil</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
     <!-- CDN de bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -29,10 +30,13 @@
             </a>
         </div>
 	    <div>
-	        <a href="{{ url_for('logout') }}" class="mt-4 mr-4">Se déconnecter</a>
+            <a href="{{ url_for('logout') }}" class="mt-5 mr-5">Se déconnecter</a>
+            <div class="d-flex justify-content-end mt-2 mr-5">
+                <a href ="#"><i class="fas fa-user-plus add_person"></i> </a>
+            </div>
 	    </div>
     </header>
-
+     
     <div class="container-fluid">
         <div class="row index-item">
             <div class="col-12 col-md-5 side side-left">
@@ -53,7 +57,6 @@
                 </div>   
             </div>
             
-
 	    <!-- MODAL ENREGRISTER UN REPAS -->
          <div class="modal fade" id="mealModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
              <div class="modal-dialog" role="document">
@@ -141,30 +144,24 @@
                 </div>
             </div>
 	    </div>
-    </div>
-       
+      </div>
+    </div> 
+
     <!-- DASHBOARD -->
-    <h3 class="text-center mt-5">Récapitulatif</h3>
-    <div class="row index-item dashboard mt-4 d-flex justify-content-center">
-        <div class="col-12 col-md-5 side side-left">
-            <div class="row d-flex flex-column">
-                <h6 class="text-center p-3">Factures enregistrées</h6>
-                <ul>
-			<a href="#">Facture edf</a>
-            
-		</ul>  
+    <div class="container mt-5">
+        <div class="row d-flex flex-column">
+            <h3 class="text-center mx-5">Dashboard</h3>
+            <div class="d-flex justify-content-center flex-column mt-4"> 
+                <a href="" class="bt btn-1 mb-4">Voir les factures</a>
+                <a href="" class="bt btn-1">Voir les comptes</a>
             </div>
         </div>
-        <div class="col-12 col-md-5 side side-right">
-            <div class="row d-flex flex-column ">
-                <h6 class="text-center p-3">Qui doit combien à qui ?</h6>
-                <ul>
-                    <li class="text-center p-3">Lila doit 12 euros à Clémence pour l'éléctricite</li>
-                    <li class="text-center p-3">Clémence doit 45 euros à David pour les courses</li>
-                </ul>  
-            </div>
-        </div>       
     </div>
+
+    <footer>
+       <p>© 2019 API FLAT </p> 
+    </footer>
+   
 
 </body>
 </html>

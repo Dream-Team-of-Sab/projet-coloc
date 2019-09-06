@@ -16,6 +16,7 @@ h3{
 
 a{
     text-decoration: none !important; 
+    color: #282828; 
 }
 
 ul{
@@ -71,15 +72,6 @@ ul{
     transition: color .3s; 
 }
 
-.sign-out button{
-    border: none; 
-    background: transparent;
-    color: #2828282b; 
-}
-
-.sign-out button:hover{
-    font-size: 1.1em;
-}
 
 /* FORMS */
 .form-control, .form-group ::placeholder{
@@ -542,12 +534,15 @@ PAGE INDEX
   }
 
   /* DASHBOARD */
-.dashboard{
-    display: flex; 
-    justify-content: center;
-    border: 1px solid red; 
-    padding-top: 0px !important;
-  }
+.block2 a{
+   margin-top : 30px;    
+}
+
+  /* ADD PERSON */
+.add_person p {
+    font-size: 2em; 
+    margin-right: 25px;  
+}
 
 /* --------------------
 MEDIAS QUERIES
