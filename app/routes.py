@@ -74,13 +74,13 @@ def index():
             return "Unknown method"
 
 #Add coloc
-@app.route('/new-flat/', methods=['GET', 'POST'])
+@app.route('/flat/', methods=['GET', 'POST'])
 def flat():
     """
     vue de la page ajout d'une colocation
     """
     if request.method == 'GET':
-        return render_template('new-flat.html')
+        return render_template('flat.html')
     if request.method == 'POST':
         id_user = session['logged']
         forms.add_flat(request.form, id_user)

@@ -40,12 +40,12 @@ def add_meal(form, id_user):
                VALUES (?, ?, ?)''', (date, number, id_user))
     db.commit()
 
-def add_flat(form, user_id):
+def add_flat(form, id_user):
     cur = db.cursor()
     new_name = form['new_name']
     new_address = form['new_address']
     cur.execute('''INSERT INTO Colocations (name, address)
                VALUES (?, ?)''', (new_name, new_address))
-        id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (new_name,))
-    cur.execute('''UPDATE Users SET id_colocation=? WHERE id=?''', (id_coloc, id_user)
+    id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (new_name,))
+    cur.execute('''UPDATE Users SET id_colocation=? WHERE id=?''', (id_coloc, id_user))
     db.commit()
