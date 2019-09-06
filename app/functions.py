@@ -3,6 +3,8 @@
 
 import hashlib
 import os
+from datetime import datetime 
+from werkzeug.utils import secure_filename
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 UPLOAD_FOLDER = 'app/templates/uploads'
@@ -28,12 +30,19 @@ def allowed_file(filename):
     else: 
         return False  
 
-def upload_file(up_file, invoice_id):
+
+def file_date():
+    now = datetime.now()
+    dt_string = now.strftime("%d_%m_%y_%H_%M_%S")
+    return dt_string
+
+
+def upload_file(up_file):
     """
     Fonction permettant d'uploader une photo de la facturette
     d'un utilisateur
     """
     file_name = up_file.filename
     if allowed_file(file_name):
-        file_name = str(invoice_id) + '.' + file_name.split('.')[-1]
-        up_file.save(os.path.join(UPLOAD_FOLDER, file_name))
+        new_file_name = file_date()+'_'+secure_filename(file_name)
+        up_file.save(os.path.join(UPLOAD_FOLDER, new_file_name))
