@@ -25,7 +25,7 @@ def invoice_id(form, id_user):
                              AND id_paying_user = ?)''', (form['title'], form['date'], form['price'], form['details'], id_user)).fetchone()[0]
     return invoice_id
 
-def sel_pwd(form, id_user):
+def sel_pwd(form):
     cur = db.cursor()
     pwd = cur.execute('SELECT password FROM Users WHERE email = ?',\
                       (form['email'],)).fetchone()[0]

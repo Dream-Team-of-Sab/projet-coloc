@@ -24,7 +24,7 @@ def login():
     #Login
     if request.method == 'POST':
         if request.form['email'] in req.user_email():
-            if functions.crypted_string(request.form['password']) == sel_pwd(request.form):
+            if functions.crypted_string(request.form['password']) == req.sel_pwd(request.form):
                 session['logged'] = req.user_id(request.form['email'])
                 return redirect(url_for('index'))
             return render_template('login.html', error = True)
