@@ -5,6 +5,7 @@ import hashlib
 import os
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
+UPLOAD_FOLDER = 'app/templates/uploads'
 
 #cryptage des données
 def crypted_string(string):
@@ -26,3 +27,13 @@ def allowed_file(filename):
         return True 
     else: 
         return False  
+
+def upload_file(up_file, invoice_id):
+    """
+    Fonction permettant d'uploader une photo de la facturette
+    d'un utilisateur
+    """
+    file_name = up_file.filename
+    if allowed_file(file_name):
+        file_name = str(invoice_id) + '.' + file_name.split('.')[-1]
+        up_file.save(os.path.join(UPLOAD_FOLDER, file_name))

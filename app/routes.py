@@ -1,15 +1,13 @@
 #!/usr/bin/env python
-'''Code api_flat in python'''
+'''View code of api_flat app'''
 # -*- coding: utf-8 -*-
 
 import sqlite3
 import os
 from flask import redirect, render_template, session, url_for, request
-from werkzeug.utils import secure_filename
 from app import app
 from app import functions
-
-UPLOAD_FOLDER = 'app/templates/uploads'
+from app import forms
 
 # login view
 @app.route('/', methods=['GET', 'POST'])
@@ -40,10 +38,10 @@ def login():
                 session['logged'] = user_id
                 return redirect(url_for('index'))
             conn.close()
-            return redirect(url_for('index'))
+            return render_template('login.html', error = True)
         conn.close()
-        return redirect(url_for('index'))
-
+        return render_template('login.html', error = True)
+    return 'Wrong http method. How did you get here ?!'
 
 # sign up view
 @app.route('/signup/', methods=['GET', 'POST'])
@@ -57,18 +55,13 @@ def signup():
         conn = sqlite3.connect('db/api_flat.db')
         cur = conn.cursor()
         email_list = cur.execute('SELECT email FROM Users').fetchone()
+        conn.close()
         if request.form['email'] in email_list :
-            conn.close()
             return render_template('sign.html') #, existing_email = True)
         else:
-            first_name = request.form['first_name']
-            last_name = request.form['last_name']
-            email = request.form['email']
-            password = request.form['password']
-            cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
-                         VALUES (?, ?, ?, ?)''',\
-                         (first_name, last_name, email, functions.crypted_string(password)))
-            conn.commit()
+            forms.signup(request.form)
+            conn = sqlite3.connect('db/appi_flat.db')
+            cur = conn.cursor()
             user_id = cur.execute('SELECT id FROM Users WHERE email = ?', (email,)).fetchone()[0]
             session['logged'] = user_id
             conn.close()
@@ -87,45 +80,27 @@ def index():
         return redirect(url_for('login'))
     else:
         if request.method == 'GET':
-            return render_template('index.html')
+            return render_template('index.html', modal=None)
         elif request.method == 'POST':
-            conn = sqlite3.connect('db/api_flat.db')
-            cur = conn.cursor()
-            
-            #Add invoice
-            title = request.form['title']
-            date = request.form['date']
-            price = request.form['price']
-            details = request.form['details']
-            if request.form.get('yes'):
-                prorata = "yes"
-            elif request.form.get('no'):
-                prorata = "no"
-
-            cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details)
-                        VALUES (?, ?, ?, ?, ?)''', (title, date, prorata, price, details))
-            
-            
-            #Download invoice
-            invoice = request.files['file']
-            file_name = invoice.filename
-            if functions.allowed_file(invoice.filename): 
-                file_name = secure_filename(invoice.filename)
-                invoice.save(os.path.join(UPLOAD_FOLDER, file_name))
-            #Add meal
-            #il faut récupérer l'id de la personne qui s'est connectée
-           # mdate = request.form['m-date']
-           # quantity = request.form['quantity']
-           # cur.execute('''INSERT INTO Meals (date, number)
-                      # VALUES (?, ?)''', (mdate, quantity))
-#           #Add new colocation
-#           new_name = request.form['new_name']
-#           new_address = request.form['new_address']
-#           cur.execute('''INSERT INTO Colocations (name, address)
-#                       VALUES (?, ?)''', (new_name, new_address))
-            conn.commit()
-            conn.close()
-            return redirect(url_for('index'))
+            id_user = session['logged']
+            if request.form['index_btn'] == 'invoice':
+                #Add invoice
+                forms.add_invoice(request.form, id_user)
+                conn = sqlite3.connect('db/api_flat.db')
+                cur = conn.cursor()
+                invoice_id = cur.execute('''SELECT id FROM Invoices
+                                         WHERE (title = ? 
+                                         AND date = ? 
+                                         AND price = ? 
+                                         AND details = ?
+                                         AND id_paying_user = ?)''', (request.form['title'], request.form['date'], request.form['price'], request.form['details'], id_user)).fetchone()[0]
+                conn.commit()
+                conn.close()
+                functions.upload_file(request.files['file'], invoice_id)
+                return redirect(url_for('index'))
+            elif request.form['index_btn'] == 'meal':
+                forms.add_meal(request.form, id_user)
+                return redirect(url_for('index'))
         else:
             return "Unknown method"
 
