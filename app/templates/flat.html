@@ -14,7 +14,26 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     
 </head>
-<body class="bg">
+
+<body class="index">
+    <header class= "d-flex justify-content-between">
+        <div class="logo">
+            <a href="{{ url_for('index')}}">
+                <svg id="icon-pie-chart" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
+                        fill="none" stroke="#2a2a31" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                    <path class="chart-data" stroke="#FEC3AC" d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                </svg>
+            </a>
+        </div>
+        <div>
+            <a href="{{ url_for('logout') }}" class="mt-5 mr-5">Se déconnecter</a>
+            <div class="d-flex justify-content-end mt-2 mr-5">
+                <a href ="{{ url_for('flat') }}"><i class="fas fa-user-plus add_person"></i> </a>
+            </div>
+        </div>
+    </header>
+  
     <div class="container-fluid login">
         <div class="row form-item d-flex justify-content-center">
             <form action="" method='POST'>
