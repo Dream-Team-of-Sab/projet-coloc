@@ -62,9 +62,9 @@ CUR.execute(
     '''
 )
 #Ajout colocation
-COLOC = ('Coloc', '6 rue de Rougemont, 75000, Paris, France', 'Coloc')
-CUR.execute('''INSERT INTO Colocations (name, address) SELECT ?, ?
-        WHERE NOT EXISTS (SELECT * FROM Colocations WHERE NAME = ? )''', COLOC)
+COLOC = ('Coloc', '6 rue de Rougemont, 75000, Paris, France', 'Coloc', 'Coloc')
+CUR.execute('''INSERT INTO Colocations (name, address, password) SELECT ?, ?, ?
+        WHERE NOT EXISTS (SELECT * FROM Colocations WHERE password = ? )''', COLOC)
 
 #Ajout compte admin
 ADMIN = ('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 1, 'maxanceribeiro@live.fr', 'maxanceribeiro@live.fr')

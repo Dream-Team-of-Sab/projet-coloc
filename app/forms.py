@@ -8,9 +8,9 @@ from db import db
 from datetime import datetime
 
 def file_date():
-   now = datetime.now()
-   dt_string = now.strftime("%d_%m_%y_%H_%M_%S")
-   return dt_string
+    now = datetime.now()
+    dt_string = now.strftime("%d_%m_%y_%H_%M_%S")
+    return dt_string
 
 def signup(form):
     cur = db.cursor()
@@ -52,7 +52,7 @@ def add_flat(form, id_user):
     new_address = form['new_address']
     new_password = form['new_password']
     cur.execute('''INSERT INTO Colocations (name, address, password)
-               VALUES (?, ?, ?)''', (new_name, new_address, functions.crypted_string(new_password)))
+               VALUES (?, ?, ?)''', (new_name, new_address, new_password))
     id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (new_name,)).fetchone()[0]
     cur.execute('''UPDATE Users SET id_colocation=? WHERE id=?''', (id_coloc, id_user))
     db.commit()
@@ -61,10 +61,10 @@ def add_person(form, id_user):
     cur = db.cursor()
     flat_name = form['flat_name']
     flat_password = form['flat_password']
-    name_exist = cur.execute('''SELECT name from Colocations WHERE name=?''', (flat_name,).fetchone[0])
-    if name_exist is not NONE:
-        pwd = cur.execute('''SELECT password FROM Colocations WHERE name=?''', (flat_name,).fetchone[0])
-        id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (flat_name,).fetchone[0])
+    name_exist = cur.execute('''SELECT name from Colocations WHERE name=?''', (flat_name,)).fetchone()[0]
+    if name_exist is not None:
+        pwd = cur.execute('''SELECT password FROM Colocations WHERE name=?''', (flat_name,)).fetchone()[0]
+        id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (flat_name,)).fetchone()[0]
         if flat_password == pwd:
             cur.execute('''UPDATE Users SET id_colocation=? WHERE id=?''', (id_coloc, id_user))
     db.commit()
