@@ -1,0 +1,33 @@
+version: '3'
+services:
+
+  # serveur applicatif
+  python:
+    image: python:latest
+    restart: always
+    networks:
+      test_network:
+    volumes:
+      - ./db_src/:/src/db_gen/
+    command: ping -i 60 db
+
+  # base de données
+  db:
+    image: postgres:11.5
+    restart: always
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: youwillneverguess
+      POSTGRES_DB: api_flat_dev
+    networks:
+      test_network:
+    ports:
+      - 5432:5432
+    volumes:
+      - dev_data:/var/lib/postgresql/data/
+
+# permet de configurer le réseau "virtuel" dans le docker engine
+networks:
+  test_network:
+volumes:
+  dev_data:
