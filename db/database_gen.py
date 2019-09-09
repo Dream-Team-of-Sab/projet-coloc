@@ -13,8 +13,9 @@ CUR.execute(
     '''
     CREATE TABLE IF NOT EXISTS Colocations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name VARCHAR(255) UNIQUE NOT NULL,
-        address VARCHAR(255) NOT NULL
+        name VARCHAR(255) NOT NULL,
+        address VARCHAR(255) NOT NULL,
+        password VARCHAR(255) UNIQUE NOT NULL
     );
     '''
 )
