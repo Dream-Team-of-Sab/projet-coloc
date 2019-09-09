@@ -84,6 +84,7 @@ def flat():
     if request.method == 'POST':
         id_user = session['logged']
         forms.add_flat(request.form, id_user)
+        forms.add_person(request.form, id_user)
         return redirect(url_for('index'))
 
 @app.route('/logout/', methods=['GET'])
