@@ -52,19 +52,23 @@ def add_flat(form, id_user):
     new_address = form['new_address']
     new_password = form['new_password']
     cur.execute('''INSERT INTO Colocations (name, address, password)
-               VALUES (?, ?, ?)''', (new_name, new_address, new_password))
+               VALUES (?, ?, ?)''', (new_name, new_address, functions.crypted_string(new_password)))
     id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (new_name,)).fetchone()[0]
     cur.execute('''UPDATE Users SET id_colocation=? WHERE id=?''', (id_coloc, id_user))
     db.commit()
-    
+
 def add_person(form, id_user):
     cur = db.cursor()
     flat_name = form['flat_name']
     flat_password = form['flat_password']
-    name_exist = cur.execute('''SELECT name from Colocations WHERE name=?''', (flat_name,)).fetchone()[0]
+    name_exist = cur.execute('''SELECT name from Colocations
+                            WHERE name=?''', (flat_name,)).fetchone()[0]
     if name_exist is not None:
-        pwd = cur.execute('''SELECT password FROM Colocations WHERE name=?''', (flat_name,)).fetchone()[0]
-        id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (flat_name,)).fetchone()[0]
-        if flat_password == pwd:
-            cur.execute('''UPDATE Users SET id_colocation=? WHERE id=?''', (id_coloc, id_user))
+        pwd = cur.execute('''SELECT password FROM Colocations
+                            WHERE name=?''', (flat_name,)).fetchone()[0]
+        id_coloc = cur.execute('''SELECT id FROM Colocations
+                            WHERE name=?''', (flat_name,)).fetchone()[0]
+        if functions.crypted_string(flat_password) == pwd:
+            cur.execute('''UPDATE Users SET id_colocation=?
+                            WHERE id=?''', (id_coloc, id_user))
     db.commit()
