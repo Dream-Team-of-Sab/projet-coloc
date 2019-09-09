@@ -11,4 +11,4 @@ WORKDIR /app/
 COPY .  /app
 RUN pipenv install
 
-CMD /bin/sh -c "pipenv run python3 db/database_gen.py; pipenv run python3 api_flat.py"
+CMD /bin/sh -c "pipenv run python3 db/sqlite_database_gen.py; pipenv run python3 api_flat.py"

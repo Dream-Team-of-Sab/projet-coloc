@@ -2,7 +2,7 @@
 
 # starting the app :
 
-#  >> pipenv run python3 db/database_gen.py
+#  >> pipenv run python3 db/sqlite_database_gen.py
 #  >> pipenv run python3 api_flat.py
 
 # Docker build and run :

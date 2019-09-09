@@ -1,15 +1,18 @@
 version: '3'
+
 services:
 
   # serveur applicatif
   python:
-    image: python:latest
+    image: python:3.7-buster
     restart: always
     networks:
       test_network:
     volumes:
       - ./db_src/:/src/db_gen/
-    command: ping -i 60 db
+    command: ping -i 30 db
+    depends_on:
+      - db
 
   # base de données
   db:
@@ -22,12 +25,14 @@ services:
     networks:
       test_network:
     ports:
-      - 5432:5432
+      - 5432
     volumes:
       - dev_data:/var/lib/postgresql/data/
 
 # permet de configurer le réseau "virtuel" dans le docker engine
 networks:
   test_network:
+
+# permet de créer un dossier dossier partagé entre le container et la machine hôte (sauvegarde db)
 volumes:
   dev_data:
