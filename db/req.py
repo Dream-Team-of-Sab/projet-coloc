@@ -20,7 +20,7 @@ def user_id(email):
 
 def sel_pwd(form):
     cur = db.cursor()
-    execute('SELECT password FROM users WHERE email = %s',(form['email'],))
+    cur.execute('SELECT password FROM users WHERE email = %s',(form['email'],))
     pwd = cur.fetchall()[0][0]
     db.rollback()
     return pwd
