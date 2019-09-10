@@ -81,11 +81,16 @@ def flat():
     """
     if request.method == 'GET':
         return render_template('flat.html')
-    if request.method == 'POST':
+    elif request.method == 'POST':
         id_user = session['logged']
-       # forms.add_flat(request.form, id_user)
-        forms.add_person(request.form, id_user)
-        return redirect(url_for('index'))
+        if request.form['index_btn'] == 'flat':
+            forms.add_flat(request.form, id_user)
+            return redirect (url_for('index'))
+        elif request.form['index_btn'] == 'person':
+            forms.add_person(request.form, id_user)
+            return redirect(url_for('index'))
+    else:
+        return "Unknown method"
 
 @app.route('/logout/', methods=['GET'])
 def logout():
