@@ -13,8 +13,9 @@ CUR.execute(
     '''
     CREATE TABLE IF NOT EXISTS Colocations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name VARCHAR(255) UNIQUE NOT NULL,
-        address VARCHAR(255) NOT NULL
+        name VARCHAR(255) NOT NULL,
+        address VARCHAR(255) NOT NULL,
+        password VARCHAR(255) UNIQUE NOT NULL
     );
     '''
 )
@@ -61,9 +62,9 @@ CUR.execute(
     '''
 )
 #Ajout colocation
-COLOC = ('Coloc', '6 rue de Rougemont, 75000, Paris, France', 'Coloc')
-CUR.execute('''INSERT INTO Colocations (name, address) SELECT ?, ?
-        WHERE NOT EXISTS (SELECT * FROM Colocations WHERE NAME = ? )''', COLOC)
+COLOC = ('Coloc', '6 rue de Rougemont, 75000, Paris, France', 'Coloc', 'Coloc')
+CUR.execute('''INSERT INTO Colocations (name, address, password) SELECT ?, ?, ?
+        WHERE NOT EXISTS (SELECT * FROM Colocations WHERE password = ? )''', COLOC)
 
 #Ajout compte admin
 ADMIN = ('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 1, 'maxanceribeiro@live.fr', 'maxanceribeiro@live.fr')
