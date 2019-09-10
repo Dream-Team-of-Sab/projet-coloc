@@ -1,44 +1,41 @@
-version: "3.4"
+version: '3'
 
 services:
-  db:
-    image: postgres
-    restart: "no"
-    environment:
-      POSTGRES_PASSWORD: app
-      POSTGRES_USER: app
-      POSTGRES_DB: app
-      
-    volumes:
-      - postgresql_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - backend
-  
-  app:
+
+  # serveur applicatif
+  python:
     build: .
-    restart: "no"
-   # volumes:
-   #   - factures_data:/app/factures
-    ports:
-      - "5000:5000"
-   #scale: 2
+    restart: always
     networks:
-      - backend
+      test_network:
+    volumes:
+      - .:/api_flat/.
+    working_dir: /api_flat
+    command: bash -c 'pipenv install; pipenv run python db/database_gen.py; pipenv run python api_flat.py'
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
 
-  #proxy:
-    #image:
-    #networks:
-     #- backend
+  # base de données
+  db:
+    image: postgres:11.5
+    restart: always
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: youwillneverguess
+      POSTGRES_DB: api_flat_dev
+    networks:
+      test_network:
+    ports:
+      - 5432
+    volumes:
+      - dev_data:/var/lib/postgresql/data/
 
-volumes:
-  postgresql_data:
-
-#on déclare un volume pour stocker les facturettes (voir où Flask enregistre les datas)
-#volumes:
-# factures_data:
-
-#on déclare un réseau pour lier les différents conteneurs entre eux
+# permet de configurer le réseau "virtuel" dans le docker engine
 networks:
-  backend:
+  test_network:
+
+# permet de créer un dossier dossier partagé entre le container et la machine hôte (sauvegarde db)
+volumes:
+  dev_data:

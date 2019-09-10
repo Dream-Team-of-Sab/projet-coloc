@@ -1,5 +1,5 @@
-import sqlite3
+import psycopg2
 
-db = sqlite3.connect('db/api_flat.db', check_same_thread=False)
+db = psycopg2.connect("host=db dbname=api_flat_dev user=dev password=youwillneverguess")
 
 from db import req

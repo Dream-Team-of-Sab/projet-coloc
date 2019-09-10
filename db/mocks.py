@@ -29,7 +29,7 @@ INVOICE_MOCK_INSERT =['''
 		('foo', 111.11, 'yes', '01/01/01', 'foo bar foo bar foo bar', 1, 1)]
 
 # Database connexion
-conn = psycopg2.connect("host=db dbname=api_flat_dev password=youwilneverguess")
+conn = psycopg2.connect("host=db dbname=api_flat_dev user=dev password=youwillneverguess")
 cur = conn.cursor()
 
 # Mocks creation

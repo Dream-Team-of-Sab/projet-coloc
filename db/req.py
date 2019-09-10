@@ -6,17 +6,21 @@ from db import db
 def user_email(*args):
     if len(args) == 0:
         cur = db.cursor()
-        email_list = [a[0] for a in cur.execute('SELECT email FROM Users').fetchall()]
+        cur.execute('SELECT email FROM users')
+        email_list = [a[0] for a in cur.fetchall()]
+        db.rollback
         return email_list
 
 def user_id(email):
     cur = db.cursor()
-    user_id = cur.execute('SELECT id FROM Users WHERE email = ?',\
-    (email,)).fetchone()[0]
+    cur.execute('SELECT id FROM users WHERE email = %s', (email,))
+    user_id = cur.fetchall()[0][0]
+    db.rollback()
     return user_id
 
 def sel_pwd(form):
     cur = db.cursor()
-    pwd = cur.execute('SELECT password FROM Users WHERE email = ?',\
-                      (form['email'],)).fetchone()[0]
+    execute('SELECT password FROM users WHERE email = %s',(form['email'],))
+    pwd = cur.fetchall()[0][0]
+    db.rollback()
     return pwd
