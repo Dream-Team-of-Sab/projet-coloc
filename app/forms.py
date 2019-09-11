@@ -30,6 +30,7 @@ def add_invoice(form, id_user):
     date = form['date']
     price = form['price']
     inv = file_date()+form['title']
+    path_file = 'app/templates/uploads/'+inv
     if form.get('yes'):
         prorata = "yes"
     elif form.get('no'):

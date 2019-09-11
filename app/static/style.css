@@ -545,15 +545,10 @@ PAGE INDEX
 }
 
  /* PAGE DETAIL FACTURES */
-
-.item1{
-    border: 1px solid blue;
+.add_invoice p {
+    color : #FEC3AC; 
+    font-size : 1.1em; 
 }
-
-.item2{
-    border: 1px solid red;
-}
-
 
 /* --------------------
 MEDIAS QUERIES

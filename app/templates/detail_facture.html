@@ -43,14 +43,81 @@
                 <img src="../static/img/add_bill.svg" alt="">
             </div>
             <div class="col-12 col-lg-6 item2">
-                <div class="row bf">
+                <div class="row bf d-flex justify-content-end">
+                    <p data-toggle="modal" data-target="#billModal" class="add_invoice mt-4 mr-4" >Ajouter une facture <i class="fas fa-plus-circle"></i></p>
+                </div>
+                <div class="row">
+                    <ul name="invoice_list">
+                        {% for each in list_invoice %}
+                        <li value="{{each[0]}}">{{each[0]}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+       
 
+         <!-- MODAL/ FORMULAIRE AJOUT DE FACTURE -->
+         <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="billModalLabel">Ajouter une nouvelle facture</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <svg aria-hidden="true" id="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path class="close-rotate" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action='' method='post' enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="recipient-name" placeholder="Intitulé de la facture" name="title">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="recipient-name" placeholder="Date d'achat" name="date">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control"  placeholder="Montant" name="price">
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" id="message-text" placeholder="Liste des achats" name="details"></textarea>
+                                </div>
+                                 <p>Mettre au pro-rata (obligatoire)</p>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="yes">
+                                    <label class="form-check-label" for="inlineCheckbox1">Oui</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="no">
+                                    <label class="form-check-label" for="inlineCheckbox2">Non</label>
+                                 </div>
+                                 <div class="form-group mt-3">
+                                    <svg id="icon-download" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                        stroke="#2a2a31" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <g class="download-arrow">
+                                        <polyline points="7 10 12 15 17 10" stroke="#ea3970"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3" stroke="#ea3970"></line>
+                                    </svg>
+                                    <label for="exampleFormControlFile1">Télécharger la facture</label>
+                                     <input type="file" name="file">
+                                 </div>
+                                 <div class="modal-footer d-flex justify-content-center">
+                                     <button type="submit" class="bt btn-2 mt-4" name="index_btn" value="invoice">Valider</button>
+                                 </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
 
-    </div>
+        
+
+
+
     
 </body>
 </html>

@@ -4,7 +4,8 @@
 
 import os
 from flask import redirect, render_template, session, url_for, request
-from db import db, req
+from db import req
+from db import db
 from app import app
 from app import functions
 from app import forms
@@ -85,6 +86,31 @@ def index():
         else:
             return "Unknown method"
 
+
+
+#Invoices
+@app.route('/invoice/', methods=['GET', 'POST'])
+def invoice(): 
+    """
+    vue de la page permettant de voir toutes les factures de la colocation concernée
+    """
+    if request.method == 'GET':
+        cur = db.cursor()
+        list_invoice = cur.execute('''SELECT title FROM Invoices ''').fetchall()
+        invoice = [i[0] for i in list_invoice]
+        db.commit()
+        return render_template('detail_facture.html', list_invoice = list_invoice)
+    elif request.method == 'POST':
+        id_user = session['logged']
+        forms.add_invoice(request.form, id_user)
+        functions.upload_file(request.files['file'])
+        return redirect(url_for('invoice'))
+    else:
+        return "Unknown method"
+
+    
+
+
 #Add coloc
 @app.route('/flat/', methods=['GET', 'POST'])
 def flat():
@@ -108,3 +134,6 @@ def flat():
 def logout():
     del session['logged']
     return redirect(url_for('login'))
+
+
+
