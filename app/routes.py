@@ -8,8 +8,13 @@ from db import req
 =======
 import os
 from flask import redirect, render_template, session, url_for, request
+<<<<<<< Dashboard_func
 from db import db, req
 >>>>>>> everything ready to merge with dev
+=======
+from db import req
+from db import db
+>>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
 from app import app
 from app import functions
 from app import forms
@@ -103,6 +108,7 @@ def index():
         else:
             return "Unknown method"
 
+<<<<<<< Dashboard_func
 #Invoices
 @app.route('/invoice/', methods=['GET', 'POST'])
 def invoice():
@@ -117,12 +123,38 @@ def invoice():
     elif request.method == 'POST':
         user_id = session['logged']
         forms.add_invoice(request.form, user_id)
+=======
+
+
+#Invoices
+@app.route('/invoice/', methods=['GET', 'POST'])
+def invoice(): 
+    """
+    vue de la page permettant de voir toutes les factures de la colocation concernée
+    """
+    if request.method == 'GET':
+        cur = db.cursor()
+        list_invoice = cur.execute('''SELECT title FROM Invoices ''').fetchall()
+        invoice = [i[0] for i in list_invoice]
+        db.commit()
+        return render_template('detail_facture.html', list_invoice = list_invoice)
+    elif request.method == 'POST':
+        id_user = session['logged']
+        forms.add_invoice(request.form, id_user)
+>>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
         functions.upload_file(request.files['file'])
         return redirect(url_for('invoice'))
     else:
         return "Unknown method"
 
+<<<<<<< Dashboard_func
 #Add flat
+=======
+    
+
+
+#Add coloc
+>>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
 @app.route('/flat/', methods=['GET', 'POST'])
 def flat():
     """
@@ -167,3 +199,6 @@ def logout():
     if session['logged']:
         del session['logged']
     return redirect(url_for('login'))
+
+
+

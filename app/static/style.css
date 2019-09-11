@@ -547,6 +547,7 @@ PAGE INDEX
 
  /* PAGE DETAIL FACTURES */
 <<<<<<< Dashboard_func
+<<<<<<< Dashboard_func
 .add_invoice p {
     color : #FEC3AC; 
     font-size : 1.1em; 
@@ -568,6 +569,13 @@ PAGE INDEX
 
 
 >>>>>>> creation view detail invoice
+=======
+.add_invoice p {
+    color : #FEC3AC; 
+    font-size : 1.1em; 
+}
+
+>>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
 /* --------------------
 MEDIAS QUERIES
 -------------------- */

@@ -43,6 +43,7 @@ def add_user(form):
 #        response=4
 #    return response
 
+<<<<<<< Dashboard_func
 def add_invoice(form, user_id):
     file_name = functions.file_date()+form['title']
     req.insert('invoices', 'title,price,prorata,date,details,file_name,user_id',\
@@ -53,6 +54,23 @@ def add_invoice(form, user_id):
                 form['details'],\
                 file_name,\
                 user_id)
+=======
+def add_invoice(form, id_user):
+    cur = db.cursor()
+    title = form['title']
+    date = form['date']
+    price = form['price']
+    inv = file_date()+form['title']
+    path_file = 'app/templates/uploads/'+inv
+    if form.get('yes'):
+        prorata = "yes"
+    elif form.get('no'):
+        prorata = "no"
+    details = form['details']
+    cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details, inv,id_paying_user)
+                VALUES (?, ?, ?, ?, ?, ?, ?)''', (title, date, prorata, price, details, inv, id_user))
+    db.commit()
+>>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
 
 def add_meal(form, user_id):
     req.insert('meals','date, number, user_id',\
