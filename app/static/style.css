@@ -544,13 +544,30 @@ PAGE INDEX
     margin-right: 25px;  
 }
 
+ /* PAGE DETAIL FACTURES */
+
+.item1{
+    border: 1px solid blue;
+}
+
+.item2{
+    border: 1px solid red;
+}
+
+
 /* --------------------
 MEDIAS QUERIES
 -------------------- */
 @media (min-width: 720px){
     .index-item{
         padding: 70px 40px 0px 40px; 
-    }
-
-    
+    }    
 }
+
+@media (max-width: 768px){
+    .item1{
+        display: none; 
+    }    
+}
+
+

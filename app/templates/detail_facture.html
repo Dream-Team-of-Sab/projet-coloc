@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!-- CDN de bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <title>Détail des factures</title>
+</head>
+<body class="index">
+    <header class= "d-flex justify-content-between">
+        <div class="logo">
+            <a href="{{ url_for('index')}}">
+                <svg id="icon-pie-chart" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"
+                        fill="none" stroke="#2a2a31" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                    <path class="chart-data" stroke="#FEC3AC" d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                </svg>
+            </a>
+        </div>
+        <div>
+            <a href="{{ url_for('logout') }}" class="mt-5 mr-5">Se déconnecter</a>
+            <div class="d-flex justify-content-end mt-2 mr-5">
+                <a href ="{{ url_for('flat') }}"><i class="fas fa-user-plus add_person"></i> </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container detail">
+        <div class="row d-flex justify-content-center">
+            <h3 class="mt-5">Détail des factures</h3>
+        </div>
+        <div class="row detail_item d-flex justify-content-center mt-5">
+            <div class="col-12 col-lg-6 item1">
+                <img src="../static/img/add_bill.svg" alt="">
+            </div>
+            <div class="col-12 col-lg-6 item2">
+                <div class="row bf">
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    
+</body>
+</html>
