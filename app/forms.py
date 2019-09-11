@@ -7,6 +7,36 @@ from app import functions
 from db import req
 from datetime import datetime
 from flask import render_template
+from mailjet_rest import Client
+
+def send_mail(form):
+    api_key = '4c392ed6313cbe35ff946c4a67bd5698'
+    api_secret = 'ff1d1fd6e23e34400d6b95abe8822706'
+    cur = db.cursor()
+    first_name = form['first_name']
+    email = form['email']
+    mailjet = Client(auth=(api_key, api_secret), version='v3.1')
+    data = {
+    'Messages': [
+        {
+        "From": {
+            "Email": "ribeiromaxance@gmail.com",
+            "Name": "Api'Flat"
+        },
+        "To": [
+            {
+            "Email": email,
+            "Name": first_name
+            }
+        ],
+        "Subject": "Inscription",
+        "TextPart": "Inscription",
+        "HTMLPart": "<h3>Bienvenue sur Api'Flat, l'appli de gestion de votre colocation. Votre compte a été créé avec succès",
+        "CustomID": "AppGettingStartedTest"
+        }
+    ]
+    }
+    result = mailjet.send.create(data=data)
 
 def add_user(form):
     req.insert('users', 'first_name,last_name,email,password',\

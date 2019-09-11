@@ -11,7 +11,11 @@ flask = "*"
 pylint = "*"
 pytest = "*"
 pytest-flask = "*"
+<<<<<<< Dashboard_func
 psycopg2 = "*"
 mailjet-rest = "*"
+=======
+mailjet_rest = "*"
+>>>>>>> function send_mail
 
 [requires]

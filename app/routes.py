@@ -52,9 +52,19 @@ def signup():
     if request.method == 'GET':
         return render_template ('sign.html')
     elif request.method == 'POST':
+<<<<<<< Dashboard_func
         forms.add_user(request.form)
         session['logged'] = req.select('user_id', 'users', email=request.form['email'])[0][0]
         return redirect(url_for('index'))
+=======
+        if request.form['email'] in req.user_email():
+            return render_template('sign.html') 
+        else:
+            forms.signup(request.form)
+            forms.send_mail(request.form)
+            session['logged'] = req.user_id(request.form['email'])
+            return redirect(url_for('index'))
+>>>>>>> function send_mail
     else:
         return "Unknown method"
 

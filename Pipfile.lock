@@ -2,10 +2,14 @@
     "_meta": {
         "hash": {
 <<<<<<< Dashboard_func
+<<<<<<< Dashboard_func
             "sha256": "3d8c7f27c51d5b27eca1584b3b4085d50233fa91b1dde836c149427353bdf980"
 =======
             "sha256": "2b5410035607638b86ffd5079454b52898a0c429d12c5e7eb633d5aa151c7798"
 >>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
+=======
+            "sha256": "f597a7047f55534ee509681cf782ae142f2376161214fb8e680b33b69608db2d"
+>>>>>>> function send_mail
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -41,10 +45,17 @@
         },
         "certifi": {
             "hashes": [
+<<<<<<< Dashboard_func
                 "sha256:e4f3620cfea4f83eedc95b24abd9cd56f3c4b146dd0177e83a21b4eb49e21e50",
                 "sha256:fd7c7c74727ddcf00e9acd26bba8da604ffec95bf1c2144e67aff7a8b50e6cef"
             ],
             "version": "==2019.9.11"
+=======
+                "sha256:046832c04d4e752f37383b628bc601a7ea7211496b4638f6514d0e5b9acc4939",
+                "sha256:945e3ba63a0b9f577b1395204e13c3a231f9bc0223888be653286534e5873695"
+            ],
+            "version": "==2019.6.16"
+>>>>>>> function send_mail
         },
         "chardet": {
             "hashes": [
@@ -198,6 +209,7 @@
             ],
             "version": "==19.2"
         },
+<<<<<<< Dashboard_func
         "pathlib2": {
             "hashes": [
 <<<<<<< Dashboard_func
@@ -213,6 +225,8 @@
             "version": "==2.3.4"
 >>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
         },
+=======
+>>>>>>> function send_mail
         "pluggy": {
             "hashes": [
                 "sha256:0db4b7601aae1d35b4a033282da476845aa19185c1e6964b25cf324b5e4ec3e6",
