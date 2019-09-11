@@ -60,7 +60,8 @@ def index():
         return redirect(url_for('login'))
     else:
         if request.method == 'GET':
-            return render_template('index.html')
+            id_user = session['logged']
+            forms.home_text(request.form, id_user)
         elif request.method == 'POST':
             id_user = session['logged']
             if request.form['index_btn'] == 'invoice':
