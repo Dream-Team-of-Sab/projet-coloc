@@ -36,7 +36,7 @@ def add_invoice(form, id_user):
     		INSERT INTO invoices
 		(title, price, prorata, date, details, file_path, id_user)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)''',\
-		(title, date, prorata, price, details, inv, id_user))
+		(title, price, prorata, date, details, inv, id_user))
     db.commit()
     db.rollback()
 

@@ -13,13 +13,33 @@ FLAT_MOCK_INSERT = ['''
 		WHERE NOT EXISTS (SELECT * FROM users WHERE id=%s)''',\
 		('dt_flat', '6, rue de Rougemont, 75000, Paris, France', 1)]
 
-USER_MOCK_INSERT = ['''
+USER_A_MOCK_INSERT = ['''
 		INSERT INTO users
 		(first_name, last_name, email, password, id_flat)
 		SELECT %s, %s, %s, %s, %s 
 		WHERE NOT EXISTS (SELECT * FROM users WHERE id= %s)''',\
-		('foo', 'bar', 'foo@bar', crypted_string('foofoobarbar'), 1, 1)]
+		('a', 'a', 'a_mail@foo.bar', crypted_string('foofoobarbar'), 1, 1)]
 
+USER_B_MOCK_INSERT = ['''
+		INSERT INTO users
+		(first_name, last_name, email, password, id_flat)
+		SELECT %s, %s, %s, %s, %s 
+		WHERE NOT EXISTS (SELECT * FROM users WHERE id= %s)''',\
+		('b', 'b', 'b_mail@foo.bar', crypted_string('foofoobarbar'), 1, 2)]
+
+USER_C_MOCK_INSERT = ['''
+		INSERT INTO users
+		(first_name, last_name, email, password, id_flat)
+		SELECT %s, %s, %s, %s, %s 
+		WHERE NOT EXISTS (SELECT * FROM users WHERE id= %s)''',\
+		('c', 'c', 'c_mail@foo.bar', crypted_string('foofoobarbar'), 1, 3)]
+
+USER_D_MOCK_INSERT = ['''
+		INSERT INTO users
+		(first_name, last_name, email, password, id_flat)
+		SELECT %s, %s, %s, %s, %s 
+		WHERE NOT EXISTS (SELECT * FROM users WHERE id= %s)''',\
+		('d', 'd', 'd_mail@foo.bar', crypted_string('foofoobarbar'), 1, 4)]
 
 INVOICE_MOCK_INSERT =['''
 		INSERT INTO invoices
@@ -33,10 +53,13 @@ conn = psycopg2.connect("host=db dbname=api_flat_dev user=dev password=youwillne
 cur = conn.cursor()
 
 # Mocks creation
-for sql_ins in [FLATS_TABLE_CREATE, USERS_TABLE_CREATE, INVOICES_TABLE_CREATE, MEALS_TABLE_CREATE]:
+for sql_ins in [FLATS_MOCK_INSERT, USERS_MOCK_INSERT, INVOICES_MOCK_INSERT]:
     cur.execute(sql_ins[0], sql_ins[1])
     conn.commit()
     conn.rollback()
+
+# Generate mocks meals
+
 
 # Closing database
 conn.close()
