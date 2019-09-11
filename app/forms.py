@@ -6,6 +6,7 @@ import os
 from app import functions
 from db import req
 from datetime import datetime
+from flask import render_template
 
 def add_user(form):
     req.insert('users', 'first_name,last_name,email,password',\
@@ -79,6 +80,7 @@ def add_flatmate(form, user_id):
             cur.execute('''UPDATE Users SET id_colocation=?
                             WHERE id=?''', (id_coloc, id_user))
     db.commit()
+<<<<<<< Dashboard_func
 
 def home_text(form, id_user):
     cur= db.cursor()
@@ -94,3 +96,5 @@ def home_text(form, id_user):
       ¦ return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat) 
     db.commit()
 >>>>>>> add text in home
+=======
+>>>>>>> everything ready to merge with dev

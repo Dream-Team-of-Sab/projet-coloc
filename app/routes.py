@@ -2,8 +2,14 @@
 '''Views code of api_flat app'''
 # -*- coding: utf-8 -*-
 
+<<<<<<< Dashboard_func
 from flask import redirect, render_template, session, url_for, request, jsonify
 from db import req
+=======
+import os
+from flask import redirect, render_template, session, url_for, request
+from db import db, req
+>>>>>>> everything ready to merge with dev
 from app import app
 from app import functions
 from app import forms
@@ -58,6 +64,7 @@ def index():
     else:
         if request.method == 'GET':
 <<<<<<< Dashboard_func
+<<<<<<< Dashboard_func
             user_id = session['logged']
             flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]
             name_user = req.select('first_name','users', user_id=user_id)[0][0]
@@ -69,6 +76,21 @@ def index():
             id_user = session['logged']
             forms.home_text(request.form, id_user)
 >>>>>>> add text in home
+=======
+            cur = db.cursor()
+            id_user = session['logged']
+            id_coloc = cur.execute('''SELECT id_colocation FROM Users
+                                WHERE id=?''', (id_user,)).fetchone()[0]
+            name_user = cur.execute('''SELECT first_name FROM Users
+                                WHERE id=?''', (id_user,)).fetchone()[0]
+            if id_coloc is None:
+                return render_template('index.html', flat=False, name_us=name_user)
+            elif id_coloc is not None:
+                name_flat = cur.execute('''SELECT name FROM Colocations
+                                    WHERE id=? ''', (id_coloc,)).fetchone()[0]
+                return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat)
+            db.commit()
+>>>>>>> everything ready to merge with dev
         elif request.method == 'POST':
             user_id = session['logged']
             if request.form['index_btn'] == 'invoice':
