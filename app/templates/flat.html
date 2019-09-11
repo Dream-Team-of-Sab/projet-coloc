@@ -55,10 +55,30 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Adresse de la nouvelle colocation" name="new_address">
                 </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Mot de passe" name="new_password">
+                </div>
                 <div class="d-flex flex-column">
-		    <button type="submit" class="mb-3 bt btn-2">Ajouter une coloc</button>
+		    <button type="submit" class="mb-3 bt btn-2" name="index_btn" value="flat">Ajouter une coloc</button>
                 </div>
             </form>
+       </div>
+
+       <div class="row form-item d-flex justify-content-center">
+        ¦   <form action="" method='POST'>
+        ¦       <div class="login-icon d-flex justify-content-center mb-1">
+        ¦       </div>
+                <p class="text-center my-4">Rejoignez une nouvelle colocation</p>
+        ¦       <div class="form-group">
+        ¦       ¦   <input type="text" class="form-control" placeholder="Nom de la colocation à rejoindre" name='flat_name'>
+        ¦       </div>
+        ¦       <div class="form-group">
+        ¦       ¦   <input type="text" class="form-control" placeholder="Mot de passe" name="flat_password">
+        ¦       </div>
+        ¦       <div class="d-flex flex-column">
+                ¦   <button type="submit" class="mb-3 bt btn-2" name="index_btn" value="person">Rejoindre</button>
+        ¦       </div>
+        ¦   </form>
         </div>
     </div>
 
