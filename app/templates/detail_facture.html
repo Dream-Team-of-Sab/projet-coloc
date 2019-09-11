@@ -14,6 +14,7 @@
     <!-- Polices -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <title>Détail des factures</title>
+<<<<<<< Dashboard_func
     <style type="text/css">
         .logout{
            margin: 20px; 
@@ -43,6 +44,8 @@
            font-size: 1.5em; 
        }
    </style>
+=======
+>>>>>>> creation view detail invoice
 </head>
 <body class="index">
     <header class= "d-flex justify-content-between">
@@ -55,9 +58,17 @@
                 </svg>
             </a>
         </div>
+<<<<<<< Dashboard_func
         <div class="logout d-flex flex-column">
             <a href="{{ url_for('logout') }}" class="mb-2"><img src="../static/img/logout.svg"></a>
             <a href ="{{ url_for('flat') }}"> <img src="../static/img/add-user.svg"></a>
+=======
+        <div>
+            <a href="{{ url_for('logout') }}" class="mt-5 mr-5">Se déconnecter</a>
+            <div class="d-flex justify-content-end mt-2 mr-5">
+                <a href ="{{ url_for('flat') }}"><i class="fas fa-user-plus add_person"></i> </a>
+            </div>
+>>>>>>> creation view detail invoice
         </div>
     </header>
 
@@ -70,6 +81,7 @@
                 <img src="../static/img/add_bill.svg" alt="">
             </div>
             <div class="col-12 col-lg-6 item2">
+<<<<<<< Dashboard_func
                 <div class="row bf d-flex justify-content-end">
                     <p data-toggle="modal" data-target="#billModal" class="add_invoice mt-4 mr-4 pr-1" >Ajouter une facture <i class="fas fa-receipt"></i></p>
                 </div>
@@ -184,6 +196,16 @@
 
 
 
+=======
+                <div class="row bf">
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+>>>>>>> creation view detail invoice
     
 </body>
 </html>

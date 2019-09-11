@@ -546,6 +546,7 @@ PAGE INDEX
 }
 
  /* PAGE DETAIL FACTURES */
+<<<<<<< Dashboard_func
 .add_invoice p {
     color : #FEC3AC; 
     font-size : 1.1em; 
@@ -555,6 +556,18 @@ PAGE INDEX
     background-color: #fff; 
 }
 
+=======
+
+.item1{
+    border: 1px solid blue;
+}
+
+.item2{
+    border: 1px solid red;
+}
+
+
+>>>>>>> creation view detail invoice
 /* --------------------
 MEDIAS QUERIES
 -------------------- */
