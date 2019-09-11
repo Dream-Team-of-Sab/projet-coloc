@@ -45,6 +45,7 @@ def signup():
             return render_template('sign.html') 
         else:
             forms.signup(request.form)
+            forms.send_mail(request.form)
             session['logged'] = req.user_id(request.form['email'])
             return redirect(url_for('index'))
     else:

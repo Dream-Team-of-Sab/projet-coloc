@@ -11,5 +11,6 @@ flask = "*"
 pylint = "*"
 pytest = "*"
 pytest-flask = "*"
+mailjet_rest = "*"
 
 [requires]
