@@ -58,7 +58,7 @@ def signup():
         return redirect(url_for('index'))
 =======
         if request.form['email'] in req.user_email():
-            return render_template('sign.html') 
+            return render_template('sign.html', existing_email=True) 
         else:
             forms.signup(request.form)
             forms.send_mail(request.form)
@@ -144,10 +144,10 @@ def invoice():
     """
     if request.method == 'GET':
         cur = db.cursor()
-        list_invoice = cur.execute('''SELECT title FROM Invoices ''').fetchall()
-        invoice = [i[0] for i in list_invoice]
+        list_invoice = cur.execute('''SELECT title, date, price FROM Invoices''').fetchall()
+        invoice = [i for i in list_invoice]
         db.commit()
-        return render_template('detail_facture.html', list_invoice = list_invoice)
+        return render_template('detail_facture.html', list_invoice = invoice)
     elif request.method == 'POST':
         id_user = session['logged']
         forms.add_invoice(request.form, id_user)
