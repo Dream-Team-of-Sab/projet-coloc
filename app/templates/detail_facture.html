@@ -46,11 +46,14 @@
                 <div class="row bf d-flex justify-content-end">
                     <p data-toggle="modal" data-target="#billModal" class="add_invoice mt-4 mr-4" >Ajouter une facture <i class="fas fa-plus-circle"></i></p>
                 </div>
-                <div class="row">
+                <div class="row d-flex justify-content-center">
                     <ul name="invoice_list">
                         {% for each in list_invoice %}
-                        <li value="{{each[0]}}">{{each[0]}}</li>
+                        <li class="mt-5 d-flex justify-content-between" value="{{each[0]}}"><span class="text-center">{{each[0]}}</span> <span class="text-center">{{each[1]}}</span> <span class="text-center">{{each[2]}}€</span> </li>
+                        <br>
+                        <a href="" class="bt btn-2 mb-3">Voir le détail de la facture</a>
                         {% endfor %}
+                      
                     </ul>
                 </div>
             </div>

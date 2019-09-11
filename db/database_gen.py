@@ -62,19 +62,19 @@ CUR.execute(
     '''
 )
 #Ajout colocation
-COLOC = ('Coloc', '6 rue de Rougemont, 75000, Paris, France', 'Coloc', 'Coloc')
-CUR.execute('''INSERT INTO Colocations (name, address, password) SELECT ?, ?, ?
-        WHERE NOT EXISTS (SELECT * FROM Colocations WHERE password = ? )''', COLOC)
+#COLOC = ('Coloc', '6 rue de Rougemont, 75000, Paris, France', 'Coloc', 'Coloc')
+#CUR.execute('''INSERT INTO Colocations (name, address, password) SELECT ?, ?, ?
+#       WHERE NOT EXISTS (SELECT * FROM Colocations WHERE password = ? )''', COLOC)
 
 #Ajout compte admin
-ADMIN = ('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 1, 'maxanceribeiro@live.fr', 'maxanceribeiro@live.fr')
-CUR.execute('''INSERT INTO Users (first_name, last_name, email, password, id_colocation)
-SELECT ?, ?, ?, ?, ? WHERE NOT EXISTS (SELECT ? FROM Users WHERE email = ?)''', ADMIN)
+ADMIN = ('Admin', 'Admin', 'maxanceribeiro@live.fr', crypted_string('072330STM'), 'maxanceribeiro@live.fr', 'maxanceribeiro@live.fr')
+CUR.execute('''INSERT INTO Users (first_name, last_name, email, password)
+SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT ? FROM Users WHERE email = ?)''', ADMIN)
 
 #Ajout fausse facture
-INVOICE = ('Loyer', 29.99, 'yes', '01/01/01', 'details','inv', '1')
-CUR.execute('''INSERT INTO Invoices (title, price, prorata, date, details, inv, id_paying_user)
-SELECT ?, ?, ?, ?, ?, ?, ?''', INVOICE)
+#INVOICE = ('Loyer', 29.99, 'yes', '01/01/01', 'details','inv', '1')
+#CUR.execute('''INSERT INTO Invoices (title, price, prorata, date, details, inv, id_paying_user)
+#SELECT ?, ?, ?, ?, ?, ?, ?''', INVOICE)
 
 #Sauvegarde des changements
 CONN.commit()
