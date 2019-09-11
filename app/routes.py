@@ -57,6 +57,7 @@ def index():
         return redirect(url_for('login'))
     else:
         if request.method == 'GET':
+<<<<<<< Dashboard_func
             user_id = session['logged']
             flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]
             name_user = req.select('first_name','users', user_id=user_id)[0][0]
@@ -64,6 +65,10 @@ def index():
                 name_flat = req.select('name', 'flats', flat_id=flat_id)[0][0]
                 return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat, flat_id=flat_id)
             return render_template('index.html', flat=False, name_us=name_user)
+=======
+            id_user = session['logged']
+            forms.home_text(request.form, id_user)
+>>>>>>> add text in home
         elif request.method == 'POST':
             user_id = session['logged']
             if request.form['index_btn'] == 'invoice':
