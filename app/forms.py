@@ -6,6 +6,7 @@ import os
 from app import functions
 from db import db
 from datetime import datetime
+from flask import render_template
 
 def file_date():
     now = datetime.now()
@@ -71,18 +72,4 @@ def add_person(form, id_user):
         if functions.crypted_string(flat_password) == pwd:
             cur.execute('''UPDATE Users SET id_colocation=?
                             WHERE id=?''', (id_coloc, id_user))
-    db.commit()
-
-def home_text(form, id_user):
-    cur= db.cursor()
-    id_coloc = cur.execute('''SELECT id_colocation FROM Users 
-                        WHERE id=?''', (id_user,)).fetchone()[0]
-    name_user = cur.execute('''SELECT first_name FROM Users
-  ¦   ¦   ¦   ¦   ¦   ¦ WHERE id=?''', (id_user,)).fetchone()[0]
-    name_flat = cur.execute('''SELECT name FROM Colocations
-      ¦   ¦   ¦   ¦   ¦ WHERE id=? ''', (id_coloc,)).fetchone()[0]
-    if id_coloc is None:
-        return render_template('index.html', flat=False, name_user=name_us)
-    elif id_coloc is not None:
-      ¦ return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat) 
     db.commit()
