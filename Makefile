@@ -21,4 +21,11 @@ deliver:
 	docker tag $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG) $(DOCKERHUB_USERNAME)/$(IMAGE):latest	
 	docker push $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG)
 	docker push $(DOCKERHUB_USERNAME)/$(IMAGE):latest
-	
+
+#postgres_serv:
+#	sudo docker run -it -p 5432\
+#			-e "POSTGRES_USER=dev"\
+#			-e "POSTGRES_PASSWORD=youwillneverguess"\
+#			-e "POSTGRES_DB=api_flat_dev"\
+#			-v dev_data:/var/lib/postgresql/data/\
+#			postgres:11.5

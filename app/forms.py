@@ -4,25 +4,17 @@
 
 import os
 from app import functions
-from db import db
+from db import req
 from datetime import datetime
 
 def signup(form):
-    cur = db.cursor()
     first_name = form['first_name']
     last_name = form['last_name']
     email = form['email']
     password = form['password']
-    cur.execute('''
-    		INSERT INTO users
-		(first_name, last_name, email, password)
-                VALUES (%s, %s, %s, %s)''',\
-                (first_name, last_name, email, functions.crypted_string(password)))
-    db.commit()
-    db.rollback()
+    req.ins_data('users', 'first_name,last_name,email,password',first_name, last_name, email, functions.crypted_string(password))
 
 def add_invoice(form, id_user):
-    cur = db.cursor()
     title = form['title']
     date = form['date']
     price = form['price']
@@ -32,25 +24,13 @@ def add_invoice(form, id_user):
     elif form.get('no'):
         prorata = "no"
     details = form['details']
-    cur.execute('''
-    		INSERT INTO invoices
-		(title, price, prorata, date, details, file_path, id_user)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)''',\
-		(title, price, prorata, date, details, inv, id_user))
-    db.commit()
-    db.rollback()
+    req.ins_data('invoices', 'title,price,prorata,date,details,file_path,id_user', title, price, prorata, date, details, inv, id_user)
 
 def add_meal(form, id_user):
     cur = db.cursor()
     date = form['mdate']
     number = form['quantity']
-    cur.execute('''
-    		INSERT INTO meals
-		(date, number, id_user)
-               	VALUES (%s, %s, %s)''',\
-		(date, number, id_user))
-    db.commit()
-    db.rollback()
+    req.ins_data('meals','date, number, id_user', date, number, id_user)
 
 #def add_flat(form, id_user):
 #   cur = db.cursor()

@@ -11,7 +11,7 @@ services:
     volumes:
       - .:/api_flat/.
     working_dir: /api_flat
-    command: bash -c 'pipenv install; pipenv run python db/database_gen.py; pipenv run python api_flat.py'
+    command: bash -c 'pipenv install; pipenv run python database_gen.py; pipenv run python api_flat.py'
     depends_on:
       - db
     ports:

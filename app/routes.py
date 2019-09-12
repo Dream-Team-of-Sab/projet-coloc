@@ -2,7 +2,6 @@
 '''View code of api_flat app'''
 # -*- coding: utf-8 -*-
 
-import os
 from flask import redirect, render_template, session, url_for, request
 from db import req
 from app import app
@@ -23,9 +22,9 @@ def login():
         return render_template('login.html')
     #Login
     if request.method == 'POST':
-        if request.form['email'] in req.user_email():
-            if functions.crypted_string(request.form['password']) == req.sel_pwd(request.form):
-                session['logged'] = req.user_id(request.form['email'])
+        if request.form['email'] in [a[0] for a in req.sel_data('email', 'users')]:
+            if functions.crypted_string(request.form['password']) == req.sel_data('password','users', email=request.form['email'])[0][0]:
+                session['logged'] = req.sel_data('id', 'users', email=request.form['email'])[0][0]
                 return redirect(url_for('index'))
             return render_template('login.html', error=True)
         return render_template('login.html', error=True)
@@ -40,11 +39,11 @@ def signup():
     if request.method == 'GET':
         return render_template ('sign.html')
     elif request.method == 'POST':
-        if request.form['email'] in req.user_email():
+        if request.form['email'] in [a[0] for a in req.sel_data('email', 'users')]:
             return render_template('sign.html') 
         else:
             forms.signup(request.form)
-            session['logged'] = req.user_id(request.form['email'])
+            session['logged'] = req.sel_data('id', 'users', email=request.form['email'])[0][0]
             return redirect(url_for('index'))
     else:
         return "Unknown method"

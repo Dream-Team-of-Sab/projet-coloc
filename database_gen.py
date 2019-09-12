@@ -2,13 +2,13 @@
 '''Create database'''
 # -*- coding: utf-8 -*-
 
-import psycopg2
+from db import db
 
 # SQL requests
 FLATS_TABLE_CREATE = '''
-		CREATE TABLE IF NOT EXISTS flats 
+		CREATE TABLE IF NOT EXISTS flats
 		(id SERIAL PRIMARY KEY,
-		name VARCHAR(255) NOT NULL, 
+		name VARCHAR(255) NOT NULL,
 		address VARCHAR(255) NOT NULL);
 		'''
 
@@ -19,7 +19,7 @@ USERS_TABLE_CREATE = '''
 		last_name VARCHAR(255) NOT NULL,
 		email VARCHAR(255) UNIQUE NOT NULL,
 		password VARCHAR(255) NOT NULL,
-		id_flat INTEGER, 
+		id_flat INTEGER,
 			FOREIGN KEY (id_flat)
 			REFERENCES flats (id));
 		'''
@@ -39,7 +39,7 @@ INVOICES_TABLE_CREATE = '''
 		'''
 
 MEALS_TABLE_CREATE = '''
-		CREATE TABLE IF NOT EXISTS meals 
+		CREATE TABLE IF NOT EXISTS meals
 		(id SERIAL PRIMARY KEY,
 		date DATE NOT NULL,
 		number INTEGER NOT NULL,
@@ -48,15 +48,14 @@ MEALS_TABLE_CREATE = '''
 			REFERENCES users (id));
 		'''
 
-# Database connexion
-conn = psycopg2.connect("host=db dbname=api_flat_dev user=dev password=youwillneverguess")
-cur = conn.cursor()
-
 # Tables creation
-for sql_ins in [FLATS_TABLE_CREATE, USERS_TABLE_CREATE, INVOICES_TABLE_CREATE, MEALS_TABLE_CREATE]:
+table_list = [FLATS_TABLE_CREATE, USERS_TABLE_CREATE, INVOICES_TABLE_CREATE, MEALS_TABLE_CREATE]
+
+cur = db.cursor()
+for sql_ins in table_list:
     cur.execute(sql_ins)
-    conn.commit()
-    conn.rollback()
+    db.commit()
+    db.rollback()
 
 # Closing database
-conn.close()
+db.close()
