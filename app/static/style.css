@@ -575,7 +575,14 @@ PAGE INDEX
     font-size : 1.1em; 
 }
 
+<<<<<<< Dashboard_func
 >>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
+=======
+.item2{
+    background-color: #fff; 
+}
+
+>>>>>>> Modification design page Add et ajout modal détail facture
 /* --------------------
 MEDIAS QUERIES
 -------------------- */
