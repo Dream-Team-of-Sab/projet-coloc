@@ -29,15 +29,6 @@
                 </svg>
             </a>
         </div>
-
-	{%if flat == False%}
-	<p class="text-center my-4">Bonjour {{name_us}}, vous n'appartenez à aucune colocation</p>
-	{%endif%}
-
-	{%if flat == True%}
-	<p class="text-center my-4">Bonjour {{name_us}}, vous appartenez à la colocation {{name_fl}}</p>
-	{%endif%}
-
 	    <div>
             <a href="{{ url_for('logout') }}" class="mt-5 mr-5">Se déconnecter</a>
             <div class="d-flex justify-content-end mt-2 mr-5">
@@ -46,8 +37,17 @@
 	    </div>
     </header>
      
-    <div class="container-fluid">
-        <div class="row index-item">
+    <div class="container-fluid">     
+        <div class="row d-flex justify-content-start">
+            {%if flat == False%}
+            <p class="pl-3">Bonjour {{name_us}}, vous n'appartenez à aucune colocation</p>
+            {%endif%}
+        
+            {%if flat == True%}
+            <p class="pl-3">Bonjour {{name_us}}, vous appartenez à la colocation {{name_fl}}</p>
+            {%endif%}
+        </div>     
+        <div class="row d-flex justify-content-center mt-4">     
             <div class="col-12 col-md-5 side side-left">
                 <div class="row">
                     <img src="../static/img/bill.svg" alt="">

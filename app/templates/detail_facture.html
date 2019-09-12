@@ -44,14 +44,13 @@
             </div>
             <div class="col-12 col-lg-6 item2">
                 <div class="row bf d-flex justify-content-end">
-                    <p data-toggle="modal" data-target="#billModal" class="add_invoice mt-4 mr-4" >Ajouter une facture <i class="fas fa-plus-circle"></i></p>
+                    <p data-toggle="modal" data-target="#billModal" class="add_invoice mt-4 mr-4 pr-1" >Ajouter une facture <i class="fas fa-receipt"></i></p>
                 </div>
                 <div class="row d-flex justify-content-center">
                     <ul name="invoice_list">
                         {% for each in list_invoice %}
-                        <li class="mt-5 d-flex justify-content-between" value="{{each[0]}}"><span class="text-center">{{each[0]}}</span> <span class="text-center">{{each[1]}}</span> <span class="text-center">{{each[2]}}€</span> </li>
-                        <br>
-                        <a href="" class="bt btn-2 mb-3">Voir le détail de la facture</a>
+                        <li class="mt-5 mb-4 d-flex justify-content-between" value="{{each[0]}}"><span class="text-center">{{each[0]}}</span> <span class="text-center">{{each[1]}}</span> <span class="text-center">{{each[2]}}€</span> </li>
+                        <a href="" class="bt btn-2" data-toggle="modal" data-target="#viewModal">Voir le détail de la facture</a>
                         {% endfor %}
                       
                     </ul>
@@ -75,10 +74,10 @@
                         <div class="modal-body">
                             <form action='' method='post' enctype="multipart/form-data">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="recipient-name" placeholder="Intitulé de la facture" name="title">
+                                    <input type="text" class="form-control" placeholder="Intitulé de la facture" name="title">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="recipient-name" placeholder="Date d'achat" name="date">
+                                    <input type="text" class="form-control" placeholder="Date d'achat" name="date">
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control"  placeholder="Montant" name="price">
@@ -114,6 +113,43 @@
                     </div>
                 </div>
             </div>
+
+            <!-- MODAL AFFICHAGE FACTURE -->
+
+            <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="viewModalLabel">Nom de la facture</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <svg aria-hidden="true" id="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path class="close-rotate" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action='' method='post' enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <p name="title">Intitulé de la facture</p>
+                                </div>
+                                <div class="form-group">
+                                    <p name="date">Date</p>
+                                </div>
+                                <div class="form-group">
+                                    <p name="price">Prix</p>
+                                </div>
+                                <div>
+                                    <img src="uploads/11_09_19_14_47_24_facture_mac.jpeg" alt="">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
         </div>
 
 
