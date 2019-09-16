@@ -28,7 +28,7 @@ def login():
                 return redirect(url_for('index'))
             return render_template('login.html', error=True)
         return render_template('login.html', error=True)
-    return 'Wrong http method. How did you get here ?!'
+    return 'Unknown method'
 
 # sign up view
 @app.route('/signup/', methods=['GET', 'POST'])
@@ -40,7 +40,7 @@ def signup():
         return render_template ('sign.html')
     elif request.method == 'POST':
         if request.form['email'] in [a[0] for a in req.sel_data('email', 'users')]:
-            return render_template('sign.html') 
+            return render_template('sign.html', existing_email=True)
         else:
             forms.signup(request.form)
             session['logged'] = req.sel_data('id', 'users', email=request.form['email'])[0][0]
@@ -59,7 +59,13 @@ def index():
         return redirect(url_for('login'))
     else:
         if request.method == 'GET':
-            return render_template('index.html')
+            id_user = session['logged']
+            id_flat = req.sel_data('id_flat', 'users', 'id'=id_users)[0][0]
+            name_user = req.sel_data('first_name','users', 'id'=id_user)[0][0]
+            if id_flat is None:
+                return render_template('index.html', flat=False, name_us=name_user)
+            name_flat = req.sel_data('name', 'flat', 'id'=id_flat)
+            return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat)
         elif request.method == 'POST':
             id_user = session['logged']
             if request.form['index_btn'] == 'invoice':
@@ -72,7 +78,24 @@ def index():
         else:
             return "Unknown method"
 
-#Add coloc
+#Invoices
+@app.route('/invoice/', methods=['GET', 'POST'])
+def invoice():
+    """
+    vue de la page permettant de voir toutes les factures de la colocation concernée
+    """
+    if request.method == 'GET':
+        list_invoice = req.sel_data('title', 'date', 'price', 'invoices')
+        return render_template('detail_facture.html', list_invoice = list_invoice)
+    elif request.method == 'POST':
+        id_user = session['logged']
+        forms.add_invoice(request.form, id_user)
+        functions.upload_file(request.files['file'])
+        return redirect(url_for('invoice'))
+    else:
+        return "Unknown method"
+
+#Add flat
 @app.route('/flat/', methods=['GET', 'POST'])
 def flat():
     """
