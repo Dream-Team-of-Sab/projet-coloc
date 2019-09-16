@@ -10,5 +10,4 @@ venv/
 *.jpg
 *.jpeg
 *.png
-
-
+app/forms_git.py

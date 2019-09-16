@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''View code of api_flat app'''
+'''Forms code of api_flat app'''
 # -*- coding: utf-8 -*-
 
 import os
@@ -12,7 +12,8 @@ def signup(form):
     last_name = form['last_name']
     email = form['email']
     password = form['password']
-    req.ins_data('users', 'first_name,last_name,email,password',first_name, last_name, email, functions.crypted_string(password))
+    req.ins_data('users', 'first_name, last_name, email, password',\
+                first_name, last_name, email, functions.crypted_string(password))
 
 def add_invoice(form, id_user):
     title = form['title']
@@ -24,7 +25,8 @@ def add_invoice(form, id_user):
     elif form.get('no'):
         prorata = "no"
     details = form['details']
-    req.ins_data('invoices', 'title,price,prorata,date,details,file_path,id_user', title, price, prorata, date, details, inv, id_user)
+    req.ins_data('invoices', 'title, price, prorata, date, details, file_path, id_user',\
+                title, price, prorata, date, details, inv, id_user)
 
 def add_meal(form, id_user):
     cur = db.cursor()
