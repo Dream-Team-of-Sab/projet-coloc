@@ -71,7 +71,7 @@ def ins_data(*args, **kwargs):
     Old way :
     >> cur = db.cursor()
     >> cur.execute("INSERT INTO users (first_name, last_name, email)
-                    SELECT %s, %s, %s WHERE NOT EXISTS 
+                    SELECT %s, %s, %s WHERE NOT EXISTS
                     (SELECT * FROM users WHERE email = %s)",\
                     ('Thomas', 'Barbot', 'foo@bar', 'foo@bar'))
     >> db.commit()
@@ -103,6 +103,26 @@ def ins_data(*args, **kwargs):
                         sql.Identifier(str(l_kwargs_keys[0])),\
                         sql.Placeholder(name=str(l_kwargs_keys[0])))
         values.update({str(l_kwargs_keys[0]): kwargs[l_kwargs_keys[0]]})
+    cur.execute(query, values)
+    db.commit()
+    db.rollback()
+
+def up_data(*args, **kwargs):
+    """
+
+    """
+    cur = db.cursor()
+    table=args[0]
+    l_kwargs_keys = list(kwargs.keys())
+    values = dict()
+    query = sql.SQL("UPDATE {} SET {} = {} WHERE {} = {}")\
+            .format(sql.Identifier(table),\
+                    sql.Identifier(str(l_kwargs_keys[0])),\
+                    sql.Placeholder(name=str(l_kwargs_keys[0])),\
+                    sql.Identifier(str(l_kwargs_keys[1])),\
+                    sql.Placeholder(name=str(l_kwargs_keys[1])))
+    for x in l_kwargs_keys:
+        values.update({str(x): kwargs[x]})
     cur.execute(query, values)
     db.commit()
     db.rollback()
