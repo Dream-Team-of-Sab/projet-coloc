@@ -125,10 +125,9 @@ def add_meal(form, id_user):
 def add_flat(form, id_user):
     cur = db.cursor()
     new_name = form['new_name']
-    new_address = form['new_address']
     new_password = form['new_password']
-    cur.execute('''INSERT INTO Colocations (name, address, password)
-               VALUES (?, ?, ?)''', (new_name, new_address, functions.crypted_string(new_password)))
+    cur.execute('''INSERT INTO Colocations (name, password)
+               VALUES (?, ?)''', (new_name, functions.crypted_string(new_password)))
     id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (new_name,)).fetchone()[0]
     cur.execute('''UPDATE Users SET id_colocation=? WHERE id=?''', (id_coloc, id_user))
     db.commit()
