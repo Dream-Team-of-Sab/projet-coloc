@@ -220,6 +220,7 @@ def flat():
     if 'logged' not in session.keys():
         return redirect(url_for('login'))
     if request.method == 'GET':
+<<<<<<< Dashboard_func
 #        user_id = session['logged']
 #        flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]
 #        if flat_id:
@@ -227,6 +228,17 @@ def flat():
 #        else:
 #            return render_template('flat.html')
         return render_template('flat.html')
+=======
+        cur = db.cursor()
+        id_user = session['logged']
+        id_coloc = cur.execute('''SELECT id_colocation FROM Users
+                                WHERE id=?''', (id_user,)).fetchone()[0]
+        if id_coloc is None:
+            return render_template('flat.html')
+        elif id_coloc: 
+            return render_template('invitation.html')
+
+>>>>>>> Modification formulaire invitation ami
     elif request.method == 'POST':
         id_user = session['logged']
         if request.form['index_btn'] == 'flat':
@@ -268,6 +280,7 @@ def inv():
     """
     vue de la page inviter ami
     """
+<<<<<<< Dashboard_func
     if request.method == 'GET':
         return render_template('invitation.html')
     elif request.method == 'POST':
@@ -279,6 +292,9 @@ def inv():
 
 
 >>>>>>> Modification affichage plus séparation formulaire et création view invitation
+=======
+    return render_template('invitation.html')
+>>>>>>> Modification formulaire invitation ami
 
 @app.route('/logout/', methods=['GET'])
 def logout():
