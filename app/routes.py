@@ -109,8 +109,6 @@ def invoice():
     else:
         return "Unknown method"
 
-    
-
 
 #Add coloc
 @app.route('/flat/', methods=['GET', 'POST'])
@@ -124,13 +122,31 @@ def flat():
         id_user = session['logged']
         if request.form['index_btn'] == 'flat':
             forms.add_flat(request.form, id_user)
-            forms.mail_to_friend(request.form)
+#            forms.mail_to_friend(request.form)
             return redirect (url_for('index'))
         elif request.form['index_btn'] == 'person':
             forms.add_person(request.form, id_user)
             return redirect(url_for('index'))
     else:
         return "Unknown method"
+
+
+#Invitation ami
+@app.route('/invitation/', methods=['GET', 'POST'])
+def inv():
+    """
+    vue de la page inviter ami
+    """
+    if request.method == 'GET':
+        return render_template('invitation.html')
+    elif request.method == 'POST':
+        id_user = session['logged']
+        forms.mail_to_friend(request.form)
+        return redirect(url_for('index'))
+    else:
+        return "Unknown method"
+
+
 
 @app.route('/logout/', methods=['GET'])
 def logout():

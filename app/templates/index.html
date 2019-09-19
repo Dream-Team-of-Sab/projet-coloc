@@ -23,6 +23,7 @@
 
         .logout a {
             color: #282828;
+            text-align: center;
         }
 
         .logout a:hover{
@@ -30,6 +31,11 @@
             -webkit-transition: color .3s; 
             -o-transition: color .3s; 
             transition: color .3s; 
+        }
+
+        .logout img {
+            width: 15%; 
+            height: auto;
         }
 
         .add{
@@ -50,7 +56,6 @@
             padding: 8px 130px; 
             border: 1px solid #fff; 
         }
-
     </style>
 </head>
 <body class="index">
@@ -65,11 +70,9 @@
                 </svg>
             </a>
         </div>
-	    <div class="logout">
-            <a href="{{ url_for('logout') }}">Se déconnecter</a>
-            <div class="d-flex justify-content-end add">
-                <a href ="{{ url_for('flat') }}"><i class="fas fa-user-plus add_person"></i> </a>
-            </div>
+	    <div class="logout d-flex flex-column">
+            <a href="{{ url_for('logout') }}" class="mb-2"><img src="../static/img/logout.svg"></a>
+            <a href ="{{ url_for('flat') }}"> <img src="../static/img/add-user.svg"></a>
 	    </div>
     </header>
      
