@@ -183,7 +183,12 @@ def flat():
     elif request.method == 'POST':
         id_user = session['logged']
         if request.form['index_btn'] == 'flat':
+<<<<<<< Dashboard_func
             forms.add_flat(request.form, user_id)
+=======
+            forms.add_flat(request.form, id_user)
+            forms.mail_to_friend(request.form)
+>>>>>>> everything is ready to push in dev
             return redirect (url_for('index'))
         elif request.form['index_btn'] == 'person':
             forms.add_person(request.form, user_id)

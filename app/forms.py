@@ -31,7 +31,38 @@ def send_mail(form):
         ],
         "Subject": "Inscription",
         "TextPart": "Inscription",
-        "HTMLPart": "<h3>Bienvenue sur Api'Flat, l'appli de gestion de votre colocation. Votre compte a été créé avec succès",
+        "HTMLPart": "<h3>Bienvenue sur Api'Flat, l'application de gestion de votre colocation.\nVotre compte a été créé avec succès.</h3>",
+        "CustomID": "AppGettingStartedTest"
+        }
+    ]
+    }
+    result = mailjet.send.create(data=data)
+
+def mail_to_friend(form):
+    api_key = '4c392ed6313cbe35ff946c4a67bd5698'
+    api_secret = 'ff1d1fd6e23e34400d6b95abe8822706'
+    cur = db.cursor()
+    flat_name = form['new_name']
+    flat_password = form['new_password']
+    friend_name = form['friend_name']
+    friend_email = form['friend_mail']
+    mailjet = Client(auth=(api_key, api_secret), version='v3.1')
+    data = {
+    'Messages': [
+        {
+        "From": {
+            "Email": "ribeiromaxance@gmail.com",
+            "Name": "Api'Flat"
+        },
+        "To": [
+            {
+            "Email": friend_email,
+            "Name": friend_name
+            }
+        ],
+        "Subject": "Invitation sur Api'flat",
+        "TextPart": "Invitation",
+        "HTMLPart": "<h3>Bonjour"+friend_name+",vous avez été invité à rejoindre le gestionnaire de colocation Api'flat.\nVeuillez trouver ci-dessous les identifiants à renseigner lors de votre inscription.\nNom de la colocation :"+flat_name+"\nMot de passe de la colocation : "+flat_password+"</h3>",
         "CustomID": "AppGettingStartedTest"
         }
     ]
@@ -95,7 +126,7 @@ def signup(form):
                             WHERE name=?''', (flat_name,)).fetchone()[0]
             if functions.crypted_string(flat_password) == pwd:
                 cur.execute('''UPDATE Users SET id_colocation=?
-                            WHERE first_name=?''', (id_coloc, first_name))
+                            WHERE email=?''', (id_coloc, email))
     db.commit()
 >>>>>>> enter in coloc with signup page
 
