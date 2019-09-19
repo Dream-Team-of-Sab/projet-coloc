@@ -125,7 +125,15 @@ def flat():
     vue de la page ajout d'une colocation
     """
     if request.method == 'GET':
-        return render_template('flat.html')
+        cur = db.cursor()
+        id_user = session['logged']
+        id_coloc = cur.execute('''SELECT id_colocation FROM Users
+                                WHERE id=?''', (id_user,)).fetchone()[0]
+        if id_coloc is None:
+            return render_template('flat.html')
+        elif id_coloc: 
+            return render_template('invitation.html')
+
     elif request.method == 'POST':
         id_user = session['logged']
         if request.form['index_btn'] == 'flat':
@@ -145,16 +153,7 @@ def inv():
     """
     vue de la page inviter ami
     """
-    if request.method == 'GET':
-        return render_template('invitation.html')
-    elif request.method == 'POST':
-        id_user = session['logged']
-        forms.mail_to_friend(request.form)
-        return redirect(url_for('index'))
-    else:
-        return "Unknown method"
-
-
+    return render_template('invitation.html')
 
 @app.route('/logout/', methods=['GET'])
 def logout():
