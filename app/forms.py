@@ -31,7 +31,7 @@ def send_mail(form):
         ],
         "Subject": "Inscription",
         "TextPart": "Inscription",
-        "HTMLPart": "<h3>Bienvenue sur Api'Flat, l'application de gestion de votre colocation.\nVotre compte a été créé avec succès.</h3>",
+        "HTMLPart": "<h3>Bienvenue sur Api'Flat</h3>, <br>L'application de gestion de votre colocation.<br>Votre compte a été créé avec succès.</h3>",
         "CustomID": "AppGettingStartedTest"
         }
     ]
@@ -62,7 +62,7 @@ def mail_to_friend(form):
         ],
         "Subject": "Invitation sur Api'flat",
         "TextPart": "Invitation",
-        "HTMLPart": "<h3>Bonjour"+friend_name+"</h3><br>,<p>Vous êtes invité à rejoindre le gestionnaire de colocation Api'flat. <br>Veuillez trouver ci-dessous les identifiants à renseigner lors de votre inscription. <br>Nom de la colocation :"+flat_name+" <br>Mot de passe de la colocation : "+flat_password+"</h3>",
+        "HTMLPart": "<h3>Bonjour<em>"+friend_name+"<em></h3>,<br><p>Vous êtes invité à rejoindre le gestionnaire de colocation Api'flat. <br>Veuillez trouver ci-dessous les identifiants à renseigner lors de votre inscription. <br><Nom de la colocation : <em>"+flat_name+"<em> <br>Mot de passe de la colocation : <em>"+flat_password+"<em></p>",
         "CustomID": "AppGettingStartedTest"
         }
     ]
