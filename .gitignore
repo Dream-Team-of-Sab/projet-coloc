@@ -11,3 +11,4 @@ venv/
 *.jpeg
 *.png
 app/forms_git.py
+github_dev_version/

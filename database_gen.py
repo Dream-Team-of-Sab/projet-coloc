@@ -29,10 +29,10 @@ INVOICES_TABLE_CREATE = '''
 		(invoice_id SERIAL PRIMARY KEY,
 		title VARCHAR(255) NOT NULL,
 		price DECIMAL NOT NULL,
-		prorata VARCHAR(5) UNIQUE NOT NULL,
+		prorata BOOLEAN NOT NULL,
 		date DATE NOT NULL,
 		details VARCHAR(255) NOT NULL,
-		file_path VARCHAR(255),
+		file_name VARCHAR(255),
 		user_id INTEGER NOT NULL,
 			FOREIGN KEY (user_id)
 			REFERENCES users (user_id));

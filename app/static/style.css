@@ -37,7 +37,7 @@ ul{
    
 }
 .btn-2 {
-    padding: 8px 155px; 
+    padding: 8px 130px;; 
     border: 1px solid transparent; 
 }
 
@@ -213,7 +213,8 @@ PAGE LOGIN
 ------------------------------- */
 .bg{
     background-color: #FEC3AC;
-    height: calc(100vh - 0.1875rem); 
+    height: 100%;
+    width: 100% 
 }
 
 .login{
@@ -544,13 +545,29 @@ PAGE INDEX
     margin-right: 25px;  
 }
 
+ /* PAGE DETAIL FACTURES */
+.add_invoice p {
+    color : #FEC3AC; 
+    font-size : 1.1em; 
+}
+
+.item2{
+    background-color: #fff; 
+}
+
 /* --------------------
 MEDIAS QUERIES
 -------------------- */
 @media (min-width: 720px){
     .index-item{
         padding: 70px 40px 0px 40px; 
-    }
-
-    
+    }    
 }
+
+@media (max-width: 768px){
+    .item1{
+        display: none; 
+    }    
+}
+
+

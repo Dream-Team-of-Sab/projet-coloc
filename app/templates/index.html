@@ -16,6 +16,47 @@
 
     <!-- Polices -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style type="text/css">
+        .logout{
+            margin: 20px; 
+        }
+
+        .logout a {
+            color: #282828;
+            text-align: center;
+        }
+
+        .logout a:hover{
+            color: #FEC3AC;
+            -webkit-transition: color .3s; 
+            -o-transition: color .3s; 
+            transition: color .3s; 
+        }
+
+        .logout img {
+            width: 15%; 
+            height: auto;
+        }
+
+        .add{
+            margin: 10px; 
+        }
+        .add_person {
+            font-size: 1.5em; 
+        }
+
+        .btn-2 {
+            padding: 8px 130px;
+            border: 1px solid transparent; 
+        }
+
+        .btn-3{
+            background-color: #fff;
+            color:#FEC3AC !important;  
+            padding: 8px 130px; 
+            border: 1px solid #fff; 
+        }
+    </style>
 </head>
 <body class="index">
 
@@ -29,17 +70,24 @@
                 </svg>
             </a>
         </div>
-	    <div>
-            <a href="{{ url_for('logout') }}" class="mt-5 mr-5">Se déconnecter</a>
-            <div class="d-flex justify-content-end mt-2 mr-5">
-                <a href ="{{ url_for('flat') }}"><i class="fas fa-user-plus add_person"></i> </a>
-            </div>
+	    <div class="logout d-inline-flex flex-column">
+            <a href="{{ url_for('logout') }}"><img src="../static/img/logout.svg"></a>
+            <a href="{{ url_for('flat') }}"> <img src="../static/img/add-user.svg"></a>
 	    </div>
     </header>
      
-    <div class="container-fluid">
-        <div class="row index-item">
-            <div class="col-12 col-md-5 side side-left">
+    <div class="container-fluid">     
+        <div class="row d-flex justify-content-center">
+            {%if flat == False%}
+            <p class="pl-3">Bonjour {{name_us}}, vous n'appartenez à aucune colocation</p>
+            {%endif%}
+        
+            {%if flat == True%}
+            <p class="pl-3">Bonjour {{name_us}}, vous appartenez à la colocation {{name_fl}}</p>
+            {%endif%}
+        </div>     
+        <div class="row d-flex justify-content-center mt-4">     
+            <div class="col-12 col-lg-5 side side-left">
                 <div class="row">
                     <img src="../static/img/bill.svg" alt="">
                 </div>
@@ -48,12 +96,12 @@
                 </div>  
             </div>
             
-            <div class="col-12 col-md-5 side side-right">
+            <div class="col-12 col-lg-5 side side-right">
                 <div class="row">
                     <img src="../static/img/meal.svg" alt="">
                 </div>
                 <div class="row d-flex justify-content-center side-left-item">
-                    <a class="bt btn-3" data-toggle="modal" data-target="#mealModal" data-whatever="@mdo">Enregistrer un repas</a>
+                    <a class="bt btn-3" data-toggle="modal" data-target="#mealModal" data-whatever="@mdo">Ajouter un repas</a>
                 </div>   
             </div>
             
@@ -62,7 +110,7 @@
              <div class="modal-dialog" role="document">
                  <div class="modal-content">
                      <div class="modal-header">
-                         <h5 class="modal-title" id="billModalLabel">Combien de plat avez-vous consommé ?</h5>
+                         <h5 class="modal-title" id="billModalLabel">Combien de plats avez-vous consommé ?</h5>
                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                              <svg aria-hidden="true" id="icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                  <path class="close-rotate" d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
@@ -116,7 +164,7 @@
                             <div class="form-group">
                                 <textarea class="form-control" id="message-text" placeholder="Liste des achats" name="details"></textarea>
                             </div>
-	    	                 <p>Mettre au pro-rata</p>
+                             <p>Mettre au pro-rata (obligatoire)</p>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="yes">
                                 <label class="form-check-label" for="inlineCheckbox1">Oui</label>
@@ -152,7 +200,7 @@
         <div class="row d-flex flex-column">
             <h3 class="text-center mx-5">Dashboard</h3>
             <div class="d-flex justify-content-center flex-column mt-4"> 
-                <a href="" class="bt btn-2 mb-4">Voir les factures</a>
+                <a href ="{{ url_for('invoice') }}" class="bt btn-2 mb-4">Voir les factures</a>
                 <a href="" class="bt btn-2">Voir la balance</a>
             </div>
         </div>
