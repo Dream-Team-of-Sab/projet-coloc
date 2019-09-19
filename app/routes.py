@@ -247,11 +247,14 @@ def flat():
 =======
             forms.add_flat(request.form, id_user)
 <<<<<<< Dashboard_func
+<<<<<<< Dashboard_func
             forms.mail_to_friend(request.form)
 >>>>>>> everything is ready to push in dev
 =======
 #            forms.mail_to_friend(request.form)
 >>>>>>> Modification affichage plus séparation formulaire et création view invitation
+=======
+>>>>>>> first modifications with some bugs
             return redirect (url_for('index'))
         elif request.form['index_btn'] == 'person':
             forms.add_person(request.form, user_id)
@@ -281,6 +284,7 @@ def inv():
     vue de la page inviter ami
     """
 <<<<<<< Dashboard_func
+<<<<<<< Dashboard_func
     if request.method == 'GET':
         return render_template('invitation.html')
     elif request.method == 'POST':
@@ -295,6 +299,17 @@ def inv():
 =======
     return render_template('invitation.html')
 >>>>>>> Modification formulaire invitation ami
+=======
+    if request.method == 'GET':
+        id_user = session['logged']
+        return render_template('invitation.html')
+    elif request.method == 'POST':
+        id_user = session['logged']
+        forms.mail_to_friend(request.form, id_user)
+        return redirect(url_for('index'))
+    else:
+        return "Unknown method"
+>>>>>>> first modifications with some bugs
 
 @app.route('/logout/', methods=['GET'])
 def logout():
