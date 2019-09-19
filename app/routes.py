@@ -124,6 +124,7 @@ def flat():
         id_user = session['logged']
         if request.form['index_btn'] == 'flat':
             forms.add_flat(request.form, id_user)
+            forms.mail_to_friend(request.form)
             return redirect (url_for('index'))
         elif request.form['index_btn'] == 'person':
             forms.add_person(request.form, id_user)
