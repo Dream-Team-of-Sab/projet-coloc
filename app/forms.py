@@ -80,10 +80,37 @@ def add_user(form):
     last_name = form['last_name']
     email = form['email']
     password = form['password']
-    cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
-                 VALUES (?, ?, ?, ?)''',\
-                 (first_name, last_name, email, functions.crypted_string(password)))
-    db.commit()
+    flat_name = form['flat_name']
+    flat_password = form['flat_password']
+    response=0
+    if flat_name:
+        try:
+            name_exist = cur.execute('''SELECT name from Colocations
+                                    WHERE name=?''', (flat_name,)).fetchone()[0]
+            pwd = cur.execute('''SELECT password FROM Colocations
+                            WHERE name=?''', (flat_name,)).fetchone()[0]
+            id_coloc = cur.execute('''SELECT id FROM Colocations
+                            WHERE name=?''', (flat_name,)).fetchone()[0]
+            db.commit()
+            if functions.crypted_string(flat_password) != pwd:
+                response=1
+            else: 
+                cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
+                        VALUES (?, ?, ?, ?)''',\
+                (first_name, last_name, email, functions.crypted_string(password)))
+                cur.execute('''UPDATE Users SET id_colocation=?
+                        WHERE email=?''', (id_coloc, email))
+                db.commit()
+                response=4
+        except:
+            response=2
+    else: 
+        cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
+                VALUES (?, ?, ?, ?)''',\
+        (first_name, last_name, email, functions.crypted_string(password)))
+        db.commit()
+        response=4
+    return response
 
 def add_invoice(form, id_user):
     cur = db.cursor()

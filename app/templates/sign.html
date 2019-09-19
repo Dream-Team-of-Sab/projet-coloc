@@ -45,6 +45,10 @@
                 </div>
                 <p>Créer un compte</p>
 
+                {% if nothing == True %}
+                <p class="text-center">Veuillez compléter le formulaire</p>
+                {% endif %}
+
                 {% if existing_email == True %}
                 <p class="text-center">Ces informations sont déja associées à un compte existant</p>
                 {% endif %}
