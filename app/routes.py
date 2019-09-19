@@ -182,10 +182,13 @@ def invoice():
         return "Unknown method"
 
 <<<<<<< Dashboard_func
+<<<<<<< Dashboard_func
 #Add flat
 =======
     
 
+=======
+>>>>>>> Modification affichage plus séparation formulaire et création view invitation
 
 #Add coloc
 >>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
@@ -211,8 +214,12 @@ def flat():
             forms.add_flat(request.form, user_id)
 =======
             forms.add_flat(request.form, id_user)
+<<<<<<< Dashboard_func
             forms.mail_to_friend(request.form)
 >>>>>>> everything is ready to push in dev
+=======
+#            forms.mail_to_friend(request.form)
+>>>>>>> Modification affichage plus séparation formulaire et création view invitation
             return redirect (url_for('index'))
         elif request.form['index_btn'] == 'person':
             forms.add_person(request.form, user_id)
@@ -220,6 +227,7 @@ def flat():
     else:
         return "Unknown method"
 
+<<<<<<< Dashboard_func
 @app.route('/get_data/<int:flat_id>')
 def dashboard_data(flat_id):
     working_list = [a[0] for a in db.select('user_id', 'users', flat_id=flat_id)]
@@ -232,6 +240,25 @@ def dashboard_data(flat_id):
         }
         result.append(json_disc)
     return jsonify(result)
+=======
+
+#Invitation ami
+@app.route('/invitation/', methods=['GET', 'POST'])
+def inv():
+    """
+    vue de la page inviter ami
+    """
+    if request.method == 'GET':
+        return render_template('invitation.html')
+    elif request.method == 'POST':
+        id_user = session['logged']
+        forms.mail_to_friend(request.form)
+        return redirect(url_for('index'))
+    else:
+        return "Unknown method"
+
+
+>>>>>>> Modification affichage plus séparation formulaire et création view invitation
 
 @app.route('/logout/', methods=['GET'])
 def logout():
