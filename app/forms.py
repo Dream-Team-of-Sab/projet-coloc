@@ -9,7 +9,7 @@ from datetime import datetime
 
 def add_user(form):
     response=0
-    if flat_name:
+    if form['flat_name']:
         try:
             name_exist = db.select('name', 'flats', name=form['flat_name'])[0][0]
             pwd = db.select('password', 'flats', name=form['flat_name'])[0][0]

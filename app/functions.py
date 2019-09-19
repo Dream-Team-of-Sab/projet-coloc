@@ -9,12 +9,10 @@ from mailjet_rest import Client
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 UPLOAD_FOLDER = 'app/templates/uploads'
+api_key = '4c392ed6313cbe35ff946c4a67bd5698'
+api_secret = 'ff1d1fd6e23e34400d6b95abe8822706'
 
 def send_mail(form):
-    api_key = '4c392ed6313cbe35ff946c4a67bd5698'
-    api_secret = 'ff1d1fd6e23e34400d6b95abe8822706'
-    first_name = form['first_name']
-    email = form['email']
     mailjet = Client(auth=(api_key, api_secret), version='v3.1')
     data = {
     'Messages': [
@@ -25,8 +23,8 @@ def send_mail(form):
         },
         "To": [
             {
-            "Email": email,
-            "Name": first_name
+            "Email": form['email'],
+            "Name": form['first_name']
             }
         ],
         "Subject": "Inscription",
@@ -36,8 +34,8 @@ def send_mail(form):
         }
     ]
     }
-    #result = mailjet.send.create(data=data)
-    mailjet.send.create(data=data)
+    result = mailjet.send.create(data=data)
+    #mailjet.send.create(data=data)
 
 #cryptage des données
 def crypted_string(string):

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Profil</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
     <!-- CDN de bootstrap -->
@@ -71,7 +71,7 @@
             </a>
         </div>
 	    <div class="logout d-inline-flex flex-column">
-            <a href="{{ url_for('logout') }}"><img src="../static/img/logout.svg"></a>
+            <a href="{{ url_for('logout') }}"><img src="{{ url_for('static', filename='img/logout.svg') }}"></a>
             <a href="{{ url_for('flat') }}"> <img src="../static/img/add-user.svg"></a>
 	    </div>
     </header>
