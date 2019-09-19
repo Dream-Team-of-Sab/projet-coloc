@@ -39,14 +39,38 @@ def signup():
     vue de la page de inscription
     """
     if request.method == 'GET':
-        return render_template ('sign.html')
+        return render_template('sign.html')
     elif request.method == 'POST':
         if request.form['email'] in req.user_email():
-            return render_template('sign.html', existing_email=True) 
+            return render_template('sign.html', existing_email=True)
         else:
-            forms.signup(request.form)
+            forms.add_user(request.form)
             forms.send_mail(request.form)
             session['logged'] = req.user_id(request.form['email'])
+            cur = db.cursor()
+            email = request.form['email']
+            flat_name = request.form['flat_name']
+            flat_password = request.form['flat_password']
+            if flat_name:
+                try:
+                    name_exist = cur.execute('''SELECT name from Colocations
+                                        WHERE name=?''', (flat_name,)).fetchone()[0]
+                except:
+                    return render_template('sign.html', wrong_flat_name=True)
+
+               # if name_exist is None:
+               #     return render_template('sign.html', wrong_flat_name=True)
+               # if name_exist is not None:
+               #     pwd = cur.execute('''SELECT password FROM Colocations
+               #                     WHERE name=?''', (flat_name,)).fetchone()[0]
+               #     id_coloc = cur.execute('''SELECT id FROM Colocations
+               #                     WHERE name=?''', (flat_name,)).fetchone()[0]
+               #     if functions.crypted_string(flat_password) != pwd:
+               #         return render_template('sign.html', wrong_flat_password=True)
+                #    elif functions.crypted_string(flat_password) == pwd:
+                #        cur.execute('''UPDATE Users SET id_colocation=?
+                 #                   WHERE email=?''', (id_coloc, email))
+            #db.commit()
             return redirect(url_for('index'))
     else:
         return "Unknown method"
