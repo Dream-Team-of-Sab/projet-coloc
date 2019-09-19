@@ -165,6 +165,7 @@ def add_meal(form, user_id):
                         form['quantity'],\
                         user_id)
 
+<<<<<<< Dashboard_func
 def add_flat(form, user_id):
     req.insert('flat', 'name, address, password',\
                         form['new_name'],\
@@ -172,6 +173,17 @@ def add_flat(form, user_id):
     functions.crypted_string(new_password))
     flat_id = req.select('flat_id', 'flat', name=new_name)[0][0]
     req.update('users', flat_id=flat_id, user_id=user_id)
+=======
+def add_flat(form, id_user):
+    cur = db.cursor()
+    new_name = form['new_name']
+    new_password = form['new_password']
+    cur.execute('''INSERT INTO Colocations (name, password)
+               VALUES (?, ?)''', (new_name, functions.crypted_string(new_password)))
+    id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (new_name,)).fetchone()[0]
+    cur.execute('''UPDATE Users SET id_colocation=? WHERE id=?''', (id_coloc, id_user))
+    db.commit()
+>>>>>>> ok
 
 def add_flatmate(form, user_id):
     name_exist = req.select('name', 'flat', name=flat_name)[0][0]
