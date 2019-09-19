@@ -53,11 +53,17 @@ def signup():
         return render_template('sign.html')
     elif request.method == 'POST':
 <<<<<<< Dashboard_func
+<<<<<<< Dashboard_func
         forms.add_user(request.form)
         session['logged'] = req.select('user_id', 'users', email=request.form['email'])[0][0]
         return redirect(url_for('index'))
 =======
         if request.form['email'] in req.user_email():
+=======
+        if request.form['first_name'] == '' or request.form['last_name'] == ''  or request.form['email'] == ''  or request.form['password'] == '': 
+            return render_template('sign.html', nothing=True)
+        elif request.form['email'] in req.user_email():
+>>>>>>> debugg + errors messages
             return render_template('sign.html', existing_email=True)
         else:
 <<<<<<< Dashboard_func
@@ -92,13 +98,13 @@ def signup():
 >>>>>>> function send_mail
 =======
             is_added = forms.add_user(request.form)
-            if is_added == 0 : 
+            if is_added == 0:
                 return render_template('sign.html', nothing=True)
-            elif is_added == 1 : 
+            elif is_added == 1:
                 return render_template('sign.html', wrong_flat_password=True)
-            elif is_added == 2 :
+            elif is_added == 2:
                 return render_template('sign.html', wrong_flat_name=True)
-            else :
+            else:
                 forms.send_mail(request.form)
                 session['logged'] = req.user_id(request.form['email'])
                 return redirect(url_for('index'))
