@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-'''View code of api_flat app'''
+'''Views code of api_flat app'''
 # -*- coding: utf-8 -*-
 
 from flask import redirect, render_template, session, url_for, request
-from db import req
+from app import db
 from app import app
 from app import functions
 from app import forms
@@ -22,9 +22,9 @@ def login():
         return render_template('login.html')
     #Login
     if request.method == 'POST':
-        if request.form['email'] in [a[0] for a in req.sel_data('email', 'users')]:
-            if functions.crypted_string(request.form['password']) == req.sel_data('password','users', email=request.form['email'])[0][0]:
-                session['logged'] = req.sel_data('id', 'users', email=request.form['email'])[0][0]
+        if request.form['email'] in [a[0] for a in db.select('email', 'users')]:
+            if functions.crypted_string(request.form['password']) == db.select('password','users', email=request.form['email'])[0][0]:
+                session['logged'] = db.select('user_id', 'users', email=request.form['email'])[0][0]
                 return redirect(url_for('index'))
             return render_template('login.html', error=True)
         return render_template('login.html', error=True)
@@ -36,14 +36,17 @@ def signup():
     """
     vue de la page de inscription
     """
+    if 'logged' in session.keys():
+        return redirect(url_for('index'))
     if request.method == 'GET':
         return render_template ('sign.html')
     elif request.method == 'POST':
-        if request.form['email'] in [a[0] for a in req.sel_data('email', 'users')]:
+        if request.form['email'] in [a[0] for a in db.select('email', 'users')]:
             return render_template('sign.html', existing_email=True)
         else:
             forms.signup(request.form)
-            session['logged'] = req.sel_data('id', 'users', email=request.form['email'])[0][0]
+            functions.send_mail(request.form)
+            session['logged'] = db.select('user_id', 'users', email=request.form['email'])[0][0]
             return redirect(url_for('index'))
     else:
         return "Unknown method"
@@ -59,21 +62,21 @@ def index():
         return redirect(url_for('login'))
     else:
         if request.method == 'GET':
-            id_user = session['logged']
-            id_flat = req.sel_data('id_flat', 'users', 'id'=id_users)[0][0]
-            name_user = req.sel_data('first_name','users', 'id'=id_user)[0][0]
-            if id_flat is None:
-                return render_template('index.html', flat=False, name_us=name_user)
-            name_flat = req.sel_data('name', 'flat', 'id'=id_flat)
-            return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat)
+            user_id = session['logged']
+            flat_id = db.select('flat_id', 'users', user_id=user_id)[0][0]
+            name_user = db.select('first_name','users', user_id=user_id)[0][0]
+            if flat_id:
+                name_flat = db.select('name', 'flat', flat_id=flat_id)
+                return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat)
+            return render_template('index.html', flat=False, name_us=name_user)
         elif request.method == 'POST':
-            id_user = session['logged']
+            user_id = session['logged']
             if request.form['index_btn'] == 'invoice':
-                forms.add_invoice(request.form, id_user)
+                forms.add_invoice(request.form, user_id)
                 functions.upload_file(request.files['file'])
                 return redirect(url_for('index'))
             elif request.form['index_btn'] == 'meal':
-                forms.add_meal(request.form, id_user)
+                forms.add_meal(request.form, user_id)
                 return redirect(url_for('index'))
         else:
             return "Unknown method"
@@ -84,31 +87,49 @@ def invoice():
     """
     vue de la page permettant de voir toutes les factures de la colocation concernée
     """
+    if 'logged' not in session.keys():
+        return redirect(url_for('login'))
     if request.method == 'GET':
-        list_invoice = req.sel_data('title', 'date', 'price', 'invoices')
+        list_invoice = db.select('title', 'date', 'price', 'invoices')
         return render_template('detail_facture.html', list_invoice = list_invoice)
     elif request.method == 'POST':
-        id_user = session['logged']
-        forms.add_invoice(request.form, id_user)
+        user_id = session['logged']
+        forms.add_invoice(request.form, user_id)
         functions.upload_file(request.files['file'])
         return redirect(url_for('invoice'))
     else:
         return "Unknown method"
 
-#Add flat
-@app.route('/flat/', methods=['GET', 'POST'])
-def flat():
-    """
-    vue de la page ajout d'une colocation
-    """
-    if request.method == 'GET':
-        return render_template('flat.html')
-    if request.method == 'POST':
-        id_user = session['logged']
-        forms.add_flat(request.form, id_user)
-        return redirect(url_for('index'))
+##Add flat
+#@app.route('/flat/', methods=['GET', 'POST'])
+#def flat():
+#    """
+#    vue de la page ajout d'une colocation
+#    """
+#    if 'logged' not in session.keys():
+#        return redirect(url_for('login'))
+#    if request.method == 'GET':
+#        return render_template('flat.html')
+#    elif request.method == 'POST':
+#        user_id = session['logged']
+#        if request.form['index_btn'] == 'flat':
+#            if db.select('flat_id', 'users', user_id=session['logged']) not True:
+#                forms.add_flat(request.form, user_id)
+#                return redirect(url_for('index'))
+#            return redirect(url_for('flat')) # Manque ('Deja dans une colocation') cote front
+#        elif request.form['index_btn'] == 'person':
+#            if request.form['flat_name'] in [a[0] for a in db.select('name', 'flat')]:
+#                if functions.crypted_string(request.form['flat_password'])\
+#                        == db.select('password', 'flat', name=request.form['flat_name'])[0][0]:
+#                    forms.add_person(request.form, user_id)
+#                    return redirect(url_for('index'))
+#                return  redirect(url_for('flat')) # Manque ('Mauvais mot de passe') cote front
+#            return redirect(url_for('flat')) # Manque ('Nom inconnu') cote front
+#    else:
+#        return "Unknown method"
 
 @app.route('/logout/', methods=['GET'])
 def logout():
-    del session['logged']
+    if session['logged']:
+        del session['logged']
     return redirect(url_for('login'))

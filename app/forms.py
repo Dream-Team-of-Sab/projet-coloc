@@ -4,7 +4,7 @@
 
 import os
 from app import functions
-from db import req
+from app import db
 from datetime import datetime
 
 def signup(form):
@@ -12,10 +12,10 @@ def signup(form):
     last_name = form['last_name']
     email = form['email']
     password = form['password']
-    req.ins_data('users', 'first_name, last_name, email, password',\
+    db.insert('users', 'first_name,last_name,email,password',\
                 first_name, last_name, email, functions.crypted_string(password))
 
-def add_invoice(form, id_user):
+def add_invoice(form, user_id):
     title = form['title']
     date = form['date']
     price = form['price']
@@ -25,24 +25,29 @@ def add_invoice(form, id_user):
     elif form.get('no'):
         prorata = "no"
     details = form['details']
-    req.ins_data('invoices', 'title, price, prorata, date, details, file_path, id_user',\
-                title, price, prorata, date, details, inv, id_user)
+    db.insert('invoices', 'title, price, prorata, date, details, file_path, user_id',\
+                title, price, prorata, date, details, inv, user_id)
 
-def add_meal(form, id_user):
+def add_meal(form, user_id):
     cur = db.cursor()
     date = form['mdate']
     number = form['quantity']
-    req.ins_data('meals','date, number, id_user', date, number, id_user)
+    db.insert('meals','date, number, user_id', date, number, user_id)
 
-#def add_flat(form, id_user):
-#   cur = db.cursor()
-#   new_name = form['new_name']
-#   new_address = form['new_address']
-#   cur.execute('''
-#   		INSERT INTO flats
-#   		(name, address)
-#       	VALUES (%s, %s)''',\
-#       	(new_name, new_address))
-#   id_coloc = cur.execute('''SELECT id FROM Colocations WHERE name=?''', (new_name,)).fetchone()[0]
-#   cur.execute('''UPDATE Users SET id_colocation=? WHERE id=?''', (id_coloc, id_user))
-#   db.commit()
+def add_flat(form, user_id):
+    new_name = form['new_name']
+    new_address = form['new_address']
+    new_password = form['new_password']
+    db.insert('flat', 'name, address, password', new_name, new_address, functions.crypted_string(new_password))
+    flat_id = db.select('flat_id', 'flat', name=new_name)[0][0]
+    db.update('users', flat_id=flat_id, user_id=user_id)
+
+def add_flatmate(form, user_id):
+    flat_name = form['flat_name']
+    flat_password = form['flat_password']
+    name_exist = db.select('name', 'flat', name=flat_name)[0][0]
+    if name_exist:
+        pwd = db.select('password', 'flat', name=flat_name)[0][0]
+        flat_id = db.select('flat_id', 'flat', name=flat_name)[0][0]
+        if functions.crypted_string(flat_password) == pwd:
+            db.update('users', flat_id=flat_id, user_id=user_id)

@@ -5,6 +5,7 @@ import hashlib
 import os
 from datetime import datetime
 from werkzeug.utils import secure_filename
+from mailjet_rest import Client
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 UPLOAD_FOLDER = 'app/templates/uploads'

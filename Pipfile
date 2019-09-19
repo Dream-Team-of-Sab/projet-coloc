@@ -12,5 +12,6 @@ pylint = "*"
 pytest = "*"
 pytest-flask = "*"
 psycopg2 = "*"
+mailjet-rest = "*"
 
 [requires]

@@ -22,6 +22,10 @@ deliver:
 	docker push $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG)
 	docker push $(DOCKERHUB_USERNAME)/$(IMAGE):latest
 
+clear_docker:
+	sudo docker-compose down
+	sudo docker volume rm api_flat_project_dev_data
+
 #postgres_serv:
 #	sudo docker run -it -p 5432\
 #			-e "POSTGRES_USER=dev"\
