@@ -60,6 +60,7 @@ def signup():
         if request.form['email'] in req.user_email():
             return render_template('sign.html', existing_email=True)
         else:
+<<<<<<< Dashboard_func
             forms.add_user(request.form)
             forms.send_mail(request.form)
             session['logged'] = req.user_id(request.form['email'])
@@ -89,6 +90,19 @@ def signup():
             #db.commit()
             return redirect(url_for('index'))
 >>>>>>> function send_mail
+=======
+            is_added = forms.add_user(request.form)
+            if is_added == 0 : 
+                return render_template('sign.html', nothing=True)
+            elif is_added == 1 : 
+                return render_template('sign.html', wrong_flat_password=True)
+            elif is_added == 2 :
+                return render_template('sign.html', wrong_flat_name=True)
+            else :
+                forms.send_mail(request.form)
+                session['logged'] = req.user_id(request.form['email'])
+                return redirect(url_for('index'))
+>>>>>>> add error message
     else:
         return "Unknown method"
 
