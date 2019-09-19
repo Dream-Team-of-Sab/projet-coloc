@@ -45,6 +45,10 @@
                 </div>
                 <p>Créer un compte</p>
 
+                {% if nothing == True %}
+                <p class="text-center">Veuillez compléter le formulaire</p>
+                {% endif %}
+
                 {% if existing_email == True %}
                 <p class="text-center">Ces informations sont déja associées à un compte existant</p>
                 {% endif %}
@@ -64,7 +68,7 @@
        
 		 <p class="text-center my-4">Vous souhaitez rejoindre une colocation (facultatif)</p>
         
-		{% if existing_flat_name == True %}
+		{% if wrong_flat_name == True %}
 		 <p class="text-center my-4">Le nom de la colocation n'existe pas </p>
 		{% endif %}
                 
