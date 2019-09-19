@@ -37,7 +37,7 @@ ul{
    
 }
 .btn-2 {
-    padding: 8px 155px; 
+    padding: 8px 130px;; 
     border: 1px solid transparent; 
 }
 
@@ -213,7 +213,8 @@ PAGE LOGIN
 ------------------------------- */
 .bg{
     background-color: #FEC3AC;
-    height: calc(100vh - 0.1875rem); 
+    height: 100%;
+    width: 100% 
 }
 
 .login{
