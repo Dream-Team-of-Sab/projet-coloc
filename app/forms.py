@@ -77,6 +77,7 @@ def add_user(form):
                         functions.crypted_string(form['password']))
 
 <<<<<<< Dashboard_func
+<<<<<<< Dashboard_func
 #def add_user(form):
 #    response=0
 #    if form['flat_name']:
@@ -106,6 +107,9 @@ def add_user(form):
 #    return response
 =======
 def signup(form):
+=======
+def add_user(form):
+>>>>>>> first manipulation
     cur = db.cursor()
     first_name = form['first_name']
     last_name = form['last_name']
@@ -114,19 +118,6 @@ def signup(form):
     cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
                  VALUES (?, ?, ?, ?)''',\
                  (first_name, last_name, email, functions.crypted_string(password)))
-    flat_name = form['flat_name']
-    flat_password = form['flat_password']
-    if flat_name:
-        name_exist = cur.execute('''SELECT name from Colocations
-                            WHERE name=?''', (flat_name,)).fetchone()[0]
-        if name_exist is not None:
-            pwd = cur.execute('''SELECT password FROM Colocations
-                            WHERE name=?''', (flat_name,)).fetchone()[0]
-            id_coloc = cur.execute('''SELECT id FROM Colocations
-                            WHERE name=?''', (flat_name,)).fetchone()[0]
-            if functions.crypted_string(flat_password) == pwd:
-                cur.execute('''UPDATE Users SET id_colocation=?
-                            WHERE email=?''', (id_coloc, email))
     db.commit()
 >>>>>>> enter in coloc with signup page
 
