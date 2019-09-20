@@ -47,7 +47,11 @@
                 <p class="text-center my-4">Vous avez déja un compte ? Identifiez-vous</p>
 
                 {% if error == True %}
-                <p class="text-center text-error">Les informations entrées ne sont pas valides</p>
+                <p class="text-center text-error">Identifiants incorrectes</p>
+                {% endif%}
+
+                {% if nothing == True %}
+                <p class="text-center text-error">Veuillez compléter tous les champs du formulaire</p>
                 {% endif%}
 
                 <div class="form-group">

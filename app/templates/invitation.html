@@ -66,6 +66,15 @@
             <div class="row form-item d-flex justify-content-center">
                     <form action="" method='POST'>
                         <p class="text-center my-4">Invitez un ami à vous rejoindre</p>
+
+			{% if error == True %}
+        	       	<p class="text-center text-error">Veuillez remplir tous les champs du formulaire</p>
+        	       	{% endif %}
+
+			{% if wrong_password == True %}
+			<p class="text-center text-error">Le mot de passe ne correspond à celui de votre colocation</p>
+			{% endif %}
+
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Prénom de votre ami" name='friend_name'>
                         </div>
