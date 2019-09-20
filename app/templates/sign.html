@@ -46,7 +46,7 @@
                 <p>Créer un compte</p>
 
                 {% if nothing == True %}
-                <p class="text-center">Veuillez compléter le formulaire</p>
+                <p class="text-center">Veuillez remplir tous les champs du formulaire</p>
                 {% endif %}
 
                 {% if existing_email == True %}
@@ -73,6 +73,7 @@
 		 <p class="text-center my-4">Vous souhaitez rejoindre une colocation (facultatif)</p>
         
 		{% if wrong_flat_name == True %}
+<<<<<<< Dashboard_func
 =======
        
 		 <p class="text-center my-4">Vous souhaitez rejoindre une colocation (facultatif)</p>
@@ -84,10 +85,13 @@
 		{% if wrong_flat_name == True %}
 >>>>>>> first manipulation
 		 <p class="text-center my-4">Le nom de la colocation n'existe pas </p>
+=======
+		 <p class="text-center my-4">Les identifiants ne sont pas correctes</p>
+>>>>>>> debugg and add some error messages
 		{% endif %}
                 
 		{% if wrong_flat_password == True %}
-		 <p class="text-center my-4">Le mot de passe renseigné pour cette colocation n'est pas valide</p>
+		 <p class="text-center my-4">Les identifiants ne sont pas correctes</p>
 		{% endif %}
 
 		<div class="form-group">

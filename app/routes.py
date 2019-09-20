@@ -19,7 +19,7 @@ from app import app
 from app import functions
 from app import forms
 
-# login view
+#login view
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -33,13 +33,29 @@ def login():
         return render_template('login.html')
     #Login
     if request.method == 'POST':
+<<<<<<< Dashboard_func
         if request.form['email'] in [a[0] for a in req.select('email', 'users')]:
             if functions.crypted_string(request.form['password']) == req.select('password','users', email=request.form['email'])[0][0]:
                 session['logged'] = req.select('user_id', 'users', email=request.form['email'])[0][0]
+=======
+        if request.form['email'] == " " or request.form['password'] == "":
+            return render_template('login.html', nothing=True)
+        elif request.form['email'] in req.user_email():
+            if functions.crypted_string(request.form['password']) != req.sel_pwd(request.form):
+                return render_template('login.html', error=True)
+            else:
+                session['logged'] = req.user_id(request.form['email'])
+>>>>>>> debugg and add some error messages
                 return redirect(url_for('index'))
+        else:
             return render_template('login.html', error=True)
+<<<<<<< Dashboard_func
         return render_template('login.html', error=True)
     return 'Unknown method'
+=======
+    else:
+        return "Unknown method"
+>>>>>>> debugg and add some error messages
 
 # sign up view
 @app.route('/signup/', methods=['GET', 'POST'])
@@ -248,6 +264,7 @@ def flat():
             forms.add_flat(request.form, id_user)
 <<<<<<< Dashboard_func
 <<<<<<< Dashboard_func
+<<<<<<< Dashboard_func
             forms.mail_to_friend(request.form)
 >>>>>>> everything is ready to push in dev
 =======
@@ -256,6 +273,9 @@ def flat():
 =======
 >>>>>>> first modifications with some bugs
             return redirect (url_for('index'))
+=======
+            return redirect(url_for('index'))
+>>>>>>> debugg and add some error messages
         elif request.form['index_btn'] == 'person':
             forms.add_person(request.form, user_id)
             return redirect(url_for('index'))
@@ -305,8 +325,13 @@ def inv():
         return render_template('invitation.html')
     elif request.method == 'POST':
         id_user = session['logged']
-        forms.mail_to_friend(request.form, id_user)
-        return redirect(url_for('index'))
+        send_mail = forms.mail_to_friend(request.form, id_user)
+        if send_mail == 0:
+            return render_template('invitation.html', error=True)
+        elif send_mail == 1:
+            return render_template('invitation.html', wrong_password=True)
+        else:
+            return redirect(url_for('index'))
     else:
         return "Unknown method"
 >>>>>>> first modifications with some bugs
