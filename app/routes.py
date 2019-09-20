@@ -132,7 +132,7 @@ def flat():
         if id_coloc is None:
             return render_template('flat.html')
         elif id_coloc: 
-            return render_template('invitation.html')
+            return redirect(url_for('inv')) #on appelle la fonction et non la route directement
 
     elif request.method == 'POST':
         id_user = session['logged']
