@@ -17,7 +17,7 @@ def add_user(form):
             if functions.crypted_string(form['flat_password']) != pwd:
                 response=1
             else:
-                db.insert('users', 'first_name,last_name,email,password',\
+                db.insert(db, 'users', 'first_name,last_name,email,password',\
                                     form['first_name'],\
                                     form['last_name'],\
                                     form['email'],\
@@ -27,7 +27,7 @@ def add_user(form):
         except:
             response=2
     else:
-        db.insert('users', 'first_name,last_name,email,password',\
+        db.insert(db, 'users', 'first_name,last_name,email,password',\
                             form['first_name'],\
                             form['last_name'],\
                             form['email'],\
@@ -37,7 +37,7 @@ def add_user(form):
 
 def add_invoice(form, user_id):
     file_name = functions.file_date()+form['title']
-    db.insert('invoices', 'title,price,prorata,date,details,file_name,user_id',\
+    db.insert(db, 'invoices', 'title,price,prorata,date,details,file_name,user_id',\
                 form['title'],\
                 form['price'],\
                 bool(form.get('yes')),\
@@ -47,13 +47,13 @@ def add_invoice(form, user_id):
                 user_id)
 
 def add_meal(form, user_id):
-    db.insert('meals','date, number, user_id',\
+    db.insert(db, 'meals','date, number, user_id',\
                         form['mdate'],\
                         form['quantity'],\
                         user_id)
 
 def add_flat(form, user_id):
-    db.insert('flat', 'name, address, password',\
+    db.insert(db, 'flat', 'name, address, password',\
     form['new_name'],\
     form['new_adresse'],\
     functions.crypted_string(new_password))

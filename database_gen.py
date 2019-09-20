@@ -53,4 +53,4 @@ table_list = [FLATS_TABLE_CREATE, USERS_TABLE_CREATE, INVOICES_TABLE_CREATE, MEA
 
 db = Database(host='db', dbname='api_flat_dev', user='dev', password='youwillneverguess')
 for sql_ins in table_list:
-    db.create(sql_ins)
+    db.create(db, sql_ins)

@@ -6,20 +6,23 @@ class Database:
         self.dbname = kwargs['dbname']
         self.user = kwargs['user']
         self.password = kwargs['password']
+        self._db = connect("host={} dbname={} user={} password={}".format(self.host,  self.dbname, self.user, self.password))
 
-    def __call__(self):
-        db = connect("host={} dbname={} user={} password={}".format(self.host, self.dbname, self.user, self.password))
-        return db
+    def __cursor__(self):
+        if  self._db.closed :
+            self._db = connect("host={} dbname={} user={} password={}".format(self.host,  self.dbname, self.user, self.password))
+        return self._db.cursor()
+
+    def __hangup__(self, commit=True):
+        if  self._db.closed :
+            self._db = connect("host={} dbname={} user={} password={}".format(self.host,  self.dbname, self.user, self.password))
+        if commit:
+            self._db.commit()
+        self._db.rollback()
+        self._db.close()
 
     @staticmethod
-    def __hangup__(db, commit=True):
-        if commit:
-            db.commit()
-        db.rollback()
-        db.close()
-
-    @classmethod
-    def insert(cls, *args, **kwargs):
+    def insert(db, *args, **kwargs):
         """
         Inserts a new row into db object using a dynamic SQL request.
         Simple inserts are done using only args:
@@ -69,12 +72,11 @@ class Database:
                             sql.Identifier(str(l_kwargs_keys[0])),\
                             sql.Placeholder(name=str(l_kwargs_keys[0])))
             values.update({str(l_kwargs_keys[0]): kwargs[l_kwargs_keys[0]]})
-        db = cls.__call__()
-        db.cursor().execute(query, values)
-        cls.__hangup__(db)
+        db.__cursor__().execute(query, values)
+        db.__hangup__()
 
-    @classmethod
-    def select(cls, *args, **kwargs):
+    @staticmethod
+    def select(db, *args, **kwargs):
         """
         Selects row(s) of db object using a dynamic SQL request.
         Simple selects are done using only args:
@@ -103,7 +105,6 @@ class Database:
         a list of selected rows, each row being a tuple of item(s) of selected
         column(s).
         """
-        db = cls.__call__()
         table = args[-1]
         query = sql.SQL("SELECT {} FROM {}")\
                 .format(sql.SQL(",").join(map(sql.Identifier, args[:-1])),\
@@ -115,15 +116,18 @@ class Database:
                               sql.Identifier(str(l_kwargs_keys[0])),\
                               sql.Placeholder(name=str(l_kwargs_keys[0])))
             query = new_qry
-            db.cursor().execute(query,{str(l_kwargs_keys[0]): kwargs[l_kwargs_keys[0]]})
+            sel = db.__cursor__().execute(query,{str(l_kwargs_keys[0]): kwargs[l_kwargs_keys[0]]})
         else:
-            db.cursor().execute(query)
-        sel = db.cursor().fetchall()
-        cls.__hangup__(db)
-        return sel
+            sel = db.__cursor__().execute(query)
+        if sel:
+            res = sel.fetchall()
+        else:
+            res = []
+        db.__hangup__(commit=False)
+        return res
 
-    @classmethod
-    def update(cls, *args, **kwargs):
+    @staticmethod
+    def update(db, *args, **kwargs):
         """
         Updates elements of an existing row into db object using a dynamic SQL request.
         Updates are done using both args and kwargs:
@@ -150,15 +154,13 @@ class Database:
                         sql.Placeholder(name=str(l_kwargs_keys[1])))
         for x in l_kwargs_keys:
             values.update({str(x): kwargs[x]})
-        db = cls.__call__()
-        db.cursor().execute(query, values)
-        cls.__hangup__(db)
+        db.__cursor__().execute(query, values)
+        db.__hangup__()
 
-    @classmethod
-    def create(cls, req):
+    @staticmethod
+    def create(db, req):
         """
         Execute SQL requests given as args (used for table creation)
         """
-        db = cls.__call__()
-        db.cursor().execute(req)
-        cls.__close__(db)
+        db.__cursor__().execute(req)
+        db.__hangup__()
