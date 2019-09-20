@@ -46,9 +46,7 @@ def mail_to_friend(form, id_user):
                         WHERE id=?''', (id_user,)).fetchone()[0]
     flat_name = cur.execute('''SELECT name FROM Colocations 
                         WHERE id=?''', (id_coloc,)).fetchone()[0]
-    flat_password = cur.execute('''SELECT password FROM Colocations
-                        WHERE id=?''', (id_coloc,)).fetchone()[0]
-    flat_pass = functions.crypted_string(flat_password)
+    flat_password = form['flat_password']
     friend_name = form['friend_name']
     friend_email = form['friend_mail']
     mailjet = Client(auth=(api_key, api_secret), version='v3.1')
@@ -67,7 +65,7 @@ def mail_to_friend(form, id_user):
         ],
         "Subject": "Invitation sur Api'flat",
         "TextPart": "Invitation",
-        "HTMLPart": "<h3>Bonjour <em> " +friend_name+ "<em></h3>,<br><p>Vous êtes invité à rejoindre le gestionnaire de colocation Api'flat. <br>Veuillez trouver ci-dessous les identifiants à renseigner lors de votre inscription. <br> Nom de la colocation : <em> " +flat_name+ "<em> <br>Mot de passe de la colocation : <em> " +flat_pass+ "<em></p>",
+        "HTMLPart": "<h3>Bonjour <em> " +friend_name+ "<em>,</h3><br><p>Vous êtes invité à rejoindre le gestionnaire de colocation Api'flat. <br>Veuillez trouver ci-dessous les identifiants à renseigner lors de votre inscription. <br> Nom de la colocation : <em> " +flat_name+ "<em> <br>Mot de passe de la colocation : <em> " +flat_password+ "<em></p>",
         "CustomID": "AppGettingStartedTest"
         }
     ]
