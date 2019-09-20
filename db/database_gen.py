@@ -41,7 +41,7 @@ CUR.execute(
         prorata VARCHAR (5) NOT NULL,
         date DATE NOT NULL,
         details VARCHAR(255),
-        inv VARCHAR(255) , 
+        inv VARCHAR(255),
         id_paying_user INTEGER NOT NULL,
         FOREIGN KEY (id_paying_user)
         REFERENCES Users (id)
