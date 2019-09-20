@@ -125,16 +125,6 @@ def add_user(form):
         response = 4
     return response
 
-def checkbox_checked(form):
-    if form.get('yes'):
-         prorata = "yes"
-    elif form.get('no'):
-         prorata = "no"
-    else:
-         prorata = ""
-    return prorata
-
-
 def add_invoice(form, id_user):
     cur = db.cursor()
     title = form['title']

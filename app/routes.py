@@ -88,18 +88,15 @@ def index():
                                     WHERE id=? ''', (id_coloc,)).fetchone()[0]
                 return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat)
             db.commit()
-        
         elif request.method == 'POST':
             id_user = session['logged']
             if request.form['index_btn'] == 'invoice':
-                prorata = forms.checkbox_checked(request.form)
-                if request.form['title'] == "" or request.form['date'] == "" or request.form['price'] == "" or prorata == "":
+                if request.form['title'] == "" or request.form['date'] == "" or request.form['price'] == "":
                     return render_template('index.html', nothing_1=True)
                 else: 
                     forms.add_invoice(request.form, id_user)
                     functions.upload_file(request.files['file'])
                     return redirect(url_for('index'))
-            
             elif request.form['index_btn'] == 'meal':
                 if request.form['mdate'] == "" or request.form['quantity'] == "":
                     return render_template('index.html', nothing_2=True)
