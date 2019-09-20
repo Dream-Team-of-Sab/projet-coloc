@@ -24,7 +24,7 @@ def login():
         return render_template('login.html')
     #Login
     if request.method == 'POST':
-        if request.form['email'] == " " or request.form['password'] == "":
+        if request.form['email'] == "" or request.form['password'] == "":
             return render_template('login.html', nothing=True)
         elif request.form['email'] in req.user_email():
             if functions.crypted_string(request.form['password']) != req.sel_pwd(request.form):
@@ -46,7 +46,7 @@ def signup():
     if request.method == 'GET':
         return render_template('sign.html')
     elif request.method == 'POST':
-        if request.form['first_name'] == '' or request.form['last_name'] == ''  or request.form['email'] == ''  or request.form['password'] == '': 
+        if request.form['first_name'] == "" or request.form['last_name'] == ""  or request.form['email'] == ""  or request.form['password'] == "": 
             return render_template('sign.html', nothing=True)
         elif request.form['email'] in req.user_email():
             return render_template('sign.html', existing_email=True)
@@ -140,16 +140,33 @@ def flat():
             return redirect(url_for('inv')) #on appelle la fonction et non la route directement
 
     elif request.method == 'POST':
+        print("koko")
+        print(request.form)
         id_user = session['logged']
+        
+        print("coucou")
+        print(request.form['index_btn'])
+
         if request.form['index_btn'] == 'flat':
-            forms.add_flat(request.form, id_user)
-            return redirect(url_for('index'))
+            if request.form['new_name'] == "" or request.form['new_password'] == "":
+                return render_template('flat.html', nothing_1=True)
+            else: 
+                forms.add_flat(request.form, id_user)
+                return redirect(url_for('index'))
         elif request.form['index_btn'] == 'person':
-            forms.add_person(request.form, id_user)
-            return redirect(url_for('index'))
+            is_add = forms.add_person(request.form, id_user)
+            if request.form['flat_name'] == "" or request.form['flat_password'] == "":
+                return render_template('flat.html', nothing_2=True)
+            else:    
+                if is_add == 1:
+                    return render_template('flat.html', error=True)
+                elif is_add == 3:
+                    return render_template('flat.html', error=True)
+                elif is_add == 2:
+                    forms.add_person(request.form, id_user)
+                    return redirect(url_for('index'))
     else:
         return "Unknown method"
-
 
 #Invitation ami
 @app.route('/invitation/', methods=['GET', 'POST'])
