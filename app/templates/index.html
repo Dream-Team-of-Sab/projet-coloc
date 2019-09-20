@@ -87,7 +87,11 @@
             <p class="pl-3">Bonjour {{name_us}}, vous appartenez à la colocation {{name_fl}}</p>
             {%endif%}
 
-	    {% if nothing == True %}
+	    {% if nothing_1 == True %}
+            <p class="text-center">Veuillez remplir tous les champs du formulaire facture</p>
+            {% endif %}
+
+	    {% if nothing_2 == True %}
             <p class="text-center">Veuillez remplir tous les champs du formulaire repas</p>
             {% endif %}
 

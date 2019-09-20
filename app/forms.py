@@ -125,6 +125,16 @@ def add_user(form):
         response = 4
     return response
 
+def checkbox_checked(form):
+    if form.get('yes'):
+         prorata = "yes"
+    elif form.get('no'):
+         prorata = "no"
+    else:
+         prorata = ""
+    return prorata
+
+
 def add_invoice(form, id_user):
     cur = db.cursor()
     title = form['title']
@@ -132,11 +142,11 @@ def add_invoice(form, id_user):
     price = form['price']
     inv = file_date()+form['title']
     path_file = 'app/templates/uploads/'+inv
+    details = form['details']
     if form.get('yes'):
         prorata = "yes"
-    elif form.get('no'):
+    else:
         prorata = "no"
-    details = form['details']
     cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details, inv,id_paying_user)
                 VALUES (?, ?, ?, ?, ?, ?, ?)''', (title, date, prorata, price, details, inv, id_user))
     db.commit()
