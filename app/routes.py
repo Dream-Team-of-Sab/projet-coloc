@@ -144,7 +144,6 @@ def flat():
             return render_template('flat.html')
         elif id_coloc: 
             return redirect(url_for('inv')) #on appelle la fonction et non la route directement
-
     elif request.method == 'POST':
         id_user = session['logged']
         if request.form['index_btn'] == 'flat':
@@ -157,7 +156,7 @@ def flat():
             is_add = forms.add_person(request.form, id_user)
             if request.form['flat_name'] == "" or request.form['flat_password'] == "":
                 return render_template('flat.html', nothing_2=True)
-            else:    
+            else: 
                 if is_add == 1:
                     return render_template('flat.html', error=True)
                 elif is_add == 2:
