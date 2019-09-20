@@ -164,21 +164,21 @@ def add_person(form, id_user):
     cur = db.cursor()
     flat_name = form['flat_name']
     flat_password = form['flat_password']
-    name_exist = cur.execute('''SELECT name from Colocations
-                            WHERE name=?''', (flat_name,)).fetchone()[0]
     response=0
-    if name_exist is not None:
+    try:
+        name_exist = cur.execute('''SELECT name from Colocations
+                                WHERE name=?''', (flat_name,)).fetchone()[0]
         pwd = cur.execute('''SELECT password FROM Colocations
-                            WHERE name=?''', (flat_name,)).fetchone()[0]
+                        WHERE name=?''', (flat_name,)).fetchone()[0]
         id_coloc = cur.execute('''SELECT id FROM Colocations
                             WHERE name=?''', (flat_name,)).fetchone()[0]
         if functions.crypted_string(flat_password) == pwd:
             cur.execute('''UPDATE Users SET id_colocation=?
-                            WHERE id=?''', (id_coloc, id_user))
+                        WHERE id=?''', (id_coloc, id_user))
             response=2
         else:
             response=1
-    else:
-        response=3
+    except:
+        response=1
     db.commit()
     return response
