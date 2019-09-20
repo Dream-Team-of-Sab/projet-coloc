@@ -95,8 +95,11 @@ def index():
                 functions.upload_file(request.files['file'])
                 return redirect(url_for('index'))
             elif request.form['index_btn'] == 'meal':
-                forms.add_meal(request.form, id_user)
-                return redirect(url_for('index'))
+                if request.form['mdate'] == "" or request.form['quantity'] == "":
+                    return render_template('index.html', nothing=True)
+                else:
+                    forms.add_meal(request.form, id_user)
+                    return redirect(url_for('index'))
         else:
             return "Unknown method"
 
