@@ -7,7 +7,19 @@ class Database:
         self.user = kwargs['user']
         self.password = kwargs['password']
 
-    def insert(self, *args, **kwargs):
+    def __call__(self):
+        db = connect("host={} dbname={} user={} password={}".format(self.host, self.dbname, self.user, self.password))
+        return db
+
+    @staticmethod
+    def __hangup__(db, commit=True):
+        if commit:
+            db.commit()
+        db.rollback()
+        db.close()
+
+    @classmethod
+    def insert(cls, *args, **kwargs):
         """
         Inserts a new row into db object using a dynamic SQL request.
         Simple inserts are done using only args:
@@ -19,7 +31,7 @@ class Database:
         >> db.rollback()
 
         New way :
-        >> ins_data('users', 'first_name, last_name, email', 'foo', 'bar', 'foo@bar')
+        >> db.insert('users', 'first_name, last_name, email', 'foo', 'bar', 'foo@bar')
 
         Inserts with conditions (where) are done using kwargs :
 
@@ -33,12 +45,10 @@ class Database:
         >> db.rollback()
 
         New way :
-        >> ins_data('users', 'first_name, last_name, email', 'Thomas', 'Barbot', 'foo@bar', email='foo@bar')
+        >> db.insert('users', 'first_name, last_name, email', 'Thomas', 'Barbot', 'foo@bar', email='foo@bar')
 
         In both case, table name is always the FIRST args.
         """
-        db = connect("host={} dbname={} user={} password={}".format(self.host, self.dbname, self.user, self.password))
-        cur= db.cursor()
         table=args[0]
         values = dict()
         elmts_list = list(zip(args[1].split(","), args[2:]))
@@ -59,12 +69,12 @@ class Database:
                             sql.Identifier(str(l_kwargs_keys[0])),\
                             sql.Placeholder(name=str(l_kwargs_keys[0])))
             values.update({str(l_kwargs_keys[0]): kwargs[l_kwargs_keys[0]]})
-        cur.execute(query, values)
-        db.commit()
-        db.rollback()
-        db.close()
+        db = cls.__call__()
+        db.cursor().execute(query, values)
+        cls.__hangup__(db)
 
-    def select(self, *args, **kwargs):
+    @classmethod
+    def select(cls, *args, **kwargs):
         """
         Selects row(s) of db object using a dynamic SQL request.
         Simple selects are done using only args:
@@ -75,7 +85,7 @@ class Database:
         >> db.rollback()
 
         New way :
-        >> sel_data('id', 'users')
+        >> db.select('id', 'users')
 
         Selects with conditions (where) are done using kwargs :
 
@@ -87,14 +97,13 @@ class Database:
 
         New way :
 
-        >> sel_data('id', 'users', email = 'foo@bar')
+        >> db.select('id', 'users', email = 'foo@bar')
 
         In both case, table name is always the LAST args. This function returns
         a list of selected rows, each row being a tuple of item(s) of selected
         column(s).
         """
-        db = connect("host={} dbname={} user={} password={}".format(self.host, self.dbname, self.user, self.password))
-        cur= db.cursor()
+        db = cls.__call__()
         table = args[-1]
         query = sql.SQL("SELECT {} FROM {}")\
                 .format(sql.SQL(",").join(map(sql.Identifier, args[:-1])),\
@@ -106,19 +115,30 @@ class Database:
                               sql.Identifier(str(l_kwargs_keys[0])),\
                               sql.Placeholder(name=str(l_kwargs_keys[0])))
             query = new_qry
-            cur.execute(query,{str(l_kwargs_keys[0]): kwargs[l_kwargs_keys[0]]})
+            db.cursor().execute(query,{str(l_kwargs_keys[0]): kwargs[l_kwargs_keys[0]]})
         else:
-            cur.execute(query)
-        sel = cur.fetchall()
-        db.rollback()
-        db.close()
+            db.cursor().execute(query)
+        sel = db.cursor().fetchall()
+        cls.__hangup__(db)
         return sel
 
-    def update(self, *args, **kwargs):
+    @classmethod
+    def update(cls, *args, **kwargs):
         """
+        Updates elements of an existing row into db object using a dynamic SQL request.
+        Updates are done using both args and kwargs:
+
+        Old way :
+        >> cur = db.cursor()
+        >> cur.execute("UPDATE users SET email= %s WHERE user_id= %s)", ('foo@bar', user_id))
+        >> db.commit()
+        >> db.rollback()
+
+        New way :
+        >> db.update('users',  email='foo@bar', user_id=user_id)
+
+        Table name is always the FIRST args.
         """
-        db = connect("host={} dbname={} user={} password={}".format(self.host, self.dbname, self.user, self.password))
-        cur = db.cursor()
         table=args[0]
         l_kwargs_keys = list(kwargs.keys())
         values = dict()
@@ -130,17 +150,15 @@ class Database:
                         sql.Placeholder(name=str(l_kwargs_keys[1])))
         for x in l_kwargs_keys:
             values.update({str(x): kwargs[x]})
-        cur.execute(query, values)
-        db.commit()
-        db.rollback()
-        db.close()
+        db = cls.__call__()
+        db.cursor().execute(query, values)
+        cls.__hangup__(db)
 
-    def create(self, req):
+    @classmethod
+    def create(cls, req):
         """
+        Execute SQL requests given as args (used for table creation)
         """
-        db = connect("host={} dbname={} user={} password={}".format(self.host, self.dbname, self.user, self.password))
-        cur = db.cursor()
-        cur.execute(req)
-        db.commit()
-        db.rollback()
-        db.close()
+        db = cls.__call__()
+        db.cursor().execute(req)
+        cls.__close__(db)
