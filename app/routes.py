@@ -10,7 +10,7 @@ from app import app
 from app import functions
 from app import forms
 
-# login view
+#login view
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -24,13 +24,18 @@ def login():
         return render_template('login.html')
     #Login
     if request.method == 'POST':
-        if request.form['email'] in req.user_email():
-            if functions.crypted_string(request.form['password']) == req.sel_pwd(request.form):
+        if request.form['email'] == " " or request.form['password'] == "":
+            return render_template('login.html', nothing=True)
+        elif request.form['email'] in req.user_email():
+            if functions.crypted_string(request.form['password']) != req.sel_pwd(request.form):
+                return render_template('login.html', error=True)
+            else:
                 session['logged'] = req.user_id(request.form['email'])
                 return redirect(url_for('index'))
+        else:
             return render_template('login.html', error=True)
-        return render_template('login.html', error=True)
-    return 'Wrong http method. How did you get here ?!'
+    else:
+        return "Unknown method"
 
 # sign up view
 @app.route('/signup/', methods=['GET', 'POST'])
@@ -132,14 +137,13 @@ def flat():
         if id_coloc is None:
             return render_template('flat.html')
         elif id_coloc: 
-            return render_template('invitation.html')
+            return redirect(url_for('inv')) #on appelle la fonction et non la route directement
 
     elif request.method == 'POST':
         id_user = session['logged']
         if request.form['index_btn'] == 'flat':
             forms.add_flat(request.form, id_user)
-#            forms.mail_to_friend(request.form)
-            return redirect (url_for('index'))
+            return redirect(url_for('index'))
         elif request.form['index_btn'] == 'person':
             forms.add_person(request.form, id_user)
             return redirect(url_for('index'))
@@ -153,7 +157,20 @@ def inv():
     """
     vue de la page inviter ami
     """
-    return render_template('invitation.html')
+    if request.method == 'GET':
+        id_user = session['logged']
+        return render_template('invitation.html')
+    elif request.method == 'POST':
+        id_user = session['logged']
+        send_mail = forms.mail_to_friend(request.form, id_user)
+        if send_mail == 0:
+            return render_template('invitation.html', error=True)
+        elif send_mail == 1:
+            return render_template('invitation.html', wrong_password=True)
+        else:
+            return redirect(url_for('index'))
+    else:
+        return "Unknown method"
 
 @app.route('/logout/', methods=['GET'])
 def logout():
