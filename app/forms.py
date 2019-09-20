@@ -12,7 +12,6 @@ from mailjet_rest import Client
 def send_mail(form):
     api_key = '4c392ed6313cbe35ff946c4a67bd5698'
     api_secret = 'ff1d1fd6e23e34400d6b95abe8822706'
-    cur = db.cursor()
     first_name = form['first_name']
     email = form['email']
     mailjet = Client(auth=(api_key, api_secret), version='v3.1')
@@ -25,18 +24,18 @@ def send_mail(form):
         },
         "To": [
             {
-            "Email": email,
-            "Name": first_name
+                "Email": email,
+                "Name": first_name
             }
         ],
-        "Subject": "Inscription",
-        "TextPart": "Inscription",
-        "HTMLPart": "<h3>Bienvenue sur Api'Flat</h3>, <br>L'application de gestion de votre colocation.<br>Votre compte a été créé avec succès.</h3>",
-        "CustomID": "AppGettingStartedTest"
+            "Subject": "Inscription",
+            "TextPart": "Inscription",
+            "HTMLPart": "<h3>Bienvenue sur Api'Flat</h3>, <br>L'application de gestion de votre colocation.<br>Votre compte a été créé avec succès.</h3>",
+            "CustomID": "AppGettingStartedTest"
         }
     ]
     }
-    result = mailjet.send.create(data=data)
+    mailjet.send.create(data=data)
 
 def mail_to_friend(form, id_user):
     api_key = '4c392ed6313cbe35ff946c4a67bd5698'
@@ -44,18 +43,18 @@ def mail_to_friend(form, id_user):
     cur = db.cursor()
     id_coloc = cur.execute('''SELECT id_colocation FROM Users
                         WHERE id=?''', (id_user,)).fetchone()[0]
-    flat_name = cur.execute('''SELECT name FROM Colocations 
+    flat_name = cur.execute('''SELECT name FROM Colocations
                         WHERE id=?''', (id_coloc,)).fetchone()[0]
     flat_password = form['flat_password']
     pwd = cur.execute('''SELECT password FROM Colocations
                         WHERE id=?''', (id_coloc,)).fetchone()[0]
     friend_name = form['friend_name']
     friend_email = form['friend_mail']
-    response=0
+    response = 0
     if friend_name and friend_email and flat_password:
         if functions.crypted_string(flat_password) != pwd:
-            response=1
-        else:    
+            response = 1
+        else: 
             mailjet = Client(auth=(api_key, api_secret), version='v3.1')
             data = {
             'Messages': [
@@ -77,10 +76,10 @@ def mail_to_friend(form, id_user):
                 }
             ]
             }
-            result = mailjet.send.create(data=data)
-            response=2
+            mailjet.send.create(data=data)
+            response = 2
     else:
-        response=0
+        response = 0
     return response
 
 def file_date():
@@ -96,7 +95,7 @@ def add_user(form):
     password = form['password']
     flat_name = form['flat_name']
     flat_password = form['flat_password']
-    response=0
+    response = 0
     if flat_name:
         try:
             name_exist = cur.execute('''SELECT name from Colocations
@@ -107,23 +106,23 @@ def add_user(form):
                             WHERE name=?''', (flat_name,)).fetchone()[0]
             db.commit()
             if functions.crypted_string(flat_password) != pwd:
-                response=1
-            else: 
+                response = 1
+            else:
                 cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
                         VALUES (?, ?, ?, ?)''',\
                 (first_name, last_name, email, functions.crypted_string(password)))
                 cur.execute('''UPDATE Users SET id_colocation=?
                         WHERE email=?''', (id_coloc, email))
                 db.commit()
-                response=4
+                response = 4
         except:
-            response=2
-    else: 
+            response = 2
+    else:
         cur.execute('''INSERT INTO Users (first_name, last_name, email, password)
                 VALUES (?, ?, ?, ?)''',\
         (first_name, last_name, email, functions.crypted_string(password)))
         db.commit()
-        response=4
+        response = 4
     return response
 
 def add_invoice(form, id_user):
@@ -164,7 +163,7 @@ def add_person(form, id_user):
     cur = db.cursor()
     flat_name = form['flat_name']
     flat_password = form['flat_password']
-    response=0
+    response = 0
     try:
         name_exist = cur.execute('''SELECT name from Colocations
                                 WHERE name=?''', (flat_name,)).fetchone()[0]
@@ -175,10 +174,10 @@ def add_person(form, id_user):
         if functions.crypted_string(flat_password) == pwd:
             cur.execute('''UPDATE Users SET id_colocation=?
                         WHERE id=?''', (id_coloc, id_user))
-            response=2
+            response = 2
         else:
-            response=1
+            response = 1
     except:
-        response=1
+        response = 1
     db.commit()
     return response
