@@ -78,13 +78,23 @@
      
     <div class="container-fluid">     
         <div class="row d-flex justify-content-center">
-            {%if flat == False%}
+           
+	    {%if flat == False%}
             <p class="pl-3">Bonjour {{name_us}}, vous n'appartenez à aucune colocation</p>
             {%endif%}
         
             {%if flat == True%}
             <p class="pl-3">Bonjour {{name_us}}, vous appartenez à la colocation {{name_fl}}</p>
             {%endif%}
+
+	    {% if nothing_1 == True %}
+            <p class="text-center">Veuillez remplir tous les champs du formulaire facture</p>
+            {% endif %}
+
+	    {% if nothing_2 == True %}
+            <p class="text-center">Veuillez remplir tous les champs du formulaire repas</p>
+            {% endif %}
+
         </div>     
         <div class="row d-flex justify-content-center mt-4">     
             <div class="col-12 col-lg-5 side side-left">
@@ -105,6 +115,7 @@
                 </div>   
             </div>
             
+
 	    <!-- MODAL ENREGRISTER UN REPAS -->
          <div class="modal fade" id="mealModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
              <div class="modal-dialog" role="document">

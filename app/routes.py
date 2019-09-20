@@ -24,7 +24,7 @@ def login():
         return render_template('login.html')
     #Login
     if request.method == 'POST':
-        if request.form['email'] == " " or request.form['password'] == "":
+        if request.form['email'] == "" or request.form['password'] == "":
             return render_template('login.html', nothing=True)
         elif request.form['email'] in req.user_email():
             if functions.crypted_string(request.form['password']) != req.sel_pwd(request.form):
@@ -46,7 +46,7 @@ def signup():
     if request.method == 'GET':
         return render_template('sign.html')
     elif request.method == 'POST':
-        if request.form['first_name'] == '' or request.form['last_name'] == ''  or request.form['email'] == ''  or request.form['password'] == '': 
+        if request.form['first_name'] == "" or request.form['last_name'] == ""  or request.form['email'] == ""  or request.form['password'] == "": 
             return render_template('sign.html', nothing=True)
         elif request.form['email'] in req.user_email():
             return render_template('sign.html', existing_email=True)
@@ -88,15 +88,24 @@ def index():
                                     WHERE id=? ''', (id_coloc,)).fetchone()[0]
                 return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat)
             db.commit()
+        
         elif request.method == 'POST':
             id_user = session['logged']
             if request.form['index_btn'] == 'invoice':
-                forms.add_invoice(request.form, id_user)
-                functions.upload_file(request.files['file'])
-                return redirect(url_for('index'))
+                prorata = forms.checkbox_checked(request.form)
+                if request.form['title'] == "" or request.form['date'] == "" or request.form['price'] == "" or prorata == "":
+                    return render_template('index.html', nothing_1=True)
+                else: 
+                    forms.add_invoice(request.form, id_user)
+                    functions.upload_file(request.files['file'])
+                    return redirect(url_for('index'))
+            
             elif request.form['index_btn'] == 'meal':
-                forms.add_meal(request.form, id_user)
-                return redirect(url_for('index'))
+                if request.form['mdate'] == "" or request.form['quantity'] == "":
+                    return render_template('index.html', nothing_2=True)
+                else:
+                    forms.add_meal(request.form, id_user)
+                    return redirect(url_for('index'))
         else:
             return "Unknown method"
 
@@ -142,14 +151,23 @@ def flat():
     elif request.method == 'POST':
         id_user = session['logged']
         if request.form['index_btn'] == 'flat':
-            forms.add_flat(request.form, id_user)
-            return redirect(url_for('index'))
+            if request.form['new_name'] == "" or request.form['new_password'] == "":
+                return render_template('flat.html', nothing_1=True)
+            else: 
+                forms.add_flat(request.form, id_user)
+                return redirect(url_for('index'))
         elif request.form['index_btn'] == 'person':
-            forms.add_person(request.form, id_user)
-            return redirect(url_for('index'))
+            is_add = forms.add_person(request.form, id_user)
+            if request.form['flat_name'] == "" or request.form['flat_password'] == "":
+                return render_template('flat.html', nothing_2=True)
+            else:    
+                if is_add == 1:
+                    return render_template('flat.html', error=True)
+                elif is_add == 2:
+                    forms.add_person(request.form, id_user)
+                    return redirect(url_for('index'))
     else:
         return "Unknown method"
-
 
 #Invitation ami
 @app.route('/invitation/', methods=['GET', 'POST'])
