@@ -30,7 +30,7 @@ def send_mail(form):
         ],
             "Subject": "Inscription",
             "TextPart": "Inscription",
-            "HTMLPart": "<h3>Bienvenue sur Api'Flat</h3>, <br>L'application de gestion de votre colocation.<br>Votre compte a été créé avec succès.</h3>",
+            "HTMLPart": "<h3>Bienvenue sur Api'Flat,</h3><br>L'application de gestion de votre colocation.<br>Votre compte a été créé avec succès.</h3>",
             "CustomID": "AppGettingStartedTest"
         }
     ]
