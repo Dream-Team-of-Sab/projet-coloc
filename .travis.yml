@@ -1,11 +1,20 @@
 services:
   - docker
 
+language: python
+
+python:
+  - '3.6'
+
+install:
+  - 'pip install pipenv'
+  - 'pipenv install'
+
 script:
-  - sudo apt-get update && sudo apt-get install python-pip 
-  - sudo pip install pipenv
-  - sudo pipenv install
-  - sudo pipenv run pytest
+#  - sudo apt-get update && sudo apt-get install python-pip 
+#  - sudo pip install pipenv
+#  - pipenv install
+  - pipenv run pytest
   - sudo docker-compose up -d
 
 deploy:
