@@ -2,6 +2,8 @@ services:
   - docker
 
 script:
+  - sudo apt-get update && sudo apt-get install pip3 
+  - sudo pip3 install pipenv
   - pipenv run pytest
   - sudo docker-compose up -d
 
