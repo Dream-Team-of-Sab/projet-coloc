@@ -76,10 +76,11 @@
                 <div class="row d-flex justify-content-center">
                     <ul name="invoice_list">
                         {% for each in list_invoice %}
-                        <li class="mt-5 mb-4 d-flex justify-content-between" value="{{each[0]}}"><span class="text-center">{{each[0]}}</span> <span class="text-center">{{each[1]}}</span> <span class="text-center">{{each[2]}}€</span> </li>
+                        <li class="mt-5" value="{{each[0]}}">{{each[0]}} <em>ajouté le</em> {{each[1]}}</li>
+                        <li>Montant total : {{each[2]}}€</li>
+                        <li class="mb-3">Facture payée par : {{each[4]}}</li>
                         <a href="" class="bt btn-2" data-toggle="modal" data-target="#viewModal">Voir le détail de la facture</a>
                         {% endfor %}
-                      
                     </ul>
                 </div>
             </div>
@@ -157,13 +158,13 @@
                         <div class="modal-body">
                             <form action='' method='post' enctype="multipart/form-data">
                                 <div class="form-group">
-                                    <p name="title">Intitulé de la facture</p>
+                                    <p name="title_invoice">Intitulé de la facture</p>
                                 </div>
                                 <div class="form-group">
-                                    <p name="date">Date</p>
+                                    <p name="date_invoice">Date</p>
                                 </div>
                                 <div class="form-group">
-                                    <p name="price">Prix</p>
+                                    <p name="price_invoice">Prix</p>
                                 </div>
                                 <div>
                                     <img src="uploads/11_09_19_14_47_24_facture_mac.jpeg" alt="">

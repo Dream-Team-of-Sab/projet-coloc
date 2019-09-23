@@ -116,7 +116,9 @@ def invoice():
     """
     if request.method == 'GET':
         cur = db.cursor()
-        list_invoice = cur.execute('''SELECT title, date, price FROM Invoices''').fetchall()
+        list_invoice = cur.execute('''SELECT title, date, price, id_paying_user, first_name
+                                      FROM Invoices
+                                      JOIN Users ON Invoices.id_paying_user = Users.id''').fetchall()
         invoice = [i for i in list_invoice]
         db.commit()
         return render_template('detail_facture.html', list_invoice = invoice)
@@ -127,7 +129,6 @@ def invoice():
         return redirect(url_for('invoice'))
     else:
         return "Unknown method"
-
 
 #Add coloc
 @app.route('/flat/', methods=['GET', 'POST'])
