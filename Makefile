@@ -3,7 +3,7 @@
 all: 
 
 build:
-	sudo docker-compose up 
+	sudo docker-compose up -d
 
 test: 
 	pipenv run pytest

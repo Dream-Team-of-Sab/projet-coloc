@@ -2,12 +2,12 @@ services:
   - docker
 
 script:
-  - make build
-  - make test
+  - pipenv run pytest
+  - sudo docker-compose up -d
 
 deploy:
   provider: script
-  script: make deliver
+  script: ./starting_app.sh
   on:
     branch: continuous-deploy
 
