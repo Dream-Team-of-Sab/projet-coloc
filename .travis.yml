@@ -4,8 +4,8 @@ services:
 script:
   - sudo apt-get update && sudo apt-get install python-pip 
   - sudo pip install pipenv
-  - pipenv install
-  - pipenv run pytest
+  - sudo pipenv install
+  - sudo pipenv run pytest
   - sudo docker-compose up -d
 
 deploy:
