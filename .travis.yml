@@ -15,7 +15,7 @@ script:
 #  - sudo pip install pipenv
 #  - pipenv install
   - sudo docker-compose up -d
-  - docker network inspect projet-coloc_test_network
+  - docker network inspect projetcoloc_ci-net
   - pipenv run pytest
 
 deploy:
