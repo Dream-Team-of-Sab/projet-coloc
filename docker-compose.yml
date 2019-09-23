@@ -1,44 +1,57 @@
-version: "3.4"
+version: '3'
 
 services:
-  db:
-    image: postgres
-    restart: "no"
-    environment:
-      POSTGRES_PASSWORD: app
-      POSTGRES_USER: app
-      POSTGRES_DB: app
-      
+
+  haproxy: 
+    image: haproxy:latest
     volumes:
-      - postgresql_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+      - ./haproxy/:/usr/local/etc/haproxy/
+    ports: 
+      - 80:80
     networks:
-      - backend
-  
-  app:
+      ci-net:
+        ipv4_address: 10.5.0.3
+
+
+  # serveur applicatif
+  python:
     build: .
-    restart: "no"
-   # volumes:
-   #   - factures_data:/app/factures
-    ports:
-      - "5000:5000"
-   #scale: 2
+    restart: always
+    container_name: app
     networks:
-      - backend
+      ci-net:
+        ipv4_address: 10.5.0.6
+    volumes:
+      - .:/api_flat/.
+    working_dir: /api_flat
+    command: bash -c 'pipenv install; pipenv run python database_gen.py; pipenv run python api_flat.py'
+    ports:
+      - 5000:5000
 
-  #proxy:
-    #image:
-    #networks:
-     #- backend
+  # base de données
+  db:
+    image: postgres:11.5
+    restart: always
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: youwillneverguess
+      POSTGRES_DB: api_flat_dev
+    networks:
+      ci-net:
+        ipv4_address: 10.5.0.7
+    ports:
+      - 5432
+    volumes:
+      - dev_data:/var/lib/postgresql/data/
 
-volumes:
-  postgresql_data:
-
-#on déclare un volume pour stocker les facturettes (voir où Flask enregistre les datas)
-#volumes:
-# factures_data:
-
-#on déclare un réseau pour lier les différents conteneurs entre eux
+# permet de configurer le réseau "virtuel" dans le docker engine
 networks:
-  backend:
+  ci-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+
+# permet de créer un dossier dossier partagé entre le container et la machine hôte (sauvegarde db)
+volumes:
+  dev_data:
