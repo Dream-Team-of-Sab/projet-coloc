@@ -2,18 +2,29 @@ version: '3'
 
 services:
 
+  haproxy: 
+    image: haproxy:latest
+    volumes:
+      - ./haproxy/:/usr/local/etc/haproxy/
+    ports: 
+      - 80:80
+    networks:
+      ci-net:
+        ipv4_address: 10.5.0.3
+
+
   # serveur applicatif
   python:
     build: .
     restart: always
+    container_name: app
     networks:
-      test_network:
+      ci-net:
+        ipv4_address: 10.5.0.6
     volumes:
       - .:/api_flat/.
     working_dir: /api_flat
     command: bash -c 'pipenv install; pipenv run python database_gen.py; pipenv run python api_flat.py'
-    depends_on:
-      - db
     ports:
       - 5000:5000
 
@@ -26,7 +37,8 @@ services:
       POSTGRES_PASSWORD: youwillneverguess
       POSTGRES_DB: api_flat_dev
     networks:
-      test_network:
+      ci-net:
+        ipv4_address: 10.5.0.7
     ports:
       - 5432
     volumes:
@@ -34,7 +46,11 @@ services:
 
 # permet de configurer le réseau "virtuel" dans le docker engine
 networks:
-  test_network:
+  ci-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
 
 # permet de créer un dossier dossier partagé entre le container et la machine hôte (sauvegarde db)
 volumes:
