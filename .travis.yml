@@ -9,5 +9,5 @@ deploy:
   provider: script
   script: make deliver
   on:
-    branch: dev
+    branch: continuous-deploy
 
