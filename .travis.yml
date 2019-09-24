@@ -8,8 +8,6 @@ python:
 
 script:
   - sudo docker-compose up -d
-  - sudo docker ps
-  - sudo docker network inspect projetcoloc_ci-net
   - sudo apt-get update && sudo apt-get install python-pip python3-pip
   - sudo pip install pipenv
   - sudo pipenv install
