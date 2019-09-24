@@ -1,26 +1,46 @@
 services:
   - docker
 
-language: python
+language:
 
 python:
   - '3.6'
 
-install:
-  - 'pip install pipenv'
-  - 'pipenv install'
-
 script:
-#  - sudo apt-get update && sudo apt-get install python-pip 
-#  - sudo pip install pipenv
-#  - pipenv install
   - sudo docker-compose up -d
-  - docker network inspect projetcoloc_ci-net
-  - pipenv run pytest
+  - sudo apt-get update && sudo apt-get install python-pip
+  - pip install pytest pytest-flask flask click pylint psycopg2 
+  - run pytest
 
 deploy:
   provider: script
   script: ./starting_app.sh
   on:
     branch: continuous-deploy
+
+#services:
+#  - docker
+
+#language: python
+
+#python:
+#  - '3.6'
+
+#install:
+#  - 'pip install pipenv'
+#  - 'pipenv install'
+
+#script:
+#  - sudo apt-get update && sudo apt-get install python-pip 
+#  - sudo pip install pipenv
+#  - pipenv install
+#  - sudo docker-compose up -d
+#  - docker network inspect projetcoloc_ci-net
+#  - pipenv run pytest
+
+#deploy:
+#  provider: script
+#  script: ./starting_app.sh
+#  on:
+#    branch: continuous-deploy
 
