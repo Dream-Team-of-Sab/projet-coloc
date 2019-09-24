@@ -9,8 +9,9 @@ python:
 script:
   - sudo docker-compose up -d
   - sudo apt-get update && sudo apt-get install python-pip
-  - pip install pytest pytest-flask flask click pylint psycopg2 
-  - run pytest
+  - sudo pip install --upgrade pip
+  - sudo pip install pytest pytest-flask flask click pylint psycopg2 
+  - sudo pytest
 
 deploy:
   provider: script
