@@ -78,7 +78,10 @@ def index():
             cur = db.cursor()
             id_user = session['logged']
             id_coloc = cur.execute('''SELECT id_colocation FROM Users
-                                WHERE id=?''', (id_user,)).fetchone()[0]
+                                     WHERE id=?''', (id_user,))
+            if id_coloc is not None: 
+                id_coloc = id_coloc.fetchone()[0]
+            
             name_user = cur.execute('''SELECT first_name FROM Users
                                 WHERE id=?''', (id_user,)).fetchone()[0]
             if id_coloc is None:
@@ -142,14 +145,15 @@ def see_invoice_ajax(inv_id):
     """
     if request.method == 'GET':
         cur = db.cursor()
-        one_invoice = cur.execute('''SELECT title, date, price, details
+        one_invoice = cur.execute('''SELECT title, date, price, details, inv
                                      FROM Invoices
                                      WHERE id = ?''', (inv_id,)).fetchone()
         return jsonify({
                 "title" : one_invoice[0],
                 "date" : one_invoice[1],
                 "price" : one_invoice[2],
-                "details": one_invoice[3]
+                "details": one_invoice[3],
+                "inv": one_invoice[4]
             })
         
 #Add coloc

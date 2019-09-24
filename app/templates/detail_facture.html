@@ -73,9 +73,16 @@
     </header>
 
     <div class="container detail">
-        <div class="row d-flex justify-content-center">
+        <div class="row justify-content-center">
             <h3 class="mt-5">Détail des factures</h3>
         </div>
+
+        <div class="row justify-content-center">
+            {% if nothing_1 == True %}
+            <p class="text-center">Veuillez remplir tous les champs du formulaire facture</p>
+            {% endif %}
+        </div>
+
         <div class="row detail_item d-flex justify-content-center mt-5">
             <div class="col-12 col-lg-6 item1">
                 <img src="../static/img/add_bill.svg" alt="">
@@ -88,19 +95,15 @@
                 <div class="row d-flex justify-content-center">
                     <ul name="invoice_list">
                         {% for each in list_invoice %}
-                        <li class="mt-5" value="{{each[0]}}">{{each[1]}} <em>ajouté le</em> {{each[2]}}</li>
-                        <li>Montant total : {{each[3]}}€</li>
+                        <li class="mt-5" style="text-transform: capitalize" value="{{each[0]}}">{{each[1]}} <em style="text-transform: none">d'un montant de </em> {{each[3]}}€</li>
                         <!-- <li class="mb-3">Facture réglée par : {{each[3]}}</li> -->
-                        <button class="bt btn-2 see" data-id="{{each[0]}}" data-toggle="modal"
-                            data-target="#seeInvoice">Voir le
-                            détail
-                            de la facture</button>
+                        <button class="bt btn-2 see mt-3" data-id="{{each[0]}}" data-toggle="modal" data-target="#seeInvoice">Voir le détail de la facture</button>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
         </div>
-
+        <!-- <embed src="{{ url_for('static', filename='uploads/logo.png')}}" width=800 height=500 type='image/png'/> -->
         <!-- MODAL VOIR UNE FACTURE -->
         <div class="modal" id="seeInvoice" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -114,6 +117,7 @@
                                     d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
                             </svg>
                         </button>
+                       
                     </div>
                     <div class="modal-body" id="result">
 
@@ -154,14 +158,10 @@
                                 <textarea class="form-control" id="message-text" placeholder="Liste des achats"
                                     name="details"></textarea>
                             </div>
-                            <p>Mettre au pro-rata (obligatoire)</p>
+                             <p>Soumettre au pro-rata ?</p>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="yes">
                                 <label class="form-check-label" for="inlineCheckbox1">Oui</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="no">
-                                <label class="form-check-label" for="inlineCheckbox2">Non</label>
                             </div>
                             <div class="form-group mt-3">
                                 <svg id="icon-download" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
@@ -188,6 +188,7 @@
 </body>
 
 <script>
+
     let btn = document.getElementsByClassName("see");
     for (i = 0; i < btn.length; ++i) {
         btn[i].addEventListener('click', (event) => {
@@ -196,7 +197,11 @@
             const invoice = document.getElementById('result')
             fetch(`http://0.0.0.0:5000/invoice/${id}`).then((response) => {
                 response.json().then(json => {
-                    let title = cE('h6');
+                    
+                    // getImageByName(json.date, json.title)
+console.log(json)
+
+                    let title = cE('p');
                     title.append("Facture : ", json.title);
                     let date = cE('p');
                     date.append("Ajoutée le : ", json.date);
@@ -217,6 +222,13 @@
     function cE(type) {
         return document.createElement(type)
     }
+
+
+    function getImageByName(date, name) {
+        const newDate = date.split('/')
+        return `${newDate[0]}_${newDate[1]}_${newDate[2]}_${name}`;
+    }
+
 </script>
 
 </html>
