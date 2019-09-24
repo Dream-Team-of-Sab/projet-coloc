@@ -71,6 +71,7 @@ def index():
     """
     vue de la page d'accueil
     """
+
     if 'logged' not in session.keys():
         return redirect(url_for('login'))
     else:
@@ -97,7 +98,7 @@ def index():
                 if request.form['title'] == "" or request.form['date'] == "" or request.form['price'] == "":
                     return render_template('index.html', nothing_1=True)
                 else: 
-                    forms.add_invoice(request.form, id_user)
+                    forms.add_invoice(request, id_user)
                     functions.upload_file(request.files['file'])
                     return redirect(url_for('index'))
             elif request.form['index_btn'] == 'meal':
@@ -131,7 +132,7 @@ def invoice():
         return render_template('detail_facture.html', list_invoice = invoice)
     elif request.method == 'POST':
         id_user = session['logged']
-        forms.add_invoice(request.form, id_user)
+        forms.add_invoice(request, id_user)
         functions.upload_file(request.files['file'])
         return redirect(url_for('invoice'))
     else:

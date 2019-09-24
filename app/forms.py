@@ -125,19 +125,18 @@ def add_user(form):
         response = 4
     return response
 
-def add_invoice(form, id_user):
+def add_invoice(request, id_user):
     cur = db.cursor()
-    title = form['title']
-    date = form['date']
-    price = form['price']
-    inv = file_date()+form['title']
-    path_file = 'app/templates/uploads/'+inv
-    details = form['details']
-    if form.get('yes'):
+    title = request.form['title']
+    date = request.form['date']
+    price = request.form['price']
+    inv = file_date()+request.files['file'].filename
+    details = request.form['details']
+    if request.form.get('yes'):
         prorata = "yes"
     else:
         prorata = "no"
-    cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details, inv,id_paying_user)
+    cur.execute('''INSERT INTO Invoices (title, date, prorata,  price, details, inv, id_paying_user)
                 VALUES (?, ?, ?, ?, ?, ?, ?)''', (title, date, prorata, price, details, inv, id_user))
     db.commit()
 

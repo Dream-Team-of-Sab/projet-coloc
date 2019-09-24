@@ -95,15 +95,13 @@
                 <div class="row d-flex justify-content-center">
                     <ul name="invoice_list">
                         {% for each in list_invoice %}
-                        <li class="mt-5" style="text-transform: capitalize" value="{{each[0]}}">{{each[1]}} <em style="text-transform: none">d'un montant de </em> {{each[3]}}€</li>
-                        <!-- <li class="mb-3">Facture réglée par : {{each[3]}}</li> -->
+                        <li class="mt-5" style="text-transform: capitalize" value="{{each[0]}}">Facture {{each[1]}} <em style="text-transform: none">d'un montant de </em> {{each[3]}}€</li>
                         <button class="bt btn-2 see mt-3" data-id="{{each[0]}}" data-toggle="modal" data-target="#seeInvoice">Voir le détail de la facture</button>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
         </div>
-        <!-- <embed src="{{ url_for('static', filename='uploads/logo.png')}}" width=800 height=500 type='image/png'/> -->
         <!-- MODAL VOIR UNE FACTURE -->
         <div class="modal" id="seeInvoice" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -119,12 +117,18 @@
                         </button>
                        
                     </div>
-                    <div class="modal-body" id="result">
-
-                    </div>
+                    <div class="modal-body" id="result"></div>  
+                    <div class="modal-footer">
+                        <p class="text-center">Cliquer sur la photo pour l'agrandir</p>
+                        <div class="d-flex justify-content-center">
+                            <embed id="invoice_img" type='application/pdf'>
+                        </div> 
+                    </div>    
                 </div>
             </div>
         </div>
+
+        
 
 
         <!-- MODAL/ FORMULAIRE AJOUT DE FACTURE -->
@@ -197,10 +201,6 @@
             const invoice = document.getElementById('result')
             fetch(`http://0.0.0.0:5000/invoice/${id}`).then((response) => {
                 response.json().then(json => {
-                    
-                    // getImageByName(json.date, json.title)
-console.log(json)
-
                     let title = cE('p');
                     title.append("Facture : ", json.title);
                     let date = cE('p');
@@ -209,11 +209,14 @@ console.log(json)
                     price.append("Montant total : ", json.price, "€");
                     let details = cE('p');
                     details.append("Détail de la facture : ", json.details);
+                    document.getElementById('invoice_img').src=`/static/uploads/${json.inv}`
                     invoice.append(title, date, price, details)
+                    console.log(json)
                 })
             })
         })
     }
+   
     // Pour vider le modal
     $('#seeInvoice').on('hidden.bs.modal', function (e) {
         $('#seeInvoice').find('.modal-body')[0].innerHTML = ""
@@ -221,12 +224,6 @@ console.log(json)
 
     function cE(type) {
         return document.createElement(type)
-    }
-
-
-    function getImageByName(date, name) {
-        const newDate = date.split('/')
-        return `${newDate[0]}_${newDate[1]}_${newDate[2]}_${name}`;
     }
 
 </script>
