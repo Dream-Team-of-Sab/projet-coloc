@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
+    <!-- Javascript -->
+    <script type= "text/javascript" src="{{ url_for('static', filename='js/functions.js') }}"></script>
+
     <!-- CDN de bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -201,7 +204,23 @@
             <h3 class="text-center mx-5">Dashboard</h3>
             <div class="d-flex justify-content-center flex-column mt-4"> 
                 <a href ="{{ url_for('invoice') }}" class="bt btn-2 mb-4">Voir les factures</a>
-                <a href="" class="bt btn-2">Voir la balance</a>
+                {% if flat == True %}
+                <button type="button" class="bt btn-2" data-toggle="modal" id="dashboard" data-target="#dashboardModal" data-whatever="@mdo">Voir la balance</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DASHBOARD -->
+    <div class="modal fade" id="dashboardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="billModalLabel">Comptes de la Colocation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    </h5>
+                </div>
+                <div id="flatData" data-id={{ flat_id }}></div>
             </div>
         </div>
     </div>
@@ -210,6 +229,5 @@
        <p>© 2019 API FLAT </p> 
     </footer>
    
-
 </body>
 </html>

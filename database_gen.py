@@ -2,7 +2,9 @@
 '''Create database'''
 # -*- coding: utf-8 -*-
 
-from db import Database
+from psycopg2 import connect
+#from db import req
+
 
 # SQL requests
 FLATS_TABLE_CREATE = '''
@@ -51,6 +53,10 @@ MEALS_TABLE_CREATE = '''
 # Tables creation
 table_list = [FLATS_TABLE_CREATE, USERS_TABLE_CREATE, INVOICES_TABLE_CREATE, MEALS_TABLE_CREATE]
 
-db = Database(host='db', dbname='api_flat_dev', user='dev', password='youwillneverguess')
+db = connect('host=db dbname=api_flat_dev user=dev password=youwillneverguess')
+cur = db.cursor()
 for sql_ins in table_list:
-    db.create(db, sql_ins)
+    cur.execute(sql_ins)
+    db.commit()
+    db.rollback()
+db.close()

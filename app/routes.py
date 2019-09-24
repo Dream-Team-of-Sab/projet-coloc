@@ -2,8 +2,8 @@
 '''Views code of api_flat app'''
 # -*- coding: utf-8 -*-
 
-from flask import redirect, render_template, session, url_for, request
-from app import db
+from flask import redirect, render_template, session, url_for, request, jsonify
+from db import req
 from app import app
 from app import functions
 from app import forms
@@ -22,9 +22,9 @@ def login():
         return render_template('login.html')
     #Login
     if request.method == 'POST':
-        if request.form['email'] in [a[0] for a in db.select(db, db, 'email', 'users')]:
-            if functions.crypted_string(request.form['password']) == db.select(db, 'password','users', email=request.form['email'])[0][0]:
-                session['logged'] = db.select(db, 'user_id', 'users', email=request.form['email'])[0][0]
+        if request.form['email'] in [a[0] for a in req.select('email', 'users')]:
+            if functions.crypted_string(request.form['password']) == req.select('password','users', email=request.form['email'])[0][0]:
+                session['logged'] = req.select('user_id', 'users', email=request.form['email'])[0][0]
                 return redirect(url_for('index'))
             return render_template('login.html', error=True)
         return render_template('login.html', error=True)
@@ -41,22 +41,9 @@ def signup():
     if request.method == 'GET':
         return render_template ('sign.html')
     elif request.method == 'POST':
-        if request.form['first_name'] == '' or request.form['last_name'] == ''  or request.form['email'] == ''  or request.form['password'] == '':
-            return render_template('sign.html', nothing=True)
-        elif request.form['email'] in [a[0] for a in db.select(db, 'email', 'users')]:
-            return render_template('sign.html', existing_email=True)
-        else:
-            is_added = forms.add_user(request.form)
-            if is_added == 0:
-                return render_template('sign.html', nothing=True)
-            elif is_added == 1:
-                return render_template('sign.html', wrong_flat_password=True)
-            elif is_added == 2:
-                return render_template('sign.html', wrong_flat_name=True)
-            else:
-                functions.send_mail(request.form)
-                session['logged'] = db.select(db, 'user_id', 'users', email=request.form['email'])[0][0]
-            return redirect(url_for('index'))
+        forms.add_user(request.form)
+        session['logged'] = req.select('user_id', 'users', email=request.form['email'])[0][0]
+        return redirect(url_for('index'))
     else:
         return "Unknown method"
 
@@ -71,11 +58,11 @@ def index():
     else:
         if request.method == 'GET':
             user_id = session['logged']
-            flat_id = db.select(db, 'flat_id', 'users', user_id=user_id)[0][0]
-            name_user = db.select(db, 'first_name','users', user_id=user_id)[0][0]
+            flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]
+            name_user = req.select('first_name','users', user_id=user_id)[0][0]
             if flat_id:
-                name_flat = db.select(db, 'name', 'flats', flat_id=flat_id)[0][0]
-                return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat)
+                name_flat = req.select('name', 'flats', flat_id=flat_id)[0][0]
+                return render_template('index.html', flat=True, name_us=name_user, name_fl=name_flat, flat_id=flat_id)
             return render_template('index.html', flat=False, name_us=name_user)
         elif request.method == 'POST':
             user_id = session['logged']
@@ -98,7 +85,7 @@ def invoice():
     if 'logged' not in session.keys():
         return redirect(url_for('login'))
     if request.method == 'GET':
-        list_invoice = db.select(db, 'title', 'date', 'price', 'invoices')
+        list_invoice = req.select('title', 'date', 'price', 'invoices')
         return render_template('detail_facture.html', list_invoice = list_invoice)
     elif request.method == 'POST':
         user_id = session['logged']
@@ -118,7 +105,7 @@ def flat():
         return redirect(url_for('login'))
     if request.method == 'GET':
 #        user_id = session['logged']
-#        flat_id = db.select(db, 'flat_id', 'users', user_id=user_id)[0][0]
+#        flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]
 #        if flat_id:
 #            return render_template('invitation.html')
 #        else:
@@ -134,6 +121,19 @@ def flat():
             return redirect(url_for('index'))
     else:
         return "Unknown method"
+
+@app.route('/get_data/<int:flat_id>')
+def dashboard_data(flat_id):
+    working_list = [a[0] for a in db.select('user_id', 'users', flat_id=flat_id)]
+    result = []
+    for user_id in working_list:
+        user_names = db.select('first_name', 'last_name', 'users', user_id=user_id)[0]
+        json_disc = {
+            "name" : user_names[0]+' '+user_names[1],
+            "balance": round(functions.overall_balance(user_id), 2)
+        }
+        result.append(json_disc)
+    return jsonify(result)
 
 @app.route('/logout/', methods=['GET'])
 def logout():

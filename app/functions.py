@@ -6,6 +6,7 @@ import os
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from mailjet_rest import Client
+from db import req
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 UPLOAD_FOLDER = 'app/templates/uploads'
@@ -74,3 +75,46 @@ def upload_file(up_file):
     if allowed_file(file_name):
         new_file_name = file_date()+'_'+secure_filename(file_name)
         up_file.save(os.path.join(UPLOAD_FOLDER, new_file_name))
+
+def which_flat(user_id):
+    flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]
+    return flat_id
+
+def user_flatmates(user_id):
+    flat_id = which_flat(user_id)
+    flatmates = [a[0] for a in req.select('user_id', 'users', flat_id=flat_id)]
+    return flatmates
+
+def spent_by_user(user_id, month, prorata=False):
+    spent_fee = req.select('price', 'date', 'prorata', 'invoices', user_id=user_id)
+    this_month_fee = [a[0] for a in spent_fee if (a[1].month == month and a[2]==prorata)]
+    return sum(this_month_fee)
+
+def fee_by_pers(user_id, month):
+    user_id_list = user_flatmates(user_id)
+    all_fee = [spent_by_user(a, month) for a in user_id_list]
+    fee_by_pers = sum(all_fee)/len(user_id_list)
+    return fee_by_pers
+
+def meals_number(user_id, month):
+    meals_list = [a[0] for a in req.select('number', 'date', 'meals', user_id=user_id) if a[1].month == month]
+    return sum(meals_list)
+
+def meal_price(user_id_list, month):
+    all_food_spent = sum([spent_by_user(a, month, prorata=True) for a in user_id_list])
+    meals_sum = sum([meals_number(b, month) for b in user_id_list])
+    meal_price = all_food_spent/meals_sum
+    return meal_price
+
+def food_balance(user_id, month):
+    price = meal_price(user_flatmates(user_id), month)
+    pos = spent_by_user(user_id, month, prorata=True)
+    neg = meals_number(user_id, month) * price
+    balance = pos - neg
+    return balance
+
+def overall_balance(user_id):
+    today = datetime.datetime.now()
+    month = today.month - 1
+    overall_balance = food_balance(user_id, month) + float(spent_by_user(user_id, month)) - float(fee_by_pers(user_id, month))
+    return overall_balance
