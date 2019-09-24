@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from flask import redirect, render_template, session, url_for, request
+from flask import redirect, render_template, session, url_for, request, jsonify
 from db import req
 from db import db
 from app import app
@@ -116,9 +116,13 @@ def invoice():
     """
     if request.method == 'GET':
         cur = db.cursor()
-        list_invoice = cur.execute('''SELECT title, date, price, id_paying_user, first_name
+        # id_user = session['logged']
+        # idColoc = cur.execute('''SELECT id_colocation FROM Users
+        #                          WHERE id=?''', (id_user,)).fetchone()[0]
+
+        list_invoice = cur.execute('''SELECT id, title, date, price
                                       FROM Invoices
-                                      JOIN Users ON Invoices.id_paying_user = Users.id''').fetchall()
+                                      ''').fetchall()
         invoice = [i for i in list_invoice]
         db.commit()
         return render_template('detail_facture.html', list_invoice = invoice)
@@ -130,6 +134,24 @@ def invoice():
     else:
         return "Unknown method"
 
+
+@app.route('/invoice/<int:inv_id>', methods=['GET'])
+def see_invoice_ajax(inv_id):
+    """
+    fonction permettant de voir une facture en détail
+    """
+    if request.method == 'GET':
+        cur = db.cursor()
+        one_invoice = cur.execute('''SELECT title, date, price, details
+                                     FROM Invoices
+                                     WHERE id = ?''', (inv_id,)).fetchone()
+        return jsonify({
+                "title" : one_invoice[0],
+                "date" : one_invoice[1],
+                "price" : one_invoice[2],
+                "details": one_invoice[3]
+            })
+        
 #Add coloc
 @app.route('/flat/', methods=['GET', 'POST'])
 def flat():
