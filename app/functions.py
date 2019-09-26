@@ -121,7 +121,7 @@ def upload_file(up_file):
     """
     file_name = up_file.filename
     if allowed_file(file_name):
-        new_file_name = file_date()+(file_name)
+        new_file_name = '_'.join([file_date(),file_name])
         up_file.save(os.path.join(UPLOAD_FOLDER, new_file_name))
 
 def which_flat(user_id):

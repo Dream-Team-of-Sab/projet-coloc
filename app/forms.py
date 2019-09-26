@@ -33,8 +33,8 @@ def add_user(form):
         response=4
     return response
 
-def add_invoice(form, user_id):
-    file_name = functions.file_date()+form['title']
+def add_invoice(form, filename, user_id):
+    file_name = '_'.join([functions.file_date(),filename])
     req.insert('invoices', 'title,price,prorata,date,details,file_name,user_id',\
                 form['title'],\
                 functions.str_to_float(form['price']),\

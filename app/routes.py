@@ -120,7 +120,7 @@ def invoice():
             response = render_template('detail_facture.html', list_invoice = list_invoice)
         elif request.method == 'POST':
             user_id = session['logged']
-            forms.add_invoice(request.form, user_id)
+            forms.add_invoice(request.form, request.files['file'].filename, user_id)
             functions.upload_file(request.files['file'])
             response = redirect(url_for('invoice'))
         else:
