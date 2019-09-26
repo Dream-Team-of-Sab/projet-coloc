@@ -95,7 +95,7 @@ def index():
                 response = render_template('index.html', flat=False, name_us=name_user)
         elif request.method == 'POST':
             if request.form['index_btn'] == 'invoice':
-                forms.add_invoice(request.form, user_id)
+                forms.add_invoice(request.form,request.files['file'], user_id)
                 functions.upload_file(request.files['file'])
                 response = redirect(url_for('index'))
             elif request.form['index_btn'] == 'meal':
@@ -119,8 +119,7 @@ def invoice():
             list_invoice = req.select('invoice_id', 'title', 'date', 'price', 'invoices')
             response = render_template('detail_facture.html', list_invoice = list_invoice)
         elif request.method == 'POST':
-            user_id = session['logged']
-            forms.add_invoice(request.form, request.files['file'].filename, user_id)
+            forms.add_invoice(request.form, request.files['file'], user_id)
             functions.upload_file(request.files['file'])
             response = redirect(url_for('invoice'))
         else:
@@ -138,11 +137,11 @@ def see_invoice_ajax(inv_id):
         return jsonify({
                 "title" : one_invoice[0],
                 "date" : one_invoice[1],
-                "price" : round(float(one_invoice[2]), 2),
+                "price" : str(one_invoice[2]),
                 "details": one_invoice[3],
                 "file_name": one_invoice[4]
             })
-        
+
 #Add flat
 @app.route('/flat/', methods=['GET', 'POST'])
 def flat():
@@ -174,15 +173,19 @@ def flat():
 @app.route('/get_data/<int:flat_id>')
 def dashboard_data(flat_id):
     working_list = [a[0] for a in req.select('user_id', 'users', flat_id=flat_id)]
-    result = []
-    for user_id in working_list:
-        user_names = req.select('first_name', 'last_name', 'users', user_id=user_id)[0]
-        json_disc = {
-            "name" : user_names[0]+' '+user_names[1],
-            "balance": round(functions.overall_balance(user_id), 2)
-        }
-        result.append(json_disc)
-    return jsonify(result)
+    if len(working_list) <= 1:
+        response = {}
+    else:
+        result = []
+        for user_id in working_list:
+            user_names = req.select('first_name', 'last_name', 'users', user_id=user_id)[0]
+            json_disc = {
+                "name" : user_names[0]+' '+user_names[1],
+                "balance": round(functions.overall_balance(user_id), 2)
+            }
+            result.append(json_disc)
+        reponse = result
+    return jsonify(response)
 
 #Invitation ami
 @app.route('/invitation/', methods=['GET', 'POST'])

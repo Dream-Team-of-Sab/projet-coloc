@@ -29,7 +29,7 @@ def mail_to_friend(form, user_id):
                 "From": {
                     "Email": "ribeiromaxance@gmail.com",
                     "Name": "Api'Flat"
-                }, 
+                },
                 "To": [
                     {
                     "Email": form['friend_mail'],
@@ -47,8 +47,6 @@ def mail_to_friend(form, user_id):
             response=2
     else:
         response=0
-        
-    print(response)
     return response
 
 def send_mail(form):
@@ -73,8 +71,7 @@ def send_mail(form):
         }
     ]
     }
-    result = mailjet.send.create(data=data)
-    #mailjet.send.create(data=data)
+    mailjet.send.create(data=data)
 
 #cryptage des données
 def crypted_string(string):
