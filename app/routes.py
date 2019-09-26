@@ -138,7 +138,7 @@ def see_invoice_ajax(inv_id):
         return jsonify({
                 "title" : one_invoice[0],
                 "date" : one_invoice[1],
-                #"price" : one_invoice[2],
+                "price" : round(float(one_invoice[2]), 2),
                 "details": one_invoice[3],
                 "file_name": one_invoice[4]
             })
