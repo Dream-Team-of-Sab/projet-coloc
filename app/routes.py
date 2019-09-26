@@ -21,7 +21,7 @@ def login():
         if request.method == 'GET':
             response = render_template('login.html')
         elif request.method == 'POST':
-            if request.form['email'] == " " or request.form['password'] == "":
+            if request.form['email'] == "" or request.form['password'] == "":
                 response = render_template('login.html', nothing=True)
             elif request.form['email'] in [a[0] for a in req.select('email', 'users')]:
                 if functions.crypted_string(request.form['password']) != req.select('password','users', email=request.form['email'])[0][0]:
@@ -134,16 +134,13 @@ def see_invoice_ajax(inv_id):
     fonction permettant de voir une facture en détail
     """
     if request.method == 'GET':
-        cur = db.cursor()
-        one_invoice = cur.execute('''SELECT title, date, price, details, inv
-                                     FROM Invoices
-                                     WHERE id = ?''', (inv_id,)).fetchone()
+        one_invoice = req.select('title', 'date', 'price', 'details', 'file_name', 'invoices', invoice_id=inv_id)[0]
         return jsonify({
                 "title" : one_invoice[0],
                 "date" : one_invoice[1],
-                "price" : one_invoice[2],
+                #"price" : one_invoice[2],
                 "details": one_invoice[3],
-                "inv": one_invoice[4]
+                "file_name": one_invoice[4]
             })
         
 #Add flat
