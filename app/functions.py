@@ -9,9 +9,9 @@ from mailjet_rest import Client
 from db import req
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
-UPLOAD_FOLDER = 'app/templates/uploads'
 api_key = '4c392ed6313cbe35ff946c4a67bd5698'
 api_secret = 'ff1d1fd6e23e34400d6b95abe8822706'
+UPLOAD_FOLDER = 'app/static/uploads'
 
 def mail_to_friend(form, user_id):
     flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]
@@ -119,7 +119,7 @@ def upload_file(up_file):
     """
     file_name = up_file.filename
     if allowed_file(file_name):
-        new_file_name = file_date()+'_'+secure_filename(file_name)
+        new_file_name = file_date()+(file_name)
         up_file.save(os.path.join(UPLOAD_FOLDER, new_file_name))
 
 def which_flat(user_id):

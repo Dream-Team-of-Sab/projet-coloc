@@ -81,6 +81,7 @@ def index():
     """
     vue de la page d'accueil
     """
+
     if 'logged' not in session.keys():
         response = redirect(url_for('login'))
     else:
@@ -127,6 +128,25 @@ def invoice():
             response = "Unknown method"
     return response
 
+
+@app.route('/invoice/<int:inv_id>', methods=['GET'])
+def see_invoice_ajax(inv_id):
+    """
+    fonction permettant de voir une facture en détail
+    """
+    if request.method == 'GET':
+        cur = db.cursor()
+        one_invoice = cur.execute('''SELECT title, date, price, details, inv
+                                     FROM Invoices
+                                     WHERE id = ?''', (inv_id,)).fetchone()
+        return jsonify({
+                "title" : one_invoice[0],
+                "date" : one_invoice[1],
+                "price" : one_invoice[2],
+                "details": one_invoice[3],
+                "inv": one_invoice[4]
+            })
+        
 #Add flat
 @app.route('/flat/', methods=['GET', 'POST'])
 def flat():
