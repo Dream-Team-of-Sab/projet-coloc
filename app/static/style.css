@@ -292,8 +292,9 @@ PAGE LOGIN
 PAGE SIGN
 ------------------------------- */
 .sign {
-    background-color: #f3f3f3;
-    height: calc(100vh - 0.1875rem); 
+    background-color: #f3f3f3; 
+    height: 100%;
+    width: 100% 
 }
 
 .sign a {
@@ -302,9 +303,6 @@ PAGE SIGN
 
 .sign a:hover{
     color: #282828;
-}
-.sign-form{
-    padding-top: 80px; 
 }
 
 .sign form{
@@ -315,6 +313,7 @@ PAGE SIGN
     color: #FEC3AC;
     font-size: 1.2em;
 }
+
     /* SVG */
         svg {
         text-align: center;

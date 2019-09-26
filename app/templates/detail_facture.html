@@ -28,12 +28,12 @@
             margin: 20px;
         }
 
-        .logout a {
+        .logout a,  #view a  {
             color: #282828;
             text-align: center;
         }
 
-        .logout a:hover {
+        .logout a:hover, #view a:hover {
             color: #FEC3AC;
             -webkit-transition: color .3s;
             -o-transition: color .3s;
@@ -52,6 +52,8 @@
         .add_person {
             font-size: 1.5em;
         }
+
+       
     </style>
 </head>
 
@@ -115,21 +117,15 @@
                                     d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
                             </svg>
                         </button>
-                       
                     </div>
                     <div class="modal-body" id="result"></div>  
-                    <div class="modal-footer">
-                        <p class="text-center">Cliquer sur la photo pour l'agrandir</p>
-                        <div class="d-flex justify-content-center">
-                            <embed id="invoice_img" type='application/pdf'>
-                        </div> 
+                    <div class="modal-footer d-flex justify-content-center flex-column" id="view">
+                        <a href="#" target="_blank" id="big_invoice">Cliquer pour agrandir l'image</p>
+                        <embed id="invoice_img" type='application/pdf' width="100%" height="auto">
                     </div>    
                 </div>
             </div>
         </div>
-
-        
-
 
         <!-- MODAL/ FORMULAIRE AJOUT DE FACTURE -->
         <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -211,11 +207,13 @@
                     details.append("Détail de la facture : ", json.details);
                     document.getElementById('invoice_img').src=`/static/uploads/${json.inv}`
                     invoice.append(title, date, price, details)
-                    console.log(json)
+                    document.getElementById('big_invoice').href= `/static/uploads/${json.inv}` 
                 })
             })
         })
     }
+
+   
    
     // Pour vider le modal
     $('#seeInvoice').on('hidden.bs.modal', function (e) {
