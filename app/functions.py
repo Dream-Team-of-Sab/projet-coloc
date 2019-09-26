@@ -18,8 +18,8 @@ def mail_to_friend(form, user_id):
     flat_name = req.select('name', 'flats', flat_id=flat_id)[0][0]
     pwd = req.select('password', 'flats', flat_id=flat_id)[0][0]
     response=0
-    if 'friend_name' in form.keys() and 'friend_email' in form.keys() and 'flat_password' in form.keys():
-        if functions.crypted_string(form['flat_password']) != pwd:
+    if 'friend_name' in form.keys() and 'friend_mail' in form.keys() and 'flat_password' in form.keys():
+        if crypted_string(form['flat_password']) != pwd:
             response=1
         else:
             mailjet = Client(auth=(api_key, api_secret), version='v3.1')
@@ -29,10 +29,10 @@ def mail_to_friend(form, user_id):
                 "From": {
                     "Email": "ribeiromaxance@gmail.com",
                     "Name": "Api'Flat"
-                },
+                }, 
                 "To": [
                     {
-                    "Email": form['friend_email'],
+                    "Email": form['friend_mail'],
                     "Name": form['friend_name']
                     }
                 ],
@@ -43,10 +43,12 @@ def mail_to_friend(form, user_id):
                 }
             ]
             }
-            result = mailjet.send.create(data=data)
+            mailjet.send.create(data=data)
             response=2
     else:
         response=0
+        
+    print(response)
     return response
 
 def send_mail(form):

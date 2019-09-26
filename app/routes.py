@@ -4,7 +4,6 @@
 
 from flask import redirect, render_template, session, url_for, request, jsonify
 from db import req
-from db import db
 from app import app
 from app import functions
 from app import forms
@@ -160,7 +159,7 @@ def flat():
         if request.method == 'GET':
              flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]
              if flat_id:
-                 response = render_template('invitation.html')
+                 response = redirect(url_for('invitation'))
              else:
                  response = render_template('flat.html')
         elif request.method == 'POST':
@@ -201,7 +200,7 @@ def invitation():
         if request.method == 'GET':
             response = render_template('invitation.html')
         elif request.method == 'POST':
-            send_mail = forms.mail_to_friend(request.form, user_id)
+            send_mail = functions.mail_to_friend(request.form, user_id)
             if send_mail == 0:
                 response = render_template('invitation.html', error=True)
             elif send_mail == 1:
