@@ -20,7 +20,7 @@ headWrapper.append(headRaw);
 let btn = document.getElementById("dashboard");
 btn.addEventListener('click', (event) => {
     event.preventDefault();
-    fetch(`http://0.0.0.0:5000/get_data/${id}`).then((data) => {
+    fetch(`http://0.0.0.0/get_data/${id}`).then((data) => {
         data.json().then((json) => {
             console.log(json)
             for (j of json) {

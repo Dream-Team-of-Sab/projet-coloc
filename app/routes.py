@@ -174,7 +174,7 @@ def flat():
 def dashboard_data(flat_id):
     working_list = [a[0] for a in req.select('user_id', 'users', flat_id=flat_id)]
     if len(working_list) <= 1:
-        response = {}
+        json_content = {}
     else:
         result = []
         for user_id in working_list:
@@ -184,8 +184,8 @@ def dashboard_data(flat_id):
                 "balance": round(functions.overall_balance(user_id), 2)
             }
             result.append(json_disc)
-        reponse = result
-    return jsonify(response)
+        json_content = result
+    return jsonify(json_content)
 
 #Invitation ami
 @app.route('/invitation/', methods=['GET', 'POST'])

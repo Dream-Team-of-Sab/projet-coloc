@@ -3,7 +3,10 @@
 # -*- coding: utf-8 -*-
 
 from psycopg2 import connect
-#from db import req
+from random import randint
+from datetime import datetime
+from db import req
+from app import functions
 
 
 # SQL requests
@@ -61,3 +64,47 @@ for sql_ins in table_list:
     db.commit()
     db.rollback()
 db.close()
+
+# Mocks creation
+Us_name_list = {1:['Thomas', 'Barbot', 'tom_barbot@hotmail.fr'],\
+                2:['Sabrina', 'Tony', 'sabrinatony74@gmail.com'],\
+                3:['Maxance', 'Ribeiro', 'ribeiromaxance@gmail.com']}
+
+req.insert('flats', 'name,address,password', 'api flat', '6 rue Rougemont, Paris', 'demo')
+print('Flat data generated')
+
+for a in Us_name_list.keys():
+    password = 'uwillneverguess'
+    req.insert('users', 'first_name,last_name,email,password,flat_id',\
+                         Us_name_list[a][0],\
+                         Us_name_list[a][1],\
+                         Us_name_list[a][2],\
+                         functions.crypted_string(password),\
+                         1)
+print('Users data generated')
+
+Us_id_list = [a[0] for a in req.select('user_id', 'users')]
+for b in range (randint(4, 15)):
+    user_id = Us_id_list[randint(0, len(Us_id_list)-1)]
+    user_n = req.select('first_name', 'last_name', 'users')[0]
+    title = user_n[0]+'_'+user_n[1]+' invoice'
+    price = randint(30, 600)
+    prorata = False
+    str_date = str(randint(1, 30))+'/08/2019'
+    date = datetime.strptime(str_date, "%d/%m/%Y")
+    details = 'details details details'
+    req.insert('invoices', 'title,price,prorata,date,details,user_id', title, price, prorata, date, details, user_id)
+print('Invoices data generated')
+
+for c in Us_id_list:
+    date_stock =list()
+    for d in range (randint(10, 30)):
+        str_date = str(randint(1, 30))+'/08/2019'
+        date = datetime.strptime(str_date, "%d/%m/%Y")
+        while date in date_stock:
+            str_date = str(randint(1, 30))+'/08/2019'
+            date = datetime.strptime(str_date, "%d/%m/%Y")
+        date_stock.append(date)
+        number = randint(1, 3)
+        req.insert('meals', 'date,number,user_id', date, number, c)
+print('Meals data generated')

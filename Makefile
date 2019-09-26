@@ -22,13 +22,13 @@ deliver:
 	docker push $(DOCKERHUB_USERNAME)/$(IMAGE):$(TAG)
 	docker push $(DOCKERHUB_USERNAME)/$(IMAGE):latest
 
-clear_docker:
-	sudo docker-compose down
-	sudo docker volume rm api_flat_project_dev_data
+#clear_docker:
+#	sudo docker-compose down
+#	sudo docker volume rm api_flat_project_dev_data
 
 reset_docker:
 	sudo docker-compose down
-	sudo docker volume rm api_flat_project_dev_data
+	#sudo docker volume rm api_flat_project_dev_data
 	sudo docker-compose up
 
 #postgres_serv:
