@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+   - source: /
+     destination: /src/api-flat
+hooks:
+   BeforeInstall:
+     - location: scripts/install_dependencies.sh
+       timeout: 300
+       runas: root
+   AfterInstall:
+     - location: scripts/start_docker.sh
+       timeout: 300
+       runas: root
+   ApplicationStart:
+     - location: scripts/run_app.sh
+       timeout: 300
+       runas: root
+   ApplicationStop:
+     - location: scripts/stop_app.sh
+       timeout: 300
+       runas: root

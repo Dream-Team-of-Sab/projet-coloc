@@ -4,6 +4,7 @@
 
 from flask import redirect, render_template, session, url_for, request, jsonify
 from db import req
+from db import db
 from app import app
 from app import functions
 from app import forms
@@ -196,3 +197,6 @@ def logout():
     if session['logged']:
         del session['logged']
     return redirect(url_for('login'))
+
+
+
