@@ -116,7 +116,7 @@ def invoice():
     else:
         user_id = session['logged']
         if request.method == 'GET':
-            list_invoice = req.select('title', 'date', 'price', 'invoices')
+            list_invoice = req.select('invoice_id', 'title', 'date', 'price', 'invoices')
             response = render_template('detail_facture.html', list_invoice = list_invoice)
         elif request.method == 'POST':
             user_id = session['logged']
