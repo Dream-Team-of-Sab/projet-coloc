@@ -84,16 +84,16 @@ for a in Us_name_list.keys():
 print('Users data generated')
 
 Us_id_list = [a[0] for a in req.select('user_id', 'users')]
-for b in range (randint(4, 15)):
-    user_id = Us_id_list[randint(0, len(Us_id_list)-1)]
-    user_n = req.select('first_name', 'last_name', 'users')[0]
-    title = user_n[0]+'_'+user_n[1]+' invoice'
-    price = randint(30, 600)
-    prorata = False
-    str_date = str(randint(1, 30))+'/08/2019'
-    date = datetime.strptime(str_date, "%d/%m/%Y")
-    details = 'details details details'
-    req.insert('invoices', 'title,price,prorata,date,details,user_id', title, price, prorata, date, details, user_id)
+for c in Us_id_list:
+    for b in range (randint(4, 15)):
+        user_n = req.select('first_name', 'last_name', 'users', user_id=c)
+        title = user_n[0]+' '+user_n[1][0:]+' invoice n°'+str(b)
+        price = randint(30, 600)
+        prorata = False
+        str_date = str(randint(1, 30))+'/08/2019'
+        date = datetime.strptime(str_date, "%d/%m/%Y")
+        details = 'details details details'
+        req.insert('invoices', 'title,price,prorata,date,details,user_id', title, price, prorata, date, details, user_id)
 print('Invoices data generated')
 
 for c in Us_id_list:

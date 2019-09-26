@@ -28,7 +28,11 @@ deliver:
 
 reset_docker:
 	sudo docker-compose down
-	#sudo docker volume rm api_flat_project_dev_data
+	sudo docker-compose up
+
+reset_dockerp:
+	sudo docker-compose down
+	sudo docker volume rm api_flat_project_dev_data
 	sudo docker-compose up
 
 #postgres_serv:
