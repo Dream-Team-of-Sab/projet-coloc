@@ -546,8 +546,6 @@ PAGE INDEX
 }
 
  /* PAGE DETAIL FACTURES */
-<<<<<<< Dashboard_func
-<<<<<<< Dashboard_func
 .add_invoice p {
     color : #FEC3AC; 
     font-size : 1.1em; 
@@ -557,32 +555,6 @@ PAGE INDEX
     background-color: #fff; 
 }
 
-=======
-
-.item1{
-    border: 1px solid blue;
-}
-
-.item2{
-    border: 1px solid red;
-}
-
-
->>>>>>> creation view detail invoice
-=======
-.add_invoice p {
-    color : #FEC3AC; 
-    font-size : 1.1em; 
-}
-
-<<<<<<< Dashboard_func
->>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
-=======
-.item2{
-    background-color: #fff; 
-}
-
->>>>>>> Modification design page Add et ajout modal détail facture
 /* --------------------
 MEDIAS QUERIES
 -------------------- */

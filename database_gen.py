@@ -11,7 +11,8 @@ FLATS_TABLE_CREATE = '''
 		CREATE TABLE IF NOT EXISTS flats
 		(flat_id SERIAL PRIMARY KEY,
 		name VARCHAR(255) NOT NULL,
-		address VARCHAR(255) NOT NULL);
+		address VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL);
 		'''
 
 USERS_TABLE_CREATE = '''

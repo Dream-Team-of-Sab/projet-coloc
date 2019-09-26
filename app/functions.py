@@ -13,6 +13,42 @@ UPLOAD_FOLDER = 'app/templates/uploads'
 api_key = '4c392ed6313cbe35ff946c4a67bd5698'
 api_secret = 'ff1d1fd6e23e34400d6b95abe8822706'
 
+def mail_to_friend(form, user_id):
+    flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]
+    flat_name = req.select('name', 'flats', flat_id=flat_id)[0][0]
+    pwd = req.select('password', 'flats', flat_id=flat_id)[0][0]
+    response=0
+    if 'friend_name' in form.keys() and 'friend_email' in form.keys() and 'flat_password' in form.keys():
+        if functions.crypted_string(form['flat_password']) != pwd:
+            response=1
+        else:
+            mailjet = Client(auth=(api_key, api_secret), version='v3.1')
+            data = {
+            'Messages': [
+                {
+                "From": {
+                    "Email": "ribeiromaxance@gmail.com",
+                    "Name": "Api'Flat"
+                },
+                "To": [
+                    {
+                    "Email": form['friend_email'],
+                    "Name": form['friend_name']
+                    }
+                ],
+                "Subject": "Invitation sur Api'flat",
+                "TextPart": "Invitation",
+                "HTMLPart": "<h3>Bonjour <em> " +form['friend_name']+ "<em>,</h3><br><p>Vous êtes invité à rejoindre le gestionnaire de colocation Api'flat. <br>Veuillez trouver ci-dessous les identifiants à renseigner lors de votre inscription. <br> Nom de la colocation : <em> " +flat_name+ "<em> <br>Mot de passe de la colocation : <em> " +form['flat_password']+ "<em></p>",
+                "CustomID": "AppGettingStartedTest"
+                }
+            ]
+            }
+            result = mailjet.send.create(data=data)
+            response=2
+    else:
+        response=0
+    return response
+
 def send_mail(form):
     mailjet = Client(auth=(api_key, api_secret), version='v3.1')
     data = {
@@ -65,6 +101,16 @@ def file_date():
     dt_string = now.strftime("%d_%m_%y_%H_%M_%S")
     return dt_string
 
+def str_to_date(string):
+    date = datetime.strptime(string, "%d/%m/%Y")
+    return date
+
+def str_to_float(string):
+    if ',' in string:
+        result = float(string.replace(',', '.'))
+    else:
+        result = float(string)
+    return result
 
 def upload_file(up_file):
     """
@@ -114,7 +160,7 @@ def food_balance(user_id, month):
     return balance
 
 def overall_balance(user_id):
-    today = datetime.datetime.now()
+    today = datetime.now()
     month = today.month - 1
     overall_balance = food_balance(user_id, month) + float(spent_by_user(user_id, month)) - float(fee_by_pers(user_id, month))
     return overall_balance

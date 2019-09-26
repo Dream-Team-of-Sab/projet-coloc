@@ -1,4 +1,4 @@
-let dataDiv = document.getElementById("data");
+let dataDiv = document.getElementById("flatData");
 let table = document.createElement('table');
 let id = dataDiv.dataset.id;
 
@@ -17,11 +17,12 @@ table.setAttribute('border', 1)
 headRaw.append(headName, headBalance);
 headWrapper.append(headRaw);
 
-let btn = document.getElementsById("dashboard");
+let btn = document.getElementById("dashboard");
 btn.addEventListener('click', (event) => {
     event.preventDefault();
     fetch(`http://0.0.0.0:5000/get_data/${id}`).then((data) => {
         data.json().then((json) => {
+            console.log(json)
             for (j of json) {
                 console.log(j)
                let tr = document.createElement('tr');

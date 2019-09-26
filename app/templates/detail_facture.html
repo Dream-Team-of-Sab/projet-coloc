@@ -14,10 +14,6 @@
     <!-- Polices -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <title>Détail des factures</title>
-<<<<<<< Dashboard_func
-<<<<<<< Dashboard_func
-=======
->>>>>>> Modification affichage plus séparation formulaire et création view invitation
     <style type="text/css">
         .logout{
            margin: 20px; 
@@ -47,11 +43,6 @@
            font-size: 1.5em; 
        }
    </style>
-<<<<<<< Dashboard_func
-=======
->>>>>>> creation view detail invoice
-=======
->>>>>>> Modification affichage plus séparation formulaire et création view invitation
 </head>
 <body class="index">
     <header class= "d-flex justify-content-between">
@@ -64,23 +55,15 @@
                 </svg>
             </a>
         </div>
-<<<<<<< Dashboard_func
-<<<<<<< Dashboard_func
         <div class="logout d-flex flex-column">
             <a href="{{ url_for('logout') }}" class="mb-2"><img src="../static/img/logout.svg"></a>
-            <a href ="{{ url_for('flat') }}"> <img src="../static/img/add-user.svg"></a>
-=======
+            <a href ="{{ url_for('flat') }}"><img src="../static/img/add-user.svg"></a>
+        </div>
         <div>
             <a href="{{ url_for('logout') }}" class="mt-5 mr-5">Se déconnecter</a>
             <div class="d-flex justify-content-end mt-2 mr-5">
                 <a href ="{{ url_for('flat') }}"><i class="fas fa-user-plus add_person"></i> </a>
             </div>
->>>>>>> creation view detail invoice
-=======
-        <div class="logout d-flex flex-column">
-            <a href="{{ url_for('logout') }}" class="mb-2"><img src="../static/img/logout.svg"></a>
-            <a href ="{{ url_for('flat') }}"> <img src="../static/img/add-user.svg"></a>
->>>>>>> Modification affichage plus séparation formulaire et création view invitation
         </div>
     </header>
 
@@ -93,8 +76,6 @@
                 <img src="../static/img/add_bill.svg" alt="">
             </div>
             <div class="col-12 col-lg-6 item2">
-<<<<<<< Dashboard_func
-<<<<<<< Dashboard_func
                 <div class="row bf d-flex justify-content-end">
                     <p data-toggle="modal" data-target="#billModal" class="add_invoice mt-4 mr-4 pr-1" >Ajouter une facture <i class="fas fa-receipt"></i></p>
                 </div>
@@ -104,28 +85,10 @@
                         <li class="mt-5 mb-4 d-flex justify-content-between" value="{{each[0]}}"><span class="text-center">{{each[0]}}</span> <span class="text-center">{{each[1]}}</span> <span class="text-center">{{each[2]}}€</span> </li>
                         <a href="" class="bt btn-2" data-toggle="modal" data-target="#viewModal">Voir le détail de la facture</a>
                         {% endfor %}
-                      
-=======
-                <div class="row bf d-flex justify-content-end">
-                    <p data-toggle="modal" data-target="#billModal" class="add_invoice mt-4 mr-4 pr-1" >Ajouter une facture <i class="fas fa-receipt"></i></p>
-                </div>
-                <div class="row d-flex justify-content-center">
-                    <ul name="invoice_list">
-                        {% for each in list_invoice %}
-                        <li class="mt-5 mb-4 d-flex justify-content-between" value="{{each[0]}}"><span class="text-center">{{each[0]}}</span> <span class="text-center">{{each[1]}}</span> <span class="text-center">{{each[2]}}€</span> </li>
-                        <a href="" class="bt btn-2" data-toggle="modal" data-target="#viewModal">Voir le détail de la facture</a>
-                        {% endfor %}
-<<<<<<< Dashboard_func
->>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
-=======
-                      
->>>>>>> Mise en forme détail facture
                     </ul>
                 </div>
             </div>
         </div>
-       
-<<<<<<< Dashboard_func
 
          <!-- MODAL/ FORMULAIRE AJOUT DE FACTURE -->
          <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -183,7 +146,6 @@
             </div>
 
             <!-- MODAL AFFICHAGE FACTURE -->
-
             <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -214,24 +176,11 @@
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
 
-
-        
-
-
-
-=======
-                <div class="row bf">
-=======
->>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
-
-         <!-- MODAL/ FORMULAIRE AJOUT DE FACTURE -->
-         <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="row bf">
+           <!-- MODAL/ FORMULAIRE AJOUT DE FACTURE -->
+           <div class="modal fade" id="billModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -286,7 +235,6 @@
             </div>
 
             <!-- MODAL AFFICHAGE FACTURE -->
-
             <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -317,22 +265,7 @@
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
-
-
-<<<<<<< Dashboard_func
     </div>
->>>>>>> creation view detail invoice
-=======
-        
-
-
-
->>>>>>> Ajout vue "Détail Facture" et affichage dynamique des factures
-    
 </body>
 </html>
