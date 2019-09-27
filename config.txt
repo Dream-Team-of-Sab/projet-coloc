@@ -1,0 +1,5 @@
+ALLOWED_EXTENSIONS = pdf,png,jpg,jpeg
+api_key = 4c392ed6313cbe35ff946c4a67bd5698
+api_secret = ff1d1fd6e23e34400d6b95abe8822706
+UPLOAD_FOLDER = app/static/uploads
+flask_secret_key = bc7466e0f98a79cee6389aac5130e2fe4b75e03e
