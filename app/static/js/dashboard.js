@@ -12,7 +12,6 @@ let headBalance = document.createElement('th');
 headBalance.append("Balance");
 headName.append("Name");
 
-table.setAttribute('border', 1)
 
 headRaw.append(headName, headBalance);
 headWrapper.append(headRaw);
@@ -23,6 +22,7 @@ btn.addEventListener('click', (event) => {
     fetch(`http://0.0.0.0/get_data/${id}`).then((data) => {
         data.json().then((json) => {
             console.log(json)
+            bodyWrapper.innerHTML = "";
             for (j of json) {
                 console.log(j)
                let tr = document.createElement('tr');
@@ -31,10 +31,12 @@ btn.addEventListener('click', (event) => {
                name.append(j.name)
                balance.append(j.balance)
                tr.append(name, balance)
-               bodyWrapper.append(tr)
+               bodyWrapper.append(tr);
             } 
             table.append(headWrapper, bodyWrapper);
-            dataDiv.append(table)
+            table.className = "table table-striped"
+            dataDiv.innerHTML = "";
+            dataDiv.append(table);
         });
     });
 });
