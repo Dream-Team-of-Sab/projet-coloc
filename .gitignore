@@ -13,3 +13,4 @@ venv/
 app/forms_git.py
 github_dev_version/
 conf.txt
+awscli-b*
