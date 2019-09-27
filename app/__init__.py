@@ -1,11 +1,9 @@
 from flask import Flask
 from db import Database
-from appConfig import Config, file_to_dict
 
-conf = Config(paramDict=file_to_dict('conf.txt'))
 app = Flask(__name__)
 db = Database("db", "api_flat_dev", "dev", "youwillneverguess")
-app.secret_key = conf.param('flask_secret_key')
+app.secret_key = 'bc7466e0f98a79cee6389aac5130e2fe4b75e03e'
 
 from app import routes
 from app import functions

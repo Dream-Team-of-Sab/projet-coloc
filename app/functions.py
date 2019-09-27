@@ -7,7 +7,11 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 from mailjet_rest import Client
 from db import req
-from app import conf
+
+ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
+api_key ='4c392ed6313cbe35ff946c4a67bd5698'
+api_secret = 'ff1d1fd6e23e34400d6b95abe8822706'
+UPLOAD_FOLDER = 'app/static/uploads'
 
 def mail_to_friend(form, user_id):
     flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]
@@ -18,7 +22,7 @@ def mail_to_friend(form, user_id):
         if crypted_string(form['flat_password']) != pwd:
             response=1
         else:
-            mailjet = Client(auth=(conf.param('api_key'), conf.param('api_secret')), version='v3.1')
+            mailjet = Client(auth=(api_key, api_secret), version='v3.1')
             data = {
             'Messages': [
                 {
@@ -46,7 +50,7 @@ def mail_to_friend(form, user_id):
     return response
 
 def send_mail(form):
-    mailjet = Client(auth=(conf.param('api_key'), conf.param('api_secret')), version='v3.1')
+    mailjet = Client(auth=(api_key, api_secret), version='v3.1')
     data = {
     'Messages': [
         {
@@ -85,7 +89,7 @@ def allowed_file(filename):
     Récupère puis vérifie que l'extension est bien
     dans la liste des extensions autorisées
     """
-    if '.' in filename and filename.split('.')[-1] in conf.param('ALLOWED_EXTENSIONS').split(','):
+    if '.' in filename and filename.split('.')[-1] in ALLOWED_EXTENSIONS.split(','):
         return True
     else:
         return False
@@ -113,9 +117,9 @@ def upload_file(up_file):
     d'un utilisateur
     """
     file_name = up_file.filename
-    if allowed_file(file_name):
-        new_file_name = '_'.join([file_date(),file_name])
-        up_file.save(os.path.join(conf.param('UPLOAD_FOLDER'), new_file_name))
+#    if allowed_file(file_name):
+    new_file_name = '_'.join([file_date(),file_name])
+    up_file.save(os.path.join(conf.param('UPLOAD_FOLDER'), new_file_name))
 
 def which_flat(user_id):
     flat_id = req.select('flat_id', 'users', user_id=user_id)[0][0]

@@ -117,7 +117,8 @@ def invoice():
         user_id = session['logged']
         if request.method == 'GET':
             list_invoice = req.select('invoice_id', 'title', 'date', 'price', 'invoices')
-            response = render_template('detail_facture.html', list_invoice = list_invoice)
+            new_list_invoice = [(a[0], a[1], datetime.strftime(a[2], "%d/%m/%Y"), a[3]) for a in list_invoice]
+            response = render_template('detail_facture.html', list_invoice = new_list_invoice)
         elif request.method == 'POST':
             forms.add_invoice(request.form, request.files['file'], user_id)
             functions.upload_file(request.files['file'])
