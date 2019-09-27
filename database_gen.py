@@ -57,7 +57,8 @@ MEALS_TABLE_CREATE = '''
 # Tables creation
 table_list = [FLATS_TABLE_CREATE, USERS_TABLE_CREATE, INVOICES_TABLE_CREATE, MEALS_TABLE_CREATE]
 
-db = connect('host=db dbname=api_flat_dev user=dev password=youwillneverguess')
+#db = connect('host=db dbname=api_flat_dev user=dev password=youwillneverguess')
+db = connect('host=10.5.0.6 dbname=api_flat_dev user=dev password=youwillneverguess')
 cur = db.cursor()
 for sql_ins in table_list:
     cur.execute(sql_ins)
