@@ -4,6 +4,9 @@ services:
 
   haproxy: 
     image: haproxy:latest
+    container_name: proxy
+    depends_on:
+      - python
     volumes:
       - ./haproxy/:/usr/local/etc/haproxy/
     ports: 
@@ -18,6 +21,8 @@ services:
     build: .
     restart: always
     container_name: app
+    depends_on:
+      - db
     networks:
       ci-net:
         ipv4_address: 10.5.0.6
@@ -30,6 +35,7 @@ services:
 
   # base de données
   db:
+    container_name: data
     image: postgres:11.5
     restart: always
     environment:
@@ -40,7 +46,7 @@ services:
       ci-net:
         ipv4_address: 10.5.0.7
     ports:
-      - 5432
+      - 5432:5432
     volumes:
       - dev_data:/var/lib/postgresql/data/
 

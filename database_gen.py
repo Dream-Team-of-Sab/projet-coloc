@@ -58,7 +58,7 @@ MEALS_TABLE_CREATE = '''
 table_list = [FLATS_TABLE_CREATE, USERS_TABLE_CREATE, INVOICES_TABLE_CREATE, MEALS_TABLE_CREATE]
 
 #db = connect('host=db dbname=api_flat_dev user=dev password=youwillneverguess')
-db = connect('host=10.5.0.6 dbname=api_flat_dev user=dev password=youwillneverguess')
+db = connect('host=10.5.0.7 dbname=api_flat_dev user=dev password=youwillneverguess')
 cur = db.cursor()
 for sql_ins in table_list:
     cur.execute(sql_ins)
@@ -67,11 +67,12 @@ for sql_ins in table_list:
 db.close()
 
 # Mocks creation
+last_month = datetime.now().month - 1
 Us_name_list = {1:['Thomas', 'Barbot', 'tom_barbot@hotmail.fr'],\
                 2:['Sabrina', 'Tony', 'sabrinatony74@gmail.com'],\
                 3:['Maxance', 'Ribeiro', 'ribeiromaxance@gmail.com']}
 
-req.insert('flats', 'name,address,password', 'api flat', '6 rue Rougemont, Paris', 'demo')
+req.insert('flats', 'name,address,password', 'api flat', '6 rue Rougemont, Paris', functions.crypted_string('demo'))
 print('Flat data generated')
 
 for a in Us_name_list.keys():
@@ -91,7 +92,7 @@ for c in Us_id_list:
         title = user_n[0]+' '+user_n[1][0:]+' invoice n°'+str(b)
         price = randint(30, 600)
         prorata = False
-        str_date = str(randint(1, 30))+'/08/2019'
+        str_date = str(randint(1, 30))+'/'+str(last_month)+'/2019'
         date = datetime.strptime(str_date, "%d/%m/%Y")
         details = 'details details details'
         req.insert('invoices', 'title,price,prorata,date,details,user_id', title, price, prorata, date, details, c)
@@ -100,10 +101,10 @@ print('Invoices data generated')
 for c in Us_id_list:
     date_stock =list()
     for d in range (randint(10, 30)):
-        str_date = str(randint(1, 30))+'/08/2019'
+        str_date = str(randint(1, 30))+'/'+str(last_month)+'/2019'
         date = datetime.strptime(str_date, "%d/%m/%Y")
         while date in date_stock:
-            str_date = str(randint(1, 30))+'/08/2019'
+            str_date = str(randint(1, 30))+'/'+str(last_month)+'/2019'
             date = datetime.strptime(str_date, "%d/%m/%Y")
         date_stock.append(date)
         number = randint(1, 3)
