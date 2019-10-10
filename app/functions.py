@@ -83,7 +83,6 @@ def crypted_string(string):
     crypted_str=hashlib.sha1(b_string)
     return crypted_str.hexdigest()
 
-# Index view
 def allowed_file(filename):
     """
     Récupère puis vérifie que l'extension est bien
