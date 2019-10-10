@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 from mailjet_rest import Client
 from db import req
 
-ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
+ALLOWED_EXTENSIONS = ['pdf', 'png', 'jpg', 'jpeg']
 api_key ='4c392ed6313cbe35ff946c4a67bd5698'
 api_secret = 'ff1d1fd6e23e34400d6b95abe8822706'
 UPLOAD_FOLDER = 'app/static/uploads'
@@ -89,7 +89,7 @@ def allowed_file(filename):
     Récupère puis vérifie que l'extension est bien
     dans la liste des extensions autorisées
     """
-    if '.' in filename and filename.split('.')[-1] in ALLOWED_EXTENSIONS.split(','):
+    if '.' in filename and filename.split('.')[-1] in ALLOWED_EXTENSIONS:
         return True
     else:
         return False
@@ -102,7 +102,7 @@ def file_date():
 
 def str_to_date(string):
     date = datetime.strptime(string, "%d/%m/%Y")
-    return date
+    return date.date()
 
 def str_to_float(string):
     if ',' in string:

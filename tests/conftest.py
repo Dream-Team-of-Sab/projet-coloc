@@ -3,6 +3,7 @@ import sys
 
 sys.path.append('.')
 from app import app as appyFlat
+from app import functions
 
 @pytest.fixture
 def app():
